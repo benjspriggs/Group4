@@ -4,45 +4,32 @@ import scala.util.parsing.combinator.RegexParsers
   * Created by bspriggs on 11/10/2016.
   */
 
-sealed trait Token
-
-// Token classes
-case class STOP(str: String) extends Token
-case class INFO(str: String) extends Token
-case class REQUEST(str: String) extends Token
-case class TYPE(str: String) extends Token
-case class JSON(json: String) extends Token
-case class SQL(sql: String) extends Token
-case class OBJECT(str: String) extends Token
-case class SUPER_OBJECT(str: String) extends Token
-
-// Reserved words
-case object QUIT extends Token
-case object EXIT extends Token
-case object EOF extends Token
-case object HELP extends Token
-case object QUESTION_MARK extends Token
-case object CREATE extends Token
-case object SHOW extends Token
-case object UPDATE extends Token
-case object DELETE extends Token
-case object WRITE extends Token
-case object ALL extends Token
-case object SQL_LITERAL extends Token
-
-// ChocAn-related reserved words
-case object USER extends Token
-case object USERS extends Token
-case object MEMBER extends Token
-case object MEMBERS extends Token
-case object PROVIDER extends Token
-case object PROVIDERS extends Token
-case object SERVICE extends Token
-case object SERVICES extends Token
-
-
-
 
 object InteractiveModeLexer extends RegexParsers {
-  override def skipWhitespace: Boolean = true // Interactive mode is whitespace-insensitive
+  // Interactive mode is whitespace-insensitive
+  override def skipWhitespace = true
+  override val whiteSpace = "[ \t\f\r]+".r
+
+  // lexers for all the literals
+  def exit = "exit" ^^ (_ => EXIT)
+  def quit = "quit" ^^ (_ => QUIT)
+  def help = "help" ^^ (_ => HELP)
+  def question_mark = "?" ^^ (_ => QUESTION_MARK)
+  def create = "create" ^^ (_ => CREATE)
+  def show = "show" ^^ (_ => SHOW)
+  def update = "update" ^^ (_ => UPDATE)
+  def delete = "delete" ^^ (_ => DELETE)
+  def write = "write" ^^ (_ => WRITE)
+  def all = "all" ^^ (_ => ALL)
+  def sql_literal = "SQL" ^^ (_ => SQL_LITERAL)
+  // chocan related
+  def user = "user" ^^ (_ => USER)
+  def users = "users" ^^ (_ => USERS)
+  def provider = "provider" ^^ (_ => PROVIDER)
+  def providers = "providers" ^^ (_ => PROVIDERS)
+  def service = "service" ^^ (_ => SERVICE)
+  def services = "services" ^^ (_ => SERVICES)
+  def member = "member" ^^ (_ => MEMBER)
+  def members = "members" ^^ (_ => MEMBERS)
+
 }
