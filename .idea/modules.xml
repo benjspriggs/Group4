@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/datacenter.iml" filepath="$PROJECT_DIR$/.idea/modules/datacenter.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/datacenter_main.iml" filepath="$PROJECT_DIR$/.idea/modules/datacenter_main.iml" group="datacenter" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/datacenter_test.iml" filepath="$PROJECT_DIR$/.idea/modules/datacenter_test.iml" group="datacenter" />
+      <module fileurl="file://$PROJECT_DIR$/src/main/java/interactive/interactive.iml" filepath="$PROJECT_DIR$/src/main/java/interactive/interactive.iml" />
     </modules>
   </component>
 </project>
