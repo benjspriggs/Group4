@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="53dff48c-3052-4624-ba8e-86c613921f49" name="Default" comment="" />
+    <list default="true" id="53dff48c-3052-4624-ba8e-86c613921f49" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gradle/2.13/taskArtifacts/cache.properties.lock" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gradle/2.13/taskArtifacts/fileHashes.bin" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gradle/2.13/taskArtifacts/fileSnapshots.bin" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gradle/2.13/taskArtifacts/taskArtifacts.bin" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gradle/2.13/taskArtifacts/cache.properties" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/scala_sdk_2_12_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/scala_sdk_2_12_0.xml" />
+    </list>
     <ignored path="Group4DataCenter.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -1096,7 +1104,7 @@
       <workItem from="1478836482523" duration="23000" />
       <workItem from="1478836557777" duration="56000" />
       <workItem from="1478836677926" duration="102000" />
-      <workItem from="1478836848771" duration="1760000" />
+      <workItem from="1478836848771" duration="1775000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit&#10;">
       <created>1478836857289</created>
@@ -1137,7 +1145,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1941000" />
+    <option name="totallyTimeSpent" value="1956000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
