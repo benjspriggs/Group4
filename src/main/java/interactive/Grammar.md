@@ -5,7 +5,7 @@ The intention is to make rather complex inserts and queries easy to
 see and understand.
 
 It's described below in [Extended Backus-Naur form](http://www.garshol.priv.no/download/text/bnf.html#id2.4.):
-````
+```
 <S> ::= <stop>
 | <help> <request>?
 | <request> <object>+
