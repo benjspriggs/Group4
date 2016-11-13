@@ -2,16 +2,26 @@
   * Created by bspriggs on 11/13/2016.
   */
 
-import fastparse.core.Parsed.Success
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.prop.TableDrivenPropertyChecks
+import org.scalatest.{Matchers, PropSpec}
 
-class InteractiveModeParser$Test extends FunSuite with Matchers {
-  import fastparse.all._
-  import InteractiveModeParser.InteractiveMode._
+class InteractiveModeParser$Test extends PropSpec with TableDrivenPropertyChecks with Matchers {
+  import fastparse.core.Parsed
+  import InteractiveModeParser.InteractiveMode.Stop
 
   val parser = InteractiveModeParser
 
-  test("parse an stop request") {
-    val result = parser.expr.parse("quit")
+  val stopRequests =
+    Table(
+      ("word", "n"),
+      ("quit", 4),
+      ("bye", 3),
+      ("", 0)
+    )
+
+  property("Empty input is a Stop request") {
+    forAll(stopRequests) { (word: String, n: Int) =>
+      assert(parser.expr.parse(word) == Parsed.Success(Stop, n))
+    }
   }
 }
