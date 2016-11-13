@@ -55,8 +55,8 @@ object InteractiveModeParser {
     SuperObj(t, opt.asInstanceOf[Option[JsonParser.Js.Obj]])
   }
 
-  private def obj(tup: (InteractiveMode.Type.One, Payload)*) = {
-    InteractiveMode.Obj(tup:_*)
+  private def obj(tuples: (InteractiveMode.Type.One, Payload)*) = {
+    InteractiveMode.Obj(tuples:_*)
   }
 
   val `type` = P( ("user" | "member" | "provider" | "service" ).! )
