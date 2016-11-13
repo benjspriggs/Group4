@@ -42,14 +42,6 @@ object InteractiveModeParser {
   val request = P( ("create" | "show" | "update" | "delete" | "write").! )
     .map(InteractiveMode.Request)
 
-  private def plural(tuple: (java.lang.String, Option[String]))= {
-    val (t, s) = tuple
-    s match {
-      case Some(_) => InteractiveMode.Type.Many(t)
-      case None => InteractiveMode.Type.One(t)
-    }
-  }
-
   private def superobj(tup: (InteractiveMode.Type.Many, Any)) = {
     val (t, opt) = tup
     SuperObj(t, opt.asInstanceOf[Option[JsonParser.Js.Obj]])
