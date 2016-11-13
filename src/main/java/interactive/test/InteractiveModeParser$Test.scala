@@ -3,11 +3,11 @@
   */
 
 import org.scalatest.prop.TableDrivenPropertyChecks
-import org.scalatest.{FlatSpec, Matchers, PropSpec}
+import org.scalatest.{FlatSpec, Matchers}
 
 class InteractiveModeParser$Test extends FlatSpec with TableDrivenPropertyChecks with Matchers {
+  import InteractiveModeParser.InteractiveMode._
   import fastparse.core.Parsed
-  import InteractiveModeParser.InteractiveMode.Stop
 
   val parser = InteractiveModeParser
 
@@ -17,6 +17,12 @@ class InteractiveModeParser$Test extends FlatSpec with TableDrivenPropertyChecks
       "quit",
       "bye",
       ""
+    )
+
+  val helpRequests =
+    Table(
+      "help",
+      "?"
     )
 
   val validJson =
@@ -32,6 +38,14 @@ class InteractiveModeParser$Test extends FlatSpec with TableDrivenPropertyChecks
     forAll(stopRequests) { word: String =>
       assert(parser.expr.parse(word) match {
         case Parsed.Success(Stop, _) => true
+        case _ => false })
+    }
+  }
+
+  it should "handle requests for help" in {
+    forAll(helpRequests) { word: String =>
+      assert(parser.expr.parse(word) match {
+        case Parsed.Success(Help(_), _) => true
         case _ => false })
     }
   }
