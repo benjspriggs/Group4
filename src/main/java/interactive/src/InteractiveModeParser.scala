@@ -19,9 +19,12 @@ object InteractiveModeParser {
     case class SuperObj(value: java.lang.String) extends AnyVal with Statement
     case class Request(value: java.lang.String) extends AnyVal with Statement
     case class SQL(value: java.lang.String) extends AnyVal with Statement
-    case class Type(value: java.lang.String) extends AnyVal with Statement
-    case class PluralType(value: java.lang.String) extends AnyVal with Statement // There's got to be a better way to describe the relationship between type and types
+    case class SingleType(value: java.lang.String) extends Type
+    case class PluralType(value: java.lang.String) extends Type
 
+    sealed trait Type extends Statement {
+      override def value: java.lang.String
+    }
     case object Stop extends Statement {
       def value = Stop
     }
@@ -40,7 +43,7 @@ object InteractiveModeParser {
     val (t, s) = tuple
     s match {
       case Some(_) => InteractiveMode.PluralType(t)
-      case None => InteractiveMode.Type(t)
+      case None => InteractiveMode.SingleType(t)
     }
   }
 
