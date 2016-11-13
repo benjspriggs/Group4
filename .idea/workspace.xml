@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="53dff48c-3052-4624-ba8e-86c613921f49" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/interactive/src/JsonParser.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/interactive/src/InteractiveModeParser.scala" afterPath="$PROJECT_DIR$/src/main/java/interactive/src/InteractiveModeParser.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$Test.scala" afterPath="$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$Test.scala" />
     </list>
     <ignored path="Group4DataCenter.iws" />
@@ -34,11 +36,11 @@
     <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="InteractiveModeParser.scala" pinned="false" current-in-tab="false">
+          <file leaf-file-name="InteractiveModeParser.scala" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/interactive/src/InteractiveModeParser.scala">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="442">
-                  <caret line="35" column="34" selection-start-line="35" selection-start-column="34" selection-end-line="35" selection-end-column="34" />
+                <state relative-caret-position="561">
+                  <caret line="54" column="12" selection-start-line="54" selection-start-column="12" selection-end-line="54" selection-end-column="12" />
                   <folding>
                     <element signature="e#219#361#0" expanded="false" />
                     <element signature="e#248#293#0" expanded="false" />
@@ -48,25 +50,28 @@
                     <element signature="e#1547#1714#0" expanded="false" />
                     <element signature="e#2101#2216#0" expanded="false" />
                     <element signature="e#2257#2321#0" expanded="false" />
-                    <element signature="e#2929#5328#1" expanded="false" />
-                    <element signature="e#2945#3669#1" expanded="false" />
-                    <element signature="e#2982#3187#0" expanded="false" />
-                    <element signature="e#3490#3525#0" expanded="false" />
-                    <element signature="e#3560#3594#0" expanded="false" />
-                    <element signature="e#3629#3663#0" expanded="false" />
-                    <element signature="e#3747#3821#0" expanded="false" />
-                    <element signature="e#4408#4445#0" expanded="false" />
-                    <element signature="e#5235#5324#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="InteractiveModeParser$Test.scala" pinned="false" current-in-tab="true">
+          <file leaf-file-name="JsonParser.scala" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/interactive/src/JsonParser.scala">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="561">
+                  <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
+                  <folding>
+                    <element signature="n#!!doc" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="InteractiveModeParser$Test.scala" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$Test.scala">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="425">
-                  <caret line="25" column="25" selection-start-line="25" selection-start-column="25" selection-end-line="25" selection-end-column="25" />
+                <state relative-caret-position="119">
+                  <caret line="11" column="18" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
                   <folding>
                     <element signature="n#!!doc" expanded="true" />
                     <element signature="e#49#100#0" expanded="true" />
@@ -390,8 +395,9 @@
         <option value="$PROJECT_DIR$/src/main/java/interactive/src/InteractiveModeParser$Test.scala" />
         <option value="$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParserTestSuite" />
         <option value="$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParserTestSuite.scala" />
-        <option value="$PROJECT_DIR$/src/main/java/interactive/src/InteractiveModeParser.scala" />
         <option value="$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$Test.scala" />
+        <option value="$PROJECT_DIR$/src/main/java/interactive/src/JsonParser.scala" />
+        <option value="$PROJECT_DIR$/src/main/java/interactive/src/InteractiveModeParser.scala" />
       </list>
     </option>
   </component>
@@ -1211,7 +1217,7 @@
       <workItem from="1479007020661" duration="6546000" />
       <workItem from="1479028824918" duration="2731000" />
       <workItem from="1479057559206" duration="14371000" />
-      <workItem from="1479072861158" duration="5569000" />
+      <workItem from="1479072861158" duration="5786000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit&#10;">
       <created>1478836857289</created>
@@ -1409,7 +1415,14 @@
       <option name="project" value="LOCAL" />
       <updated>1479077742032</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="change test to not have a useless depencency">
+      <created>1479078461492</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1479078461492</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1445,7 +1458,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35791000" />
+    <option name="totallyTimeSpent" value="36008000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
@@ -1458,7 +1471,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3281412" sideWeight="0.5618337" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3281412" sideWeight="0.43816632" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3281412" sideWeight="0.43816632" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32917964" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32917964" sideWeight="0.49573562" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1491,7 +1504,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add scala" />
     <MESSAGE value="Add grammar for Interactive Mode" />
     <MESSAGE value="Remove backtick" />
     <MESSAGE value="Add tokens, update comments" />
@@ -1516,7 +1528,8 @@
     <MESSAGE value="add test suite (hopefully)" />
     <MESSAGE value="modules and dependencies are the 10th layer of hell" />
     <MESSAGE value="finally get test suite to work, add basic stop test" />
-    <option name="LAST_COMMIT_MESSAGE" value="finally get test suite to work, add basic stop test" />
+    <MESSAGE value="change test to not have a useless depencency" />
+    <option name="LAST_COMMIT_MESSAGE" value="change test to not have a useless depencency" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1542,15 +1555,6 @@
             <element signature="e#1547#1714#0" expanded="false" />
             <element signature="e#2101#2216#0" expanded="false" />
             <element signature="e#2257#2321#0" expanded="false" />
-            <element signature="e#2929#5328#1" expanded="false" />
-            <element signature="e#2945#3669#1" expanded="false" />
-            <element signature="e#2982#3187#0" expanded="false" />
-            <element signature="e#3490#3525#0" expanded="false" />
-            <element signature="e#3560#3594#0" expanded="false" />
-            <element signature="e#3629#3663#0" expanded="false" />
-            <element signature="e#3747#3821#0" expanded="false" />
-            <element signature="e#4408#4445#0" expanded="false" />
-            <element signature="e#5235#5324#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1608,15 +1612,6 @@
             <element signature="e#1547#1714#0" expanded="false" />
             <element signature="e#2101#2216#0" expanded="false" />
             <element signature="e#2257#2321#0" expanded="false" />
-            <element signature="e#2929#5328#1" expanded="false" />
-            <element signature="e#2945#3669#1" expanded="false" />
-            <element signature="e#2982#3187#0" expanded="false" />
-            <element signature="e#3490#3525#0" expanded="false" />
-            <element signature="e#3560#3594#0" expanded="false" />
-            <element signature="e#3629#3663#0" expanded="false" />
-            <element signature="e#3747#3821#0" expanded="false" />
-            <element signature="e#4408#4445#0" expanded="false" />
-            <element signature="e#5235#5324#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1876,10 +1871,32 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParserTestSuite" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$Test.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="11" column="18" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#49#100#0" expanded="true" />
+            <element signature="e#253#281#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/interactive/src/JsonParser.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/interactive/src/InteractiveModeParser.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="35" column="34" selection-start-line="35" selection-start-column="34" selection-end-line="35" selection-end-column="34" />
+        <state relative-caret-position="561">
+          <caret line="54" column="12" selection-start-line="54" selection-start-column="12" selection-end-line="54" selection-end-column="12" />
           <folding>
             <element signature="e#219#361#0" expanded="false" />
             <element signature="e#248#293#0" expanded="false" />
@@ -1889,27 +1906,6 @@
             <element signature="e#1547#1714#0" expanded="false" />
             <element signature="e#2101#2216#0" expanded="false" />
             <element signature="e#2257#2321#0" expanded="false" />
-            <element signature="e#2929#5328#1" expanded="false" />
-            <element signature="e#2945#3669#1" expanded="false" />
-            <element signature="e#2982#3187#0" expanded="false" />
-            <element signature="e#3490#3525#0" expanded="false" />
-            <element signature="e#3560#3594#0" expanded="false" />
-            <element signature="e#3629#3663#0" expanded="false" />
-            <element signature="e#3747#3821#0" expanded="false" />
-            <element signature="e#4408#4445#0" expanded="false" />
-            <element signature="e#5235#5324#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$Test.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="25" column="25" selection-start-line="25" selection-start-column="25" selection-end-line="25" selection-end-column="25" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#49#100#0" expanded="true" />
-            <element signature="e#253#281#0" expanded="true" />
           </folding>
         </state>
       </provider>

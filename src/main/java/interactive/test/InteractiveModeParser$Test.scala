@@ -19,10 +19,20 @@ class InteractiveModeParser$Test extends FlatSpec with TableDrivenPropertyChecks
       ""
     )
 
+  val validJson =
+    """
+      |{
+      | "name": "Kate Abernathy",
+      | "age": 23,
+      | "member_number": 4
+      | }
+    """.stripMargin
+
   it should "handle requests to stop the session" in {
     forAll(stopRequests) { word: String =>
       assert(parser.expr.parse(word) match {
         case Parsed.Success(Stop, _) => true
         case _ => false })
-    }}
+    }
+  }
 }
