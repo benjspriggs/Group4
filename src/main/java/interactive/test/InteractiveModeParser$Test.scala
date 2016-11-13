@@ -46,6 +46,15 @@ class InteractiveModeParser$Test extends FlatSpec with TableDrivenPropertyChecks
       "service"
     )
 
+  val typeMany =
+    Table(
+      "types",
+      "users",
+      "members",
+      "providers",
+      "services"
+    )
+
   val validJson =
     """
       |{
@@ -72,11 +81,11 @@ class InteractiveModeParser$Test extends FlatSpec with TableDrivenPropertyChecks
 
   it must "handle generalized requests" in {
     forAll(requests) { request: String =>
-      forAll(typeSingle) {
-        `type`: String => parsesToA(request ++ `type` ++ "{}", Request)
+      forAll(typeMany) {
+        `type`: String => parsesToA(request ++ " " ++ `type` ++ " " ++ validJson, Request)
       }
-      forAll(typeSingle) {
-        `type`: String => parsesToA(request ++ "all" ++ `type`, Request)
+      forAll(typeMany) {
+        `type`: String => parsesToA(request ++ " all " ++ `type`, Request)
       }
     }
   }

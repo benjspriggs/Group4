@@ -14,7 +14,7 @@ object InteractiveModeParser {
       //  this.asInstanceOf[Obj].value.find(_._1 == s).get._2
     }
 
-    case class Help(value: java.lang.String) extends AnyVal with Statement
+    case class Help(value: Option[java.lang.String]) extends AnyVal with Statement
     case class Obj(value: (Type.One, Payload)*) extends AnyVal with Statement
     case class SuperObj(value: (Type.Many, Option[Payload])) extends AnyVal with Statement
     case class Request(value: java.lang.String) extends AnyVal with Statement
@@ -31,11 +31,11 @@ object InteractiveModeParser {
     }
   }
 
-  val whitespace = P( CharsWhile(" \r\n\t".contains(_: Char)).? ).opaque("")
+  val whitespace = P( CharsWhile(" \r\n\t".contains(_: Char)) ).opaque("")
 
   val _stop = P( ("quit" | "bye" | "exit" ).? ~ End)
     .map(_ => InteractiveMode.Stop)
-  val _help = P( ("help" | "?") ~ whitespace ~ AnyChar.rep.! ~ End )
+  val _help = P( ("help" | "?") ~ (whitespace ~ AnyChar.rep.!).? ~ End )
     .map(InteractiveMode.Help)
   val _request = P( ("create" | "show" | "update" | "delete" | "write").! )
     .map(InteractiveMode.Request)
