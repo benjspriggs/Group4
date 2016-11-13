@@ -6,15 +6,28 @@
 object InteractiveModeParser {
   import fastparse.all._
 
-  val sql_literal: P[Unit] = P( "SQL" ) // TODO: add capture for the sql query
-  val stop: P[Unit] = P( ("quit" | "bye") ~ End)
-  val help: P[Unit] = P( ("help" | "?"))
-  val request: P[String] = P( ("create" | "show" | "update" | "delete" | "write").! )
-  val request_type = P( ("user" | "member" | "provider" | "service").! ~ "s".?.! )
-  val payload = JsonParser.jsonExpr // courtesy of Li Haoyi
-  val obj = P( request_type ~ payload )
+  object InteractiveMode {
+    // TODO: Add AST symbols
+  }
 
-  val expr: P[Unit] = P(sql_literal) // TODO: have this actually parse things besides "SQL"
+  val sql_literal: P[String] =
+    P( "SQL"
+      ~ CharsWhile(" \r\n\t".contains(_: Char)).?
+      ~ AnyChar.rep(1).!
+      ~ End)
+  val stop: P[Unit] = P( StringIn("quit","bye") ~ End)
+  val help: P[String] = P( StringIn("help", "?") ~ AnyChar.?.! )
+  val request: P[String] = P( StringIn("create", "show", "update", "delete", "write").! )
+  val `type` = P( StringIn("user", "member", "provider", "service").! ~ "s".?.! )
+  val payload = JsonParser.jsonExpr // courtesy of Li Haoyi
+  val `object` = P( `type` ~ payload )
+  val superobject = P( `type` ~ payload ) // TODO: add proper parser
+  val expr = P(
+      stop |
+      help |
+      request
+        ~ (`object`.rep(1) | superobject) |
+      sql_literal) // TODO: have this actually parse things besides "SQL"
 
   // JSON parser and AST builder, courtesy of:
   // http://www.lihaoyi.com/fastparse/
@@ -26,6 +39,7 @@ object InteractiveModeParser {
         def apply(s: java.lang.String): Val =
           this.asInstanceOf[Obj].value.find(_._1 == s).get._2
       }
+
       case class Str(value: java.lang.String) extends AnyVal with Val
       case class Obj(value: (java.lang.String, Val)*) extends AnyVal with Val
       case class Arr(value: Val*) extends AnyVal with Val
