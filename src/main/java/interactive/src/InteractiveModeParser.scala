@@ -1,7 +1,6 @@
-import InteractiveModeParser.InteractiveMode.{Payload, SuperObj}
 
 /**
-  * Created by kn on 11/12/2016.
+  * Created by bspriggs on 11/12/2016.
   */
 
 
@@ -42,12 +41,12 @@ object InteractiveModeParser {
   val _request = P( ("create" | "show" | "update" | "delete" | "write").! )
     .map(InteractiveMode.Request)
 
-  private def obj(tuples: (InteractiveMode.Type.One, Payload)*) = {
+  private def obj(tuples: (InteractiveMode.Type.One, InteractiveMode.Payload)*) = {
     InteractiveMode.Obj(tuples:_*)
   }
   private def superobj(tup: (InteractiveMode.Type.Many, Any)) = {
     val (t, opt) = tup
-    SuperObj(t, opt.asInstanceOf[Option[JsonParser.Js.Obj]])
+    InteractiveMode.SuperObj(t, opt.asInstanceOf[Option[JsonParser.Js.Obj]])
   }
 
 

@@ -9,6 +9,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="scala-sdk-2.12.0" level="project" />
     <orderEntry type="library" name="com.lihaoyi:fastparse_2.11:0.4.2" level="project" />
-    <orderEntry type="library" scope="TEST" name="au.com.dius:pact-jvm-provider-scalatest_2.11:3.3.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="org.scalatest:scalatest_2.10:2.2.1" level="project" />
   </component>
 </module>
