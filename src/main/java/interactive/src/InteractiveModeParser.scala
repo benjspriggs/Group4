@@ -33,7 +33,7 @@ object InteractiveModeParser {
 
   val whitespace = P( CharsWhile(" \r\n\t".contains(_: Char)).? ).opaque("")
 
-  val _stop = P( ("quit" | "bye").? ~ End)
+  val _stop = P( ("quit" | "bye" | "exit" ).? ~ End)
     .map(_ => InteractiveMode.Stop)
   val _help = P( ("help" | "?") ~ whitespace ~ AnyChar.rep.! ~ End )
     .map(InteractiveMode.Help)

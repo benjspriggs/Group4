@@ -16,13 +16,34 @@ class InteractiveModeParser$Test extends FlatSpec with TableDrivenPropertyChecks
       "word",
       "quit",
       "bye",
+      "exit",
       ""
     )
 
   val helpRequests =
     Table(
+      "word",
       "help",
       "?"
+    )
+
+  val requests =
+    Table(
+      "name",
+      "create",
+      "show",
+      "update",
+      "delete",
+      "write"
+    )
+
+  val typeSingle =
+    Table(
+      "type",
+      "user",
+      "member",
+      "provider",
+      "service"
     )
 
   val validJson =
@@ -34,19 +55,29 @@ class InteractiveModeParser$Test extends FlatSpec with TableDrivenPropertyChecks
       | }
     """.stripMargin
 
-  it should "handle requests to stop the session" in {
-    forAll(stopRequests) { word: String =>
-      assert(parser.expr.parse(word) match {
-        case Parsed.Success(Stop, _) => true
-        case _ => false })
-    }
+  def parsesToA[P](a: String, parsed: P) = {
+    assert(parser.expr.parse(a) match {
+      case Parsed.Success(parsed, _) => true
+      case _ => false
+    })
   }
 
-  it should "handle requests for help" in {
-    forAll(helpRequests) { word: String =>
-      assert(parser.expr.parse(word) match {
-        case Parsed.Success(Help(_), _) => true
-        case _ => false })
+  it must "handle requests to stop the session" in {
+    forAll(stopRequests) { word: String => parsesToA(word, Stop) }
+  }
+
+  it must "handle requests for help" in {
+    forAll(helpRequests) { word: String => parsesToA(word, Help) }
+  }
+
+  it must "handle generalized requests" in {
+    forAll(requests) { request: String =>
+      forAll(typeSingle) {
+        `type`: String => parsesToA(request ++ `type` ++ "{}", Request)
+      }
+      forAll(typeSingle) {
+        `type`: String => parsesToA(request ++ "all" ++ `type`, Request)
+      }
     }
   }
 }
