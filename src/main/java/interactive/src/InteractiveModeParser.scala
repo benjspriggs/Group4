@@ -1,4 +1,4 @@
-import InteractiveModeParser.InteractiveMode.Payload
+import InteractiveModeParser.InteractiveMode.{Payload, SuperObj}
 
 /**
   * Created by kn on 11/12/2016.
@@ -12,12 +12,12 @@ object InteractiveModeParser {
   object InteractiveMode {
     sealed trait Statement extends Any {
       def value: Any
-      def apply(s: java.lang.String): Statement =
-        this.asInstanceOf[Obj].value.find(_._1 == s).get._2
+      //def apply(s: java.lang.String): Statement =
+      //  this.asInstanceOf[Obj].value.find(_._1 == s).get._2
     }
 
     case class Help(value: java.lang.String) extends AnyVal with Statement
-    case class Obj(value: (java.lang.String, Statement)*) extends AnyVal with Statement
+    case class Obj(value: (Type.One, Payload)*) extends AnyVal with Statement
     case class SuperObj(value: (Type.Many, Option[Payload])) extends AnyVal with Statement
     case class Request(value: java.lang.String) extends AnyVal with Statement
     case class SQL(value: java.lang.String) extends AnyVal with Statement
@@ -52,18 +52,18 @@ object InteractiveModeParser {
 
   private def superobj(tup: (InteractiveMode.Type.Many, Any)) = {
     val (t, opt) = tup
-    (t, opt.asInstanceOf[Option[JsonParser.Js.Obj]])
+    SuperObj(t, opt.asInstanceOf[Option[JsonParser.Js.Obj]])
   }
 
-  private def obj(tup: (InteractiveMode.Type.One, Payload)) = {
-    tup
+  private def obj(tup: (InteractiveMode.Type.One, Payload)*) = {
+    InteractiveMode.Obj(tup:_*)
   }
 
   val `type` = P( ("user" | "member" | "provider" | "service" ).! )
   val singleType = P( `type` ~ !"s" ).map(InteractiveMode.Type.One)
   val manyType = P( `type` ~ "s" ).map(InteractiveMode.Type.Many)
   val payload = JsonParser.jsonExpr // courtesy of Li Haoyi
-  val `object` = P( (singleType ~ whitespace ~ payload) ).map(obj)
+  val `object` = P( (singleType ~ whitespace ~ payload).rep(1) ).map(obj(_:_*))
   val superobject =
     P( "all" ~ whitespace ~ manyType ~ (whitespace ~ payload ).?
     | manyType ~ whitespace ~ payload ).map(superobj)
