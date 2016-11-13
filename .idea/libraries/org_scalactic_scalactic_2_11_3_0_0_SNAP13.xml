@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="org.scalactic:scalactic_2.11:3.0.0-SNAP13" type="repository">
+    <properties maven-id="org.scalactic:scalactic_2.11:3.0.0-SNAP13" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/scalactic/scalactic_2.11/3.0.0-SNAP13/scalactic_2.11-3.0.0-SNAP13.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-compiler/2.11.7/scala-compiler-2.11.7.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.11.7/scala-library-2.11.7.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-reflect/2.11.7/scala-reflect-2.11.7.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/modules/scala-xml_2.11/1.0.4/scala-xml_2.11-1.0.4.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/modules/scala-parser-combinators_2.11/1.0.4/scala-parser-combinators_2.11-1.0.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

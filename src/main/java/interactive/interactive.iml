@@ -8,8 +8,23 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="scala-sdk-2.12.0" level="project" />
+    <orderEntry type="library" name="scala-sdk-2.11.8" level="project" />
     <orderEntry type="library" name="com.lihaoyi:fastparse_2.11:0.4.2" level="project" />
-    <orderEntry type="library" name="org.scalactic:scalactic_2.11:3.0.1" level="project" />
+    <orderEntry type="module-library" scope="TEST">
+      <library name="org.scalatest:scalatest_2.11:3.0.0" type="repository">
+        <properties maven-id="org.scalatest:scalatest_2.11:3.0.0" />
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/scalatest/scalatest_2.11/3.0.0/scalatest_2.11-3.0.0.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-compiler/2.11.8/scala-compiler-2.11.8.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.11.8/scala-library-2.11.8.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-reflect/2.11.8/scala-reflect-2.11.8.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/modules/scala-xml_2.11/1.0.5/scala-xml_2.11-1.0.5.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/modules/scala-parser-combinators_2.11/1.0.4/scala-parser-combinators_2.11-1.0.4.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/scalactic/scalactic_2.11/3.0.0/scalactic_2.11-3.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>

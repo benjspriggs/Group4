@@ -2,10 +2,9 @@
 /**
   * Created by bspriggs on 11/12/2016.
   */
-
+import fastparse.all._
 
 object InteractiveModeParser {
-  import fastparse.all._
 
   // InteractiveMode representation/ AST Tokens
   object InteractiveMode {
