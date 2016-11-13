@@ -16,7 +16,7 @@ object InteractiveModeParser {
 
     case class Help(value: java.lang.String) extends AnyVal with Statement
     case class Obj(value: (java.lang.String, Statement)*) extends AnyVal with Statement
-    case class SuperObj(value: java.lang.String) extends AnyVal with Statement
+    case class SuperObj(value: (Type.Many, Option[Payload])) extends AnyVal with Statement
     case class Request(value: java.lang.String) extends AnyVal with Statement
     case class SQL(value: java.lang.String) extends AnyVal with Statement
     case class Payload(value: JsonParser.Js.Obj) extends AnyVal with Statement
@@ -40,7 +40,7 @@ object InteractiveModeParser {
   val request = P( ("create" | "show" | "update" | "delete" | "write").! )
     .map(InteractiveMode.Request)
 
-  def plural(tuple: (java.lang.String, Option[String]))= {
+  private def plural(tuple: (java.lang.String, Option[String]))= {
     val (t, s) = tuple
     s match {
       case Some(_) => InteractiveMode.Type.Many(t)
@@ -48,14 +48,19 @@ object InteractiveModeParser {
     }
   }
 
+  private def superobj(tup: (InteractiveMode.Type.Many, Object)) = {
+    val (t, opt) = tup
+    (t, opt.asInstanceOf[Option[JsonParser.Js.Obj]])
+  }
+
   val `type` = P( ("user" | "member" | "provider" | "service" ).! )
   val singleType = P( `type` ~ !"s" ).map(InteractiveMode.Type.One)
   val manyType = P( `type` ~ "s" ).map(InteractiveMode.Type.Many)
   val payload = JsonParser.jsonExpr // courtesy of Li Haoyi
-  val `object` = P( singleType ~ whitespace ~ payload )
+  val `object` = P( singleType ~ whitespace ~ payload ).map(InteractiveMode.Obj(_:_*))
   val superobject =
     P( "all" ~ whitespace ~ manyType ~ (whitespace ~ payload ).?
-    | manyType ~ whitespace ~ payload )
+    | manyType ~ whitespace ~ payload ).map(superobj)
   val sql_literal =
     P( "SQL"
       ~ whitespace
