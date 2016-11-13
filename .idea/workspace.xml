@@ -37,10 +37,11 @@
           <file leaf-file-name="InteractiveModeParser.scala" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/interactive/src/InteractiveModeParser.scala">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="340">
-                  <caret line="44" column="2" selection-start-line="44" selection-start-column="2" selection-end-line="44" selection-end-column="2" />
+                <state relative-caret-position="85">
+                  <caret line="7" column="29" selection-start-line="7" selection-start-column="29" selection-end-line="7" selection-end-column="29" />
                   <folding>
                     <element signature="n#!!doc;n#InteractiveModeParser$#0" expanded="false" />
+                    <element signature="e#139#5358#1" expanded="false" />
                     <element signature="e#240#1114#1" expanded="false" />
                     <element signature="e#281#423#0" expanded="false" />
                     <element signature="e#310#355#0" expanded="false" />
@@ -48,16 +49,19 @@
                     <element signature="e#1080#1110#0" expanded="false" />
                     <element signature="e#1484#1588#0" expanded="false" />
                     <element signature="e#1591#1742#0" expanded="false" />
-                    <element signature="e#2280#2344#0" expanded="false" />
-                    <element signature="e#2924#5323#1" expanded="false" />
-                    <element signature="e#2940#3664#1" expanded="false" />
-                    <element signature="e#2977#3182#0" expanded="false" />
-                    <element signature="e#3485#3520#0" expanded="false" />
-                    <element signature="e#3555#3589#0" expanded="false" />
-                    <element signature="e#3624#3658#0" expanded="false" />
-                    <element signature="e#3742#3816#0" expanded="false" />
-                    <element signature="e#4403#4440#0" expanded="false" />
-                    <element signature="e#5230#5319#0" expanded="false" />
+                    <element signature="e#2129#2244#0" expanded="false" />
+                    <element signature="e#2285#2349#0" expanded="false" />
+                    <element signature="e#2683#2849#0" expanded="false" />
+                    <element signature="e#2853#2897#0" expanded="false" />
+                    <element signature="e#2957#5356#1" expanded="false" />
+                    <element signature="e#2973#3697#1" expanded="false" />
+                    <element signature="e#3010#3215#0" expanded="false" />
+                    <element signature="e#3518#3553#0" expanded="false" />
+                    <element signature="e#3588#3622#0" expanded="false" />
+                    <element signature="e#3657#3691#0" expanded="false" />
+                    <element signature="e#3775#3849#0" expanded="false" />
+                    <element signature="e#4436#4473#0" expanded="false" />
+                    <element signature="e#5263#5352#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -1122,7 +1126,7 @@
       <workItem from="1478841989692" duration="2916000" />
       <workItem from="1479007020661" duration="6546000" />
       <workItem from="1479028824918" duration="2731000" />
-      <workItem from="1479057559206" duration="12217000" />
+      <workItem from="1479057559206" duration="12315000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit&#10;">
       <created>1478836857289</created>
@@ -1278,11 +1282,18 @@
       <option name="project" value="LOCAL" />
       <updated>1479069709884</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="reorder functions">
+      <created>1479069840295</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1479069840295</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28068000" />
+    <option name="totallyTimeSpent" value="28166000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
@@ -1348,7 +1359,8 @@
     <MESSAGE value="add constraint to superobject" />
     <MESSAGE value="remove plural function" />
     <MESSAGE value="make opaque" />
-    <option name="LAST_COMMIT_MESSAGE" value="make opaque" />
+    <MESSAGE value="reorder functions" />
+    <option name="LAST_COMMIT_MESSAGE" value="reorder functions" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1381,6 +1393,7 @@
           <caret line="59" column="38" selection-start-line="59" selection-start-column="38" selection-end-line="59" selection-end-column="38" />
           <folding>
             <element signature="n#!!doc;n#InteractiveModeParser$#0" expanded="false" />
+            <element signature="e#139#5358#1" expanded="false" />
             <element signature="e#240#1114#1" expanded="false" />
             <element signature="e#281#423#0" expanded="false" />
             <element signature="e#310#355#0" expanded="false" />
@@ -1388,16 +1401,19 @@
             <element signature="e#1080#1110#0" expanded="false" />
             <element signature="e#1484#1588#0" expanded="false" />
             <element signature="e#1591#1742#0" expanded="false" />
-            <element signature="e#2280#2344#0" expanded="false" />
-            <element signature="e#2924#5323#1" expanded="false" />
-            <element signature="e#2940#3664#1" expanded="false" />
-            <element signature="e#2977#3182#0" expanded="false" />
-            <element signature="e#3485#3520#0" expanded="false" />
-            <element signature="e#3555#3589#0" expanded="false" />
-            <element signature="e#3624#3658#0" expanded="false" />
-            <element signature="e#3742#3816#0" expanded="false" />
-            <element signature="e#4403#4440#0" expanded="false" />
-            <element signature="e#5230#5319#0" expanded="false" />
+            <element signature="e#2129#2244#0" expanded="false" />
+            <element signature="e#2285#2349#0" expanded="false" />
+            <element signature="e#2683#2849#0" expanded="false" />
+            <element signature="e#2853#2897#0" expanded="false" />
+            <element signature="e#2957#5356#1" expanded="false" />
+            <element signature="e#2973#3697#1" expanded="false" />
+            <element signature="e#3010#3215#0" expanded="false" />
+            <element signature="e#3518#3553#0" expanded="false" />
+            <element signature="e#3588#3622#0" expanded="false" />
+            <element signature="e#3657#3691#0" expanded="false" />
+            <element signature="e#3775#3849#0" expanded="false" />
+            <element signature="e#4436#4473#0" expanded="false" />
+            <element signature="e#5263#5352#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1650,10 +1666,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/interactive/src/InteractiveModeParser.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="44" column="2" selection-start-line="44" selection-start-column="2" selection-end-line="44" selection-end-column="2" />
+        <state relative-caret-position="85">
+          <caret line="7" column="29" selection-start-line="7" selection-start-column="29" selection-end-line="7" selection-end-column="29" />
           <folding>
             <element signature="n#!!doc;n#InteractiveModeParser$#0" expanded="false" />
+            <element signature="e#139#5358#1" expanded="false" />
             <element signature="e#240#1114#1" expanded="false" />
             <element signature="e#281#423#0" expanded="false" />
             <element signature="e#310#355#0" expanded="false" />
@@ -1661,16 +1678,19 @@
             <element signature="e#1080#1110#0" expanded="false" />
             <element signature="e#1484#1588#0" expanded="false" />
             <element signature="e#1591#1742#0" expanded="false" />
-            <element signature="e#2280#2344#0" expanded="false" />
-            <element signature="e#2924#5323#1" expanded="false" />
-            <element signature="e#2940#3664#1" expanded="false" />
-            <element signature="e#2977#3182#0" expanded="false" />
-            <element signature="e#3485#3520#0" expanded="false" />
-            <element signature="e#3555#3589#0" expanded="false" />
-            <element signature="e#3624#3658#0" expanded="false" />
-            <element signature="e#3742#3816#0" expanded="false" />
-            <element signature="e#4403#4440#0" expanded="false" />
-            <element signature="e#5230#5319#0" expanded="false" />
+            <element signature="e#2129#2244#0" expanded="false" />
+            <element signature="e#2285#2349#0" expanded="false" />
+            <element signature="e#2683#2849#0" expanded="false" />
+            <element signature="e#2853#2897#0" expanded="false" />
+            <element signature="e#2957#5356#1" expanded="false" />
+            <element signature="e#2973#3697#1" expanded="false" />
+            <element signature="e#3010#3215#0" expanded="false" />
+            <element signature="e#3518#3553#0" expanded="false" />
+            <element signature="e#3588#3622#0" expanded="false" />
+            <element signature="e#3657#3691#0" expanded="false" />
+            <element signature="e#3775#3849#0" expanded="false" />
+            <element signature="e#4436#4473#0" expanded="false" />
+            <element signature="e#5263#5352#0" expanded="false" />
           </folding>
         </state>
       </provider>

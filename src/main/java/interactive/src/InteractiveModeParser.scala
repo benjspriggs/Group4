@@ -56,7 +56,8 @@ object InteractiveModeParser {
   val _manyType = P( `type` ~/ "s" ).map(InteractiveMode.Type.Many)
   val _payload = JsonParser.jsonExpr // courtesy of Li Haoyi
 
-  val `_object` = P( (_singleType ~/ whitespace ~/ _payload).rep(1) ).map(obj(_:_*))
+  val `_object` = P( (_singleType ~/ whitespace ~/ _payload).rep(1) )
+    .map(obj(_:_*))
   val _superobject =
     P( "all" ~/ whitespace ~/ _manyType ~/ (whitespace ~ _payload ).? ~/ End
     | _manyType ~/ whitespace ~/ _payload ).map(superobj)
@@ -66,17 +67,18 @@ object InteractiveModeParser {
       ~ AnyChar.rep(1).!
       ~ End).map(InteractiveMode.SQL)
 
-  val stop = _stop.opaque("<stop>")
-  val help = _help.opaque("<help>")
-  val request = _request.opaque("<request>")
-  val `object` = `_object`.opaque("<object>")
+  val stop        = _stop.opaque("<stop>")
+  val help        = _help.opaque("<help>")
+  val request     = _request.opaque("<request>")
+  val `object`    = `_object`.opaque("<object>")
   val superobject = _superobject.opaque("<objects>")
   val sql_literal = _sql_literal.opaque("<SQL query>")
 
   val expr = P( stop
     | help
     | ( request ~/ whitespace
-        ~/ (`object`.rep(1) | superobject )).opaque("<request> with <object> or <objects>")
+        ~/ (`object`.rep(1) | superobject ))
+      .opaque("<request> with <object> or <objects>")
     | sql_literal )
 
   // JSON parser and AST builder, courtesy of:
