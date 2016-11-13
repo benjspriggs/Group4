@@ -1,3 +1,5 @@
+import InteractiveModeParser.InteractiveMode.Payload
+
 /**
   * Created by kn on 11/12/2016.
   */
@@ -19,7 +21,7 @@ object InteractiveModeParser {
     case class SuperObj(value: (Type.Many, Option[Payload])) extends AnyVal with Statement
     case class Request(value: java.lang.String) extends AnyVal with Statement
     case class SQL(value: java.lang.String) extends AnyVal with Statement
-    case class Payload(value: JsonParser.Js.Obj) extends AnyVal with Statement
+    type Payload = JsonParser.Js.Val
 
     object Type {
         case class One(value: java.lang.String) extends AnyVal with Statement
@@ -48,16 +50,20 @@ object InteractiveModeParser {
     }
   }
 
-  private def superobj(tup: (InteractiveMode.Type.Many, Object)) = {
+  private def superobj(tup: (InteractiveMode.Type.Many, Any)) = {
     val (t, opt) = tup
     (t, opt.asInstanceOf[Option[JsonParser.Js.Obj]])
+  }
+
+  private def obj(tup: (InteractiveMode.Type.One, Payload)) = {
+    tup
   }
 
   val `type` = P( ("user" | "member" | "provider" | "service" ).! )
   val singleType = P( `type` ~ !"s" ).map(InteractiveMode.Type.One)
   val manyType = P( `type` ~ "s" ).map(InteractiveMode.Type.Many)
   val payload = JsonParser.jsonExpr // courtesy of Li Haoyi
-  val `object` = P( singleType ~ whitespace ~ payload ).map(InteractiveMode.Obj(_:_*))
+  val `object` = P( (singleType ~ whitespace ~ payload) ).map(obj)
   val superobject =
     P( "all" ~ whitespace ~ manyType ~ (whitespace ~ payload ).?
     | manyType ~ whitespace ~ payload ).map(superobj)
