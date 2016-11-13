@@ -3,9 +3,9 @@
   */
 
 import org.scalatest.prop.TableDrivenPropertyChecks
-import org.scalatest.{Matchers, PropSpec}
+import org.scalatest.{FlatSpec, Matchers, PropSpec}
 
-class InteractiveModeParser$Test extends PropSpec with TableDrivenPropertyChecks with Matchers {
+class InteractiveModeParser$Test extends FlatSpec with TableDrivenPropertyChecks with Matchers {
   import fastparse.core.Parsed
   import InteractiveModeParser.InteractiveMode.Stop
 
@@ -13,15 +13,16 @@ class InteractiveModeParser$Test extends PropSpec with TableDrivenPropertyChecks
 
   val stopRequests =
     Table(
-      ("word", "n"),
-      ("quit", 4),
-      ("bye", 3),
-      ("", 0)
+      "word",
+      "quit",
+      "bye",
+      ""
     )
 
-  property("Empty input is a Stop request") {
-    forAll(stopRequests) { (word: String, n: Int) =>
-      assert(parser.expr.parse(word) == Parsed.Success(Stop, n))
-    }
-  }
+  it should "handle requests to stop the session" in {
+    forAll(stopRequests) { word: String =>
+      assert(parser.expr.parse(word) match {
+        case Parsed.Success(Stop, _) => true
+        case _ => false })
+    }}
 }
