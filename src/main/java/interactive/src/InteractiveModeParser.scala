@@ -42,14 +42,14 @@ object InteractiveModeParser {
   val _request = P( ("create" | "show" | "update" | "delete" | "write").! )
     .map(InteractiveMode.Request)
 
+  private def obj(tuples: (InteractiveMode.Type.One, Payload)*) = {
+    InteractiveMode.Obj(tuples:_*)
+  }
   private def superobj(tup: (InteractiveMode.Type.Many, Any)) = {
     val (t, opt) = tup
     SuperObj(t, opt.asInstanceOf[Option[JsonParser.Js.Obj]])
   }
 
-  private def obj(tuples: (InteractiveMode.Type.One, Payload)*) = {
-    InteractiveMode.Obj(tuples:_*)
-  }
 
   val `type` = P( ("user" | "member" | "provider" | "service" ).! )
   val _singleType = P( `type` ~/ !"s" ).map(InteractiveMode.Type.One)
