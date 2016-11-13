@@ -65,7 +65,7 @@ object InteractiveModeParser {
   val payload = JsonParser.jsonExpr // courtesy of Li Haoyi
   val `object` = P( (singleType ~ whitespace ~ payload).rep(1) ).map(obj(_:_*))
   val superobject =
-    P( "all" ~ whitespace ~ manyType ~ (whitespace ~ payload ).?
+    P( "all" ~ whitespace ~ manyType ~ (whitespace ~ payload ).? ~ End
     | manyType ~ whitespace ~ payload ).map(superobj)
   val sql_literal =
     P( "SQL"
