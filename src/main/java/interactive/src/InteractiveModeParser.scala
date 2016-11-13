@@ -6,28 +6,61 @@
 object InteractiveModeParser {
   import fastparse.all._
 
+  // InteractiveMode representation/ AST Tokens
   object InteractiveMode {
-    // TODO: Add AST symbols
+    sealed trait Statement extends Any {
+      def value: Any
+      def apply(s: java.lang.String): Statement =
+        this.asInstanceOf[Obj].value.find(_._1 == s).get._2
+    }
+
+    case class Help(value: java.lang.String) extends AnyVal with Statement
+    case class Obj(value: (java.lang.String, Statement)*) extends AnyVal with Statement
+    case class SuperObj(value: java.lang.String) extends AnyVal with Statement
+    case class Request(value: java.lang.String) extends AnyVal with Statement
+    case class SQL(value: java.lang.String) extends AnyVal with Statement
+    case class Type(value: java.lang.String) extends AnyVal with Statement
+    case class PluralType(value: java.lang.String) extends AnyVal with Statement // There's got to be a better way to describe the relationship between type and types
+
+    case object Stop extends Statement {
+      def value = Stop
+    }
   }
 
-  val sql_literal: P[String] =
-    P( "SQL"
-      ~ CharsWhile(" \r\n\t".contains(_: Char)).?
-      ~ AnyChar.rep(1).!
-      ~ End)
-  val stop: P[Unit] = P( StringIn("quit","bye") ~ End)
-  val help: P[String] = P( StringIn("help", "?") ~ AnyChar.?.! )
-  val request: P[String] = P( StringIn("create", "show", "update", "delete", "write").! )
-  val `type` = P( StringIn("user", "member", "provider", "service").! ~ "s".?.! )
+  val whitespace = P( CharsWhile(" \r\n\t".contains(_: Char)).? )
+
+  val stop = P( ("quit" | "bye") ~ End)
+    .map(_ => InteractiveMode.Stop)
+  val help = P( ("help" | "?") ~ whitespace ~ AnyChar.rep.! ~ End )
+    .map(InteractiveMode.Help)
+  val request = P( ("create" | "show" | "update" | "delete" | "write").! )
+    .map(InteractiveMode.Request)
+
+  def plural(tuple: (java.lang.String, Option[String]))= {
+    val (t, s) = tuple
+    s match {
+      case Some(_) => InteractiveMode.PluralType(t)
+      case None => InteractiveMode.Type(t)
+    }
+  }
+
+  val `type` = P( ("user" | "member" | "provider" | "service").! ~ "s".!.? )
+    .map(plural)
   val payload = JsonParser.jsonExpr // courtesy of Li Haoyi
-  val `object` = P( `type` ~ payload )
-  val superobject = P( `type` ~ payload ) // TODO: add proper parser
+  val `object` = P( `type` ~ whitespace ~ payload )
+  val superobject = P( `type` ~ whitespace ~ payload ) // TODO: add proper parser
+  val sql_literal =
+    P( "SQL"
+      ~ whitespace
+      ~ AnyChar.rep(1).!
+      ~ End).map(InteractiveMode.SQL)
+
   val expr = P(
       stop |
       help |
-      request
+      request ~ whitespace
         ~ (`object`.rep(1) | superobject) |
-      sql_literal) // TODO: have this actually parse things besides "SQL"
+      sql_literal)
 
   // JSON parser and AST builder, courtesy of:
   // http://www.lihaoyi.com/fastparse/
