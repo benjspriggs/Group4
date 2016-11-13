@@ -19,12 +19,13 @@ object InteractiveModeParser {
     case class SuperObj(value: java.lang.String) extends AnyVal with Statement
     case class Request(value: java.lang.String) extends AnyVal with Statement
     case class SQL(value: java.lang.String) extends AnyVal with Statement
-    case class SingleType(value: java.lang.String) extends Type
-    case class PluralType(value: java.lang.String) extends Type
+    case class Payload(value: JsonParser.Js.Obj) extends AnyVal with Statement
 
-    sealed trait Type extends Statement {
-      override def value: java.lang.String
+    object Type {
+        case class One(value: java.lang.String) extends AnyVal with Statement
+        case class Many(value: java.lang.String) extends AnyVal with Statement
     }
+
     case object Stop extends Statement {
       def value = Stop
     }
@@ -42,28 +43,30 @@ object InteractiveModeParser {
   def plural(tuple: (java.lang.String, Option[String]))= {
     val (t, s) = tuple
     s match {
-      case Some(_) => InteractiveMode.PluralType(t)
-      case None => InteractiveMode.SingleType(t)
+      case Some(_) => InteractiveMode.Type.Many(t)
+      case None => InteractiveMode.Type.One(t)
     }
   }
 
-  val `type` = P( ("user" | "member" | "provider" | "service").! ~ "s".!.? )
-    .map(plural)
+  val `type` = P( ("user" | "member" | "provider" | "service" ).! )
+  val singleType = P( `type` ~ !"s" ).map(InteractiveMode.Type.One)
+  val manyType = P( `type` ~ "s" ).map(InteractiveMode.Type.Many)
   val payload = JsonParser.jsonExpr // courtesy of Li Haoyi
-  val `object` = P( `type` ~ whitespace ~ payload )
-  val superobject = P( "all".? ~ whitespace ~ `type` ~ whitespace ~ payload ) // TODO: add proper parser
+  val `object` = P( singleType ~ whitespace ~ payload )
+  val superobject =
+    P( "all" ~ whitespace ~ manyType ~ (whitespace ~ payload ).?
+    | manyType ~ whitespace ~ payload )
   val sql_literal =
     P( "SQL"
       ~ whitespace
       ~ AnyChar.rep(1).!
       ~ End).map(InteractiveMode.SQL)
 
-  val expr = P(
-      stop |
-      help |
-      request ~ whitespace
-        ~ (`object`.rep(1) | superobject) |
-      sql_literal)
+  val expr = P( stop
+    | help
+    | request ~ whitespace
+        ~ (`object`.rep(1) | superobject)
+    | sql_literal )
 
   // JSON parser and AST builder, courtesy of:
   // http://www.lihaoyi.com/fastparse/
