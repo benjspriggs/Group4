@@ -33,13 +33,13 @@ object InteractiveModeParser {
     }
   }
 
-  val whitespace = P( CharsWhile(" \r\n\t".contains(_: Char)).? )
+  val whitespace = P( CharsWhile(" \r\n\t".contains(_: Char)).? ).opaque("")
 
-  val stop = P( ("quit" | "bye") ~ End)
+  val _stop = P( ("quit" | "bye") ~ End)
     .map(_ => InteractiveMode.Stop)
-  val help = P( ("help" | "?") ~ whitespace ~ AnyChar.rep.! ~ End )
+  val _help = P( ("help" | "?") ~ whitespace ~ AnyChar.rep.! ~ End )
     .map(InteractiveMode.Help)
-  val request = P( ("create" | "show" | "update" | "delete" | "write").! )
+  val _request = P( ("create" | "show" | "update" | "delete" | "write").! )
     .map(InteractiveMode.Request)
 
   private def superobj(tup: (InteractiveMode.Type.Many, Any)) = {
@@ -52,23 +52,31 @@ object InteractiveModeParser {
   }
 
   val `type` = P( ("user" | "member" | "provider" | "service" ).! )
-  val singleType = P( `type` ~ !"s" ).map(InteractiveMode.Type.One)
-  val manyType = P( `type` ~ "s" ).map(InteractiveMode.Type.Many)
-  val payload = JsonParser.jsonExpr // courtesy of Li Haoyi
-  val `object` = P( (singleType ~ whitespace ~ payload).rep(1) ).map(obj(_:_*))
-  val superobject =
-    P( "all" ~ whitespace ~ manyType ~ (whitespace ~ payload ).? ~ End
-    | manyType ~ whitespace ~ payload ).map(superobj)
-  val sql_literal =
+  val _singleType = P( `type` ~/ !"s" ).map(InteractiveMode.Type.One)
+  val _manyType = P( `type` ~/ "s" ).map(InteractiveMode.Type.Many)
+  val _payload = JsonParser.jsonExpr // courtesy of Li Haoyi
+
+  val `_object` = P( (_singleType ~/ whitespace ~/ _payload).rep(1) ).map(obj(_:_*))
+  val _superobject =
+    P( "all" ~/ whitespace ~/ _manyType ~/ (whitespace ~ _payload ).? ~/ End
+    | _manyType ~/ whitespace ~/ _payload ).map(superobj)
+  val _sql_literal =
     P( "SQL"
       ~ whitespace
       ~ AnyChar.rep(1).!
       ~ End).map(InteractiveMode.SQL)
 
+  val stop = _stop.opaque("<stop>")
+  val help = _help.opaque("<help>")
+  val request = _request.opaque("<request>")
+  val `object` = `_object`.opaque("<object>")
+  val superobject = _superobject.opaque("<objects>")
+  val sql_literal = _sql_literal.opaque("<SQL query>")
+
   val expr = P( stop
     | help
-    | request ~ whitespace
-        ~ (`object`.rep(1) | superobject)
+    | ( request ~/ whitespace
+        ~/ (`object`.rep(1) | superobject )).opaque("<request> with <object> or <objects>")
     | sql_literal )
 
   // JSON parser and AST builder, courtesy of:
