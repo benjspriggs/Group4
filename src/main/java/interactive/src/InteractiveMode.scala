@@ -6,8 +6,6 @@
 object InteractiveMode {
   sealed trait Statement extends Any {
     def value: Any
-    //def apply(s: java.lang.String): Statement =
-    //  this.asInstanceOf[Obj].value.find(_._1 == s).get._2
   }
 
   case class Help(value: Option[java.lang.String]) extends AnyVal with Statement

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="53dff48c-3052-4624-ba8e-86c613921f49" name="Default" comment="move tests (whoops)">
+    <list default="true" id="53dff48c-3052-4624-ba8e-86c613921f49" name="Default" comment="refactor InteractiveModeParser">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/interactive/src/InteractiveModeParser.scala" afterPath="$PROJECT_DIR$/src/main/java/interactive/src/InteractiveModeParser.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/interactive/src/InteractiveMode.scala" afterPath="$PROJECT_DIR$/src/main/java/interactive/src/InteractiveMode.scala" />
     </list>
     <ignored path="Group4DataCenter.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,11 +32,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="InteractiveModeParser.scala" pinned="false" current-in-tab="true">
+      <file leaf-file-name="InteractiveModeParser.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/interactive/src/InteractiveModeParser.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+            <state relative-caret-position="459">
+              <caret line="27" column="33" selection-start-line="27" selection-start-column="33" selection-end-line="27" selection-end-column="33" />
               <folding>
                 <element signature="e#1051#1115#0" expanded="false" />
               </folding>
@@ -47,8 +47,8 @@
       <file leaf-file-name="InteractiveModeParser$UnitTest.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$UnitTest.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="72" column="10" selection-start-line="72" selection-start-column="10" selection-end-line="72" selection-end-column="10" />
+            <state relative-caret-position="187">
+              <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
               <folding>
                 <element signature="n#!!doc;n#InteractiveModeParser$UnitTest#0" expanded="false" />
                 <element signature="e#296#380#0" expanded="false" />
@@ -61,6 +61,16 @@
                 <element signature="e#2235#2317#0" expanded="false" />
                 <element signature="e#2431#2514#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="InteractiveMode.scala" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/interactive/src/InteractiveMode.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -358,12 +368,12 @@
         <option value="$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParserTestSuite.scala" />
         <option value="$PROJECT_DIR$/src/main/java/interactive/src/JsonParser.scala" />
         <option value="$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$Test.scala" />
-        <option value="$PROJECT_DIR$/src/main/java/interactive/src/InteractiveMode.scala" />
         <option value="$PROJECT_DIR$/src/main/java/interactive/Grammar.md" />
         <option value="$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParserFixtures.scala" />
         <option value="$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$SmokeTest.scala" />
-        <option value="$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$UnitTest.scala" />
         <option value="$PROJECT_DIR$/src/main/java/interactive/src/InteractiveModeParser.scala" />
+        <option value="$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$UnitTest.scala" />
+        <option value="$PROJECT_DIR$/src/main/java/interactive/src/InteractiveMode.scala" />
       </list>
     </option>
   </component>
@@ -552,36 +562,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="org.jetbrains.plugins.gradle.projectView.GradleTreeStructureProvider$GradleSourceSetDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="interactive" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="datacenter" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Group4" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value=".idea" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -591,7 +571,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="editing.templates" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.import" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -1185,14 +1165,7 @@
       <workItem from="1479028824918" duration="2731000" />
       <workItem from="1479057559206" duration="14371000" />
       <workItem from="1479072861158" duration="15287000" />
-      <workItem from="1479107709773" duration="3646000" />
-    </task>
-    <task id="LOCAL-00015" summary="add payload as type, extend type, start to convert to AST">
-      <created>1479065771643</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1479065771643</updated>
+      <workItem from="1479107709773" duration="3854000" />
     </task>
     <task id="LOCAL-00016" summary="add superobject">
       <created>1479067179388</created>
@@ -1530,15 +1503,19 @@
       <option name="project" value="LOCAL" />
       <updated>1479111220541</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="refactor InteractiveModeParser">
+      <created>1479111389809</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1479111389809</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TestHistory">
     <history-entry file="InteractiveModeParser$SmokeTest - 2016.11.13 at 23h 35m 45s.xml">
       <configuration name="InteractiveModeParser$SmokeTest" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="ScalaTests_in_'test' - 2016.11.13 at 23h 15m 47s.xml">
-      <configuration name="ScalaTests in 'test'" configurationId="ScalaTestRunConfiguration" />
     </history-entry>
     <history-entry file="ScalaTests_in_'test' - 2016.11.13 at 23h 36m 06s.xml">
       <configuration name="ScalaTests in 'test'" configurationId="ScalaTestRunConfiguration" />
@@ -1564,9 +1541,12 @@
     <history-entry file="ScalaTests_in_'test' - 2016.11.14 at 00h 15m 44s.xml">
       <configuration name="ScalaTests in 'test'" configurationId="ScalaTestRunConfiguration" />
     </history-entry>
+    <history-entry file="ScalaTests_in_'test' - 2016.11.14 at 00h 19m 45s.xml">
+      <configuration name="ScalaTests in 'test'" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="49155000" />
+    <option name="totallyTimeSpent" value="49363000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
@@ -1580,7 +1560,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3281412" sideWeight="0.6220682" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32917964" sideWeight="0.4978678" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3281412" sideWeight="0.37793177" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3281412" sideWeight="0.37793177" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32917964" sideWeight="0.4936034" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1612,7 +1592,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="reword, add detail to help specification" />
     <MESSAGE value="add test for literal sql" />
     <MESSAGE value="update test" />
     <MESSAGE value="rename, replace with fixtures" />
@@ -1637,7 +1616,8 @@
     <MESSAGE value="add tests for _sql_literal" />
     <MESSAGE value="add tests for _expr" />
     <MESSAGE value="move tests (whoops)" />
-    <option name="LAST_COMMIT_MESSAGE" value="move tests (whoops)" />
+    <MESSAGE value="refactor InteractiveModeParser" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor InteractiveModeParser" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1986,18 +1966,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/interactive/src/InteractiveMode.scala">
+    <entry file="file://$PROJECT_DIR$/src/main/java/interactive/src/InteractiveModeParser.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="24" selection-start-line="16" selection-start-column="24" selection-end-line="16" selection-end-column="24" />
-          <folding />
+        <state relative-caret-position="459">
+          <caret line="27" column="33" selection-start-line="27" selection-start-column="33" selection-end-line="27" selection-end-column="33" />
+          <folding>
+            <element signature="e#1051#1115#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$UnitTest.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="72" column="10" selection-start-line="72" selection-start-column="10" selection-end-line="72" selection-end-column="10" />
+        <state relative-caret-position="187">
+          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc;n#InteractiveModeParser$UnitTest#0" expanded="false" />
             <element signature="e#296#380#0" expanded="false" />
@@ -2013,13 +1995,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/interactive/src/InteractiveModeParser.scala">
+    <entry file="file://$PROJECT_DIR$/src/main/java/interactive/src/InteractiveMode.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding>
-            <element signature="e#1051#1115#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="136">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
