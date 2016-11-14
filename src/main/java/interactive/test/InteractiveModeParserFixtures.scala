@@ -6,7 +6,9 @@ import org.scalatest.prop.TableDrivenPropertyChecks
   * Created by bspriggs on 11/13/2016.
   */
 trait InteractiveModeParserFixtures extends FlatSpec with TableDrivenPropertyChecks {
+
   val parser = InteractiveModeParser
+
   def fixture = new {
     val helpRequests = Table( "word",
       "help",
