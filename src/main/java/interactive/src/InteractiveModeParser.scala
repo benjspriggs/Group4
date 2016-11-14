@@ -38,7 +38,7 @@ object InteractiveModeParser {
     .map(obj(_:_*))
   val _superobject =
     P( "all" ~ whitespace ~ _manyType ~ (whitespace ~ _payload ).? ~ End
-    | _manyType ~ whitespace ~ _payload ).map(superobj)
+    | _manyType ~ whitespace ~ _payload.? ).map(superobj)
   val _sql_literal =
     P( "SQL"
       ~ whitespace
