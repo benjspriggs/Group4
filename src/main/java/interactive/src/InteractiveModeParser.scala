@@ -45,37 +45,42 @@ object InteractiveModeParser {
   }
   private def superobj(tup: (InteractiveMode.Type.Many, Any)) = {
     val (t, opt) = tup
-    InteractiveMode.SuperObj(t, opt.asInstanceOf[Option[JsonParser.Js.Obj]])
+    opt match { // TODO: this is an ugly, fix with some structural changes of how superobjects are paresd
+      case opt_cast: JsonParser.Js.Obj =>
+        InteractiveMode.SuperObj((t, Some(opt_cast)))
+      case opt_cast: Option[JsonParser.Js.Obj] =>
+        InteractiveMode.SuperObj(t, opt_cast)
+    }
   }
 
 
   val `type` = P( ("user" | "member" | "provider" | "service" ).! )
-  val _singleType = P( `type` ~/ !"s" ).map(InteractiveMode.Type.One)
-  val _manyType = P( `type` ~/ "s" ).map(InteractiveMode.Type.Many)
+  val _singleType = P( `type` ~ !"s" ).map(InteractiveMode.Type.One)
+  val _manyType = P( `type` ~ "s" ).map(InteractiveMode.Type.Many)
   val _payload = JsonParser.jsonExpr // courtesy of Li Haoyi
 
-  val `_object` = P( (_singleType ~/ whitespace ~/ _payload).rep(1) )
+  val `_object` = P( (_singleType ~ whitespace ~ _payload).rep(1) )
     .map(obj(_:_*))
   val _superobject =
-    P( "all" ~/ whitespace ~/ _manyType ~/ (whitespace ~ _payload ).? ~/ End
-    | _manyType ~/ whitespace ~/ _payload ).map(superobj)
+    P( "all" ~ whitespace ~ _manyType ~ (whitespace ~ _payload ).? ~ End
+    | _manyType ~ whitespace ~ _payload ).map(superobj)
   val _sql_literal =
     P( "SQL"
       ~ whitespace
       ~ AnyChar.rep(1).!
       ~ End).map(InteractiveMode.SQL)
 
-  val stop        = _stop.opaque("<stop>")
-  val help        = _help.opaque("<help>")
-  val request     = _request.opaque("<request>")
-  val `object`    = `_object`.opaque("<object>")
-  val superobject = _superobject.opaque("<objects>")
-  val sql_literal = _sql_literal.opaque("<SQL query>")
+  val stop        = _stop       // .opaque("<stop>")
+  val help        = _help       // .opaque("<help>")
+  val request     = _request    // .opaque("<request>")
+  val `object`    = `_object`   // .opaque("<object>")
+  val superobject = _superobject// .opaque("<objects>")
+  val sql_literal = _sql_literal// .opaque("<SQL query>")
 
   val expr = P( stop
     | help
-    | ( request ~/ whitespace
-        ~/ (`object`.rep(1) | superobject ))
-      .opaque("<request> with <object> or <objects>")
+    | ( request ~ whitespace
+        ~ ( superobject | `object`.rep(1) ))
+      // .opaque("<request> with <object> or <objects>")
     | sql_literal )
 }
