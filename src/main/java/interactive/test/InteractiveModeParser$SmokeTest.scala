@@ -6,7 +6,7 @@ import org.scalatest.prop.TableDrivenPropertyChecks
 import org.scalatest.{FlatSpec, Matchers}
 
 class InteractiveModeParser$SmokeTest extends FlatSpec with TableDrivenPropertyChecks with Matchers {
-  import InteractiveModeParser.InteractiveMode._
+  import InteractiveMode._
   import fastparse.core.Parsed
 
   val parser = InteractiveModeParser
