@@ -5,61 +5,12 @@
 import org.scalatest.prop.TableDrivenPropertyChecks
 import org.scalatest.{FlatSpec, Matchers}
 
-class InteractiveModeParser$SmokeTest extends FlatSpec with TableDrivenPropertyChecks with Matchers {
+class InteractiveModeParser$SmokeTest extends InteractiveModeParserFixtures {
   import InteractiveMode._
   import fastparse.core.Parsed
 
   val parser = InteractiveModeParser
 
-  def fixture = new {
-    val helpRequests = Table( "word",
-      "help",
-      "?"
-    )
-
-    val requests = Table(
-      "name",
-      "create",
-      "show",
-      "update",
-      "delete",
-      "write"
-    )
-
-    val typeSingle = Table(
-      "type",
-      "user",
-      "member",
-      "provider",
-      "service"
-    )
-
-    val typeMany = Table(
-      "types",
-      "users",
-      "members",
-      "providers",
-      "services"
-    )
-
-    val stopRequests = Table( "word",
-      "quit",
-      "bye",
-      "exit",
-      ""
-    )
-
-    val validJson = """
-                      |{
-                      | "name": "Kate Abernathy",
-                      | "age": 23,
-                      | "member_number": 4
-                      | }
-                    """.stripMargin
-
-    val literal_sql = """CREATE TABLE bobby (name VARCHAR(40))"""
-  }
-  val f = fixture
 
   def parsesToA[P](a: String, parsed: P) = {
     assert(parser.expr.parse(a) match {
