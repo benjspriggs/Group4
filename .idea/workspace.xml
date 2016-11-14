@@ -37,8 +37,8 @@
           <file leaf-file-name="InteractiveModeParser$UnitTest.scala" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$UnitTest.scala">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="153">
-                  <caret line="66" column="4" selection-start-line="66" selection-start-column="4" selection-end-line="66" selection-end-column="4" />
+                <state relative-caret-position="476">
+                  <caret line="82" column="27" selection-start-line="82" selection-start-column="27" selection-end-line="82" selection-end-column="27" />
                   <folding>
                     <element signature="e#0#24#0" expanded="true" />
                   </folding>
@@ -1199,14 +1199,7 @@
       <workItem from="1479007020661" duration="6546000" />
       <workItem from="1479028824918" duration="2731000" />
       <workItem from="1479057559206" duration="14371000" />
-      <workItem from="1479072861158" duration="13729000" />
-    </task>
-    <task id="LOCAL-00003" summary="add new README.md">
-      <created>1478837466356</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1478837466356</updated>
+      <workItem from="1479072861158" duration="14310000" />
     </task>
     <task id="LOCAL-00004" summary="add scala">
       <created>1478838493066</created>
@@ -1544,7 +1537,14 @@
       <option name="project" value="LOCAL" />
       <updated>1479086367100</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="add tests for _superobject">
+      <created>1479086629735</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1479086629735</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1580,7 +1580,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="43951000" />
+    <option name="totallyTimeSpent" value="44532000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
@@ -1626,7 +1626,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="modules and dependencies are the 10th layer of hell" />
     <MESSAGE value="finally get test suite to work, add basic stop test" />
     <MESSAGE value="change test to not have a useless depencency" />
     <MESSAGE value="move Json parser to its own file" />
@@ -1651,7 +1650,8 @@
     <MESSAGE value="add unit test sketch" />
     <MESSAGE value="add unit tests for _help" />
     <MESSAGE value="add tests for _stop" />
-    <option name="LAST_COMMIT_MESSAGE" value="add tests for _stop" />
+    <MESSAGE value="add tests for _superobject" />
+    <option name="LAST_COMMIT_MESSAGE" value="add tests for _superobject" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2033,8 +2033,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$UnitTest.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="66" column="4" selection-start-line="66" selection-start-column="4" selection-end-line="66" selection-end-column="4" />
+        <state relative-caret-position="476">
+          <caret line="82" column="27" selection-start-line="82" selection-start-column="27" selection-end-line="82" selection-end-column="27" />
           <folding>
             <element signature="e#0#24#0" expanded="true" />
           </folding>

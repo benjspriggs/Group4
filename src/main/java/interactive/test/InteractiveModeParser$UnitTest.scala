@@ -67,13 +67,20 @@ class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
     }
   }
 
-  it should "_request" in {
+  behavior of "_request"
 
+  {
+    "_request" should "parse a request token" in {
+      forAll(f.requests) { word: String => parsesToA(word, Request) }
+    }
+
+    "_request" should "not parse a non-request token" in {
+      forAll(f.requests) { word: String => doesNotParseToA(word + "n", Request) }
+    }
   }
 
-  it should "_payload" in {
-
-  }
+  behavior of "_payload"
+  // should be a JSON object
 
   it should "_manyType" in {
 
