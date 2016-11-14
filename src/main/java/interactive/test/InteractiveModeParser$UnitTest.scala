@@ -1,5 +1,4 @@
 import InteractiveMode._
-import fastparse.core.Parsed
 
 /**
   * Created by bspriggs on 11/13/2016.
@@ -72,20 +71,69 @@ class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
     }
 
     "_request" should "not parse a non-request token" in {
-      forAll(f.requests) { word: String => doesNotParseToA(word + "n", Request, parser._request) }
+      forAll(f.typeSingle) { word: String => doesNotParseToA(word + "n", Request, parser._request) }
     }
   }
 
-  behavior of "_payload"
+  // behavior of "_payload"
   // should be a JSON object, tested in JsonParser$UnitTest
+
+  behavior of "_singleType"
+
+  {
+    "_singleType" should "parse a singular type" in {
+      forAll(f.typeSingle) {
+        word: String => doesParseToA(word, Type.One, parser._singleType) }
+    }
+
+    "_singleType" should "not parse a plural type" in {
+      forAll(f.typeMany) {
+        word: String => doesNotParseToA(word, Type.One, parser._singleType) }
+    }
+  }
 
   behavior of "_manyType"
 
+  {
+    "_manyType" should "parse a plural type" in {
+      forAll(f.typeMany) {
+        word: String => doesParseToA(word, Type.Many, parser._manyType) }
+    }
+
+    "_manyType" should "not parse a singular type" in {
+      forAll(f.typeSingle) {
+        word: String => doesNotParseToA(word, Type.Many, parser._manyType) }
+    }
+  }
+
   behavior of "_object"
+
+  {
+    "_object" should "parse a single type and JSON object" in {
+      forAll(f.typeSingle) {
+        word: String => doesParseToA(word + f.validJson, Obj, parser.`_object`)
+      }
+
+      "_object" should "parse a plural type and single JSON object" in {
+        forAll(f.typeMany) {
+          word: String => doesParseToA(word + f.validJson, Obj, parser.`_object`)
+        }
+      }
+
+      "_object" should "parse a plural type and multiple JSON objects" in {
+        forAll(f.typeMany) {
+          word: String => doesParseToA(word + f.validJson + f.validJson, Obj, parser.`_object`)
+        }
+      }
+
+      "_object" should "not parse a JSON object without a type" in {
+        doesNotParseToA(f.validJson, Obj, parser.`_object`)
+      }
+    }
+  }
 
   behavior of "_sql_literal"
 
-  behavior of "_singleType"
 
   behavior of "_expr"
 
