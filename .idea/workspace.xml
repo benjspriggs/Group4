@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="53dff48c-3052-4624-ba8e-86c613921f49" name="Default" comment="">
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$Test.scala" afterPath="$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$SmokeTest.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$Test.scala" afterPath="$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$Test.scala" />
     </list>
     <ignored path="Group4DataCenter.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -51,25 +51,17 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="InteractiveModeParser$Test.scala" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$Test.scala">
+          <file leaf-file-name="InteractiveModeParser$SmokeTest.scala" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$SmokeTest.scala">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="441">
-                  <caret line="100" column="18" selection-start-line="100" selection-start-column="18" selection-end-line="100" selection-end-column="18" />
+                <state relative-caret-position="68">
+                  <caret line="7" column="28" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
                   <folding>
-                    <element signature="e#386#451#0" expanded="false" />
-                    <element signature="e#479#518#0" expanded="false" />
-                    <element signature="e#542#639#0" expanded="false" />
-                    <element signature="e#665#750#0" expanded="false" />
-                    <element signature="e#774#864#0" expanded="false" />
-                    <element signature="e#884#994#0" expanded="false" />
-                    <element signature="e#1075#1235#0" expanded="false" />
-                    <element signature="e#1128#1231#0" expanded="false" />
-                    <element signature="e#1129#1230#0" expanded="false" />
-                    <element signature="e#1288#1360#0" expanded="false" />
-                    <element signature="e#1402#1584#0" expanded="false" />
-                    <element signature="e#1631#1916#0" expanded="false" />
-                    <element signature="e#1960#2139#0" expanded="false" />
+                    <element signature="e#385#1212#1" expanded="false" />
+                    <element signature="e#1234#1394#0" expanded="false" />
+                    <element signature="e#1447#1521#0" expanded="false" />
+                    <element signature="e#1563#1749#0" expanded="false" />
+                    <element signature="e#1796#2089#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -392,6 +384,7 @@
         <option value="$PROJECT_DIR$/src/main/java/interactive/Grammar.md" />
         <option value="$PROJECT_DIR$/src/main/java/interactive/src/InteractiveModeParser.scala" />
         <option value="$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$Test.scala" />
+        <option value="$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$SmokeTest.scala" />
       </list>
     </option>
   </component>
@@ -1211,7 +1204,7 @@
       <workItem from="1479007020661" duration="6546000" />
       <workItem from="1479028824918" duration="2731000" />
       <workItem from="1479057559206" duration="14371000" />
-      <workItem from="1479072861158" duration="11095000" />
+      <workItem from="1479072861158" duration="11417000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit&#10;">
       <created>1478836857289</created>
@@ -1493,13 +1486,17 @@
       <option name="project" value="LOCAL" />
       <updated>1479083941115</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="update test">
+      <created>1479083985720</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1479083985720</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="InteractiveModeParser$Test - 2016.11.13 at 15h 43m 50s.xml">
-      <configuration name="InteractiveModeParser$Test" configurationId="ScalaTestRunConfiguration" />
-    </history-entry>
     <history-entry file="InteractiveModeParser$Test - 2016.11.13 at 16h 01m 48s.xml">
       <configuration name="InteractiveModeParser$Test" configurationId="ScalaTestRunConfiguration" />
     </history-entry>
@@ -1527,22 +1524,25 @@
     <history-entry file="InteractiveModeParser$Test - 2016.11.13 at 16h 39m 37s.xml">
       <configuration name="InteractiveModeParser$Test" configurationId="ScalaTestRunConfiguration" />
     </history-entry>
+    <history-entry file="InteractiveModeParser$Test - 2016.11.13 at 16h 44m 05s.xml">
+      <configuration name="InteractiveModeParser$Test" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="41317000" />
+    <option name="totallyTimeSpent" value="41639000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32917964" sideWeight="0.3891258" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32917964" sideWeight="0.3859275" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3281412" sideWeight="0.59008527" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32917964" sideWeight="0.6140725" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3281412" sideWeight="0.4099147" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3281412" sideWeight="0.40831557" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32917964" sideWeight="0.4978678" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32917964" sideWeight="0.4936034" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1575,7 +1575,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="it compiles!!!!" />
     <MESSAGE value="fix signatures in unpacking map functions" />
     <MESSAGE value="rename to be less esoteric" />
     <MESSAGE value="add constraint to superobject" />
@@ -1600,7 +1599,8 @@
     <MESSAGE value="add test" />
     <MESSAGE value="reword, add detail to help specification" />
     <MESSAGE value="add test for literal sql" />
-    <option name="LAST_COMMIT_MESSAGE" value="add test for literal sql" />
+    <MESSAGE value="update test" />
+    <option name="LAST_COMMIT_MESSAGE" value="update test" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1628,24 +1628,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$Test.scala">
+    <entry file="file://$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$SmokeTest.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="1" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
           <folding>
-            <element signature="e#386#451#0" expanded="false" />
-            <element signature="e#479#518#0" expanded="false" />
-            <element signature="e#542#639#0" expanded="false" />
-            <element signature="e#665#750#0" expanded="false" />
-            <element signature="e#774#864#0" expanded="false" />
-            <element signature="e#884#994#0" expanded="false" />
-            <element signature="e#1075#1235#0" expanded="false" />
-            <element signature="e#1128#1231#0" expanded="false" />
-            <element signature="e#1129#1230#0" expanded="false" />
-            <element signature="e#1288#1360#0" expanded="false" />
-            <element signature="e#1402#1584#0" expanded="false" />
-            <element signature="e#1631#1916#0" expanded="false" />
-            <element signature="e#1960#2139#0" expanded="false" />
+            <element signature="e#385#1212#1" expanded="false" />
+            <element signature="e#1234#1394#0" expanded="false" />
+            <element signature="e#1447#1521#0" expanded="false" />
+            <element signature="e#1563#1749#0" expanded="false" />
+            <element signature="e#1796#2089#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1989,24 +1981,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$Test.scala">
+    <entry file="file://$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$SmokeTest.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="441">
-          <caret line="100" column="18" selection-start-line="100" selection-start-column="18" selection-end-line="100" selection-end-column="18" />
+        <state relative-caret-position="68">
+          <caret line="7" column="28" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
           <folding>
-            <element signature="e#386#451#0" expanded="false" />
-            <element signature="e#479#518#0" expanded="false" />
-            <element signature="e#542#639#0" expanded="false" />
-            <element signature="e#665#750#0" expanded="false" />
-            <element signature="e#774#864#0" expanded="false" />
-            <element signature="e#884#994#0" expanded="false" />
-            <element signature="e#1075#1235#0" expanded="false" />
-            <element signature="e#1128#1231#0" expanded="false" />
-            <element signature="e#1129#1230#0" expanded="false" />
-            <element signature="e#1288#1360#0" expanded="false" />
-            <element signature="e#1402#1584#0" expanded="false" />
-            <element signature="e#1631#1916#0" expanded="false" />
-            <element signature="e#1960#2139#0" expanded="false" />
+            <element signature="e#385#1212#1" expanded="false" />
+            <element signature="e#1234#1394#0" expanded="false" />
+            <element signature="e#1447#1521#0" expanded="false" />
+            <element signature="e#1563#1749#0" expanded="false" />
+            <element signature="e#1796#2089#0" expanded="false" />
           </folding>
         </state>
       </provider>
