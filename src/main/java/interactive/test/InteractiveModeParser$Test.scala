@@ -98,6 +98,6 @@ class InteractiveModeParser$Test extends FlatSpec with TableDrivenPropertyChecks
   }
 
   it must "handle SQL literals" in {
-    parsesToA(literal_sql, SQL)
+    parsesToA("SQL " ++ literal_sql, SQL)
   }
 }
