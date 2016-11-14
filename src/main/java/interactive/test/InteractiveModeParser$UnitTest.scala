@@ -12,20 +12,17 @@ class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
 
   {
     "_help" should "parse a help token" in {
-      forAll(f.helpRequests) { word: String => doesParseToA(word, Help) }
+      forAll(f.helpRequests) { word: String => doesParseToA(word, Help, parser._help) }
     }
 
     "_help" should "parse a help token and some query, with whitespace" in {
       forAll(f.helpRequests) { word: String =>
-        assert(parser.expr.parse(word + " another word") match {
-          case Parsed.Success(Help(Some("another word")), _) => true
-          case _ => false
-        })
+        doesParseToA(word + " another word", Help, parser._help)
       }
     }
 
     "_help" should "not parse tokens with missing whitespace" in {
-      forAll(f.helpRequests) { word: String => doesNotParseToA(word + "asdfad", Help)}
+      forAll(f.helpRequests) { word: String => doesNotParseToA(word + "asdfad", Help, parser._help)}
     }
   }
 
@@ -33,11 +30,11 @@ class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
 
   {
     "_stop" should "parse a stop token" in {
-      forAll(f.stopRequests) { word: String => doesParseToA(word, Stop)}
+      forAll(f.stopRequests) { word: String => doesParseToA(word, Stop, parser._stop)}
     }
 
     "_stop" should "not parse if there's something after the stop token" in {
-      forAll(f.stopRequests) { word: String => doesNotParseToA(word + "asdfa", Stop)}
+      forAll(f.stopRequests) { word: String => doesNotParseToA(word + "asdfa", Stop, parser._stop)}
     }
   }
 
@@ -52,18 +49,18 @@ class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
 
     "_superobject" should "parse a universal modifier with a type" in {
       forAll(f.typeMany) { word: String =>
-        doesParseToA("all " + word, SuperObj)
+        doesParseToA("all " + word, SuperObj, parser._superobject)
       }
     }
 
     "_superobject" should "parse a universal modifier with a type and clarifying JSON" in {
       forAll(f.typeMany) { word: String =>
-        doesParseToA("all " + word + " " + f.validJson, SuperObj)
+        doesParseToA("all " + word + " " + f.validJson, SuperObj, parser._superobject)
       }
     }
 
     "_superobject" should "not parse a universal modifier without a type" in {
-      doesNotParseToA("all " + f.validJson, SuperObj)
+      doesNotParseToA("all " + f.validJson, SuperObj, parser._superobject)
     }
   }
 
@@ -71,35 +68,25 @@ class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
 
   {
     "_request" should "parse a request token" in {
-      forAll(f.requests) { word: String => doesParseToA(word, Request) }
+      forAll(f.requests) { word: String => doesParseToA(word, Request, parser._request) }
     }
 
     "_request" should "not parse a non-request token" in {
-      forAll(f.requests) { word: String => doesNotParseToA(word + "n", Request) }
+      forAll(f.requests) { word: String => doesNotParseToA(word + "n", Request, parser._request) }
     }
   }
 
   behavior of "_payload"
-  // should be a JSON object
+  // should be a JSON object, tested in JsonParser$UnitTest
 
-  it should "_manyType" in {
+  behavior of "_manyType"
 
-  }
+  behavior of "_object"
 
-  it should "_object" in {
+  behavior of "_sql_literal"
 
-  }
+  behavior of "_singleType"
 
-  it should "_sql_literal" in {
-
-  }
-
-  it should "_singleType" in {
-
-  }
-
-  it should "_expr" in {
-
-  }
+  behavior of "_expr"
 
 }
