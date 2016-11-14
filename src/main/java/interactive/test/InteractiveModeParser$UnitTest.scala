@@ -157,6 +157,28 @@ class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
 
   behavior of "_sql_literal"
 
+  {
+    val p = parser._sql_literal
+
+    "_sql_literal" should "parse a SQL request and query" in {
+      doesParseToA("SQL " + f.literal_sql, SQL, p)
+    }
+
+    "_sql_literal" should "not parse a SQL query without a request" in {
+      doesNotParseToA(f.literal_sql, SQL, p)
+    }
+
+    "_sql_literal" should "not parse a SQL request without a query" in {
+      doesNotParseToA("SQL", SQL, p)
+    }
+
+    "_sql_literal" should "be able to take quoted queries" in {
+      doesParseToA("SQL '" + f.literal_sql + "'", SQL, p)
+      doesParseToA("SQL \"" + f.literal_sql + "\"", SQL, p)
+      doesParseToA("SQL `" + f.literal_sql + "`", SQL, p)
+    }
+  }
+
 
   behavior of "_expr"
 
