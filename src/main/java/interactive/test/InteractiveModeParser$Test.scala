@@ -68,10 +68,15 @@ class InteractiveModeParser$Test extends FlatSpec with TableDrivenPropertyChecks
   }
 
   it must "handle requests for help" in {
-    forAll(helpRequests) { word: String => parsesToA(word, Help) }
+    forAll(helpRequests) { word: String =>
+      parsesToA(word, Help)
+      forAll(typeSingle) { `type`: String =>
+        parsesToA(word ++ " " ++ `type`, Help)
+      }
+    }
   }
 
-  it must "handle generalized requests" in {
+  it must "handle generalized statements" in {
     forAll(requests) { request: String =>
       forAll(typeMany) {
         `type`: String => parsesToA(request ++ " " ++ `type` ++ " " ++ validJson, Request)
@@ -82,7 +87,7 @@ class InteractiveModeParser$Test extends FlatSpec with TableDrivenPropertyChecks
     }
   }
 
-  it must "handle specific requests" in {
+  it must "handle specific statements" in {
     forAll(requests) { request: String =>
       forAll(typeSingle) {
         `type`: String => parsesToA(request ++ " " ++ `type` ++ " " ++ validJson, Request)
