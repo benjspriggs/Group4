@@ -15,30 +15,18 @@ object InteractiveModeParser {
   val _request = P( ("create" | "show" | "update" | "delete" | "write").! )
     .map(InteractiveMode.Request)
 
-  private def obj(tuples: (InteractiveMode.Type.One, InteractiveMode.Payload)*) = {
-    InteractiveMode.Obj(tuples:_*)
-  }
-  private def superobj(tup: (InteractiveMode.Type.Many, Any)) = {
-    val (t, opt) = tup
-    opt match { // TODO: this is an ugly, fix with some structural changes of how superobjects are paresd
-      case opt_cast: JsonParser.Js.Obj =>
-        InteractiveMode.SuperObj((t, Some(opt_cast)))
-      case o: Option[JsonParser.Js.Obj] =>
-        InteractiveMode.SuperObj(t, o)
-    }
-  }
-
-
   val `type` = P( ("user" | "member" | "provider" | "service" ).! )
   val _singleType = P( `type` ~ !"s" ).map(InteractiveMode.Type.One)
   val _manyType = P( `type` ~ "s" ).map(InteractiveMode.Type.Many)
+
   val _payload = JsonParser.jsonExpr // courtesy of Li Haoyi
 
   val `_object` = P( (_singleType ~ whitespace ~ _payload).rep(1) )
-    .map(obj(_:_*))
+    .map(InteractiveMode.Obj(_:_*))
   val _superobject =
     P( "all" ~ whitespace ~ _manyType ~ (whitespace ~ _payload ).? ~ End
-    | _manyType ~ whitespace ~ _payload.? ).map(superobj)
+    | _manyType ~ whitespace ~ _payload.? ).map(InteractiveMode.SuperObj)
+
   val _sql_literal =
     P( "SQL"
       ~ whitespace
