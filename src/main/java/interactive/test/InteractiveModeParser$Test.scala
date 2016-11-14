@@ -56,6 +56,8 @@ class InteractiveModeParser$Test extends FlatSpec with TableDrivenPropertyChecks
       | }
     """.stripMargin
 
+  val literal_sql = """CREATE TABLE bobby (name VARCHAR(40))"""
+
   def parsesToA[P](a: String, parsed: P) = {
     assert(parser.expr.parse(a) match {
       case Parsed.Success(parsed, _) => true
@@ -93,5 +95,9 @@ class InteractiveModeParser$Test extends FlatSpec with TableDrivenPropertyChecks
         `type`: String => parsesToA(request ++ " " ++ `type` ++ " " ++ validJson, Request)
       }
     }
+  }
+
+  it must "handle SQL literals" in {
+    parsesToA(literal_sql, SQL)
   }
 }
