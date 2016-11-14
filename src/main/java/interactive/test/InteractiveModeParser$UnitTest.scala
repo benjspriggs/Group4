@@ -32,17 +32,39 @@ class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
   behavior of "_stop"
 
   {
-      "_stop" should "parse a stop token" in {
-        forAll(f.stopRequests) { word: String => parsesToA(word, Stop)}
-      }
+    "_stop" should "parse a stop token" in {
+      forAll(f.stopRequests) { word: String => parsesToA(word, Stop)}
+    }
 
-      "_stop" should "not parse if there's something after the stop token" in {
-        forAll(f.stopRequests) { word: String => doesNotParseToA(word + "asdfa", Stop)}
-      }
+    "_stop" should "not parse if there's something after the stop token" in {
+      forAll(f.stopRequests) { word: String => doesNotParseToA(word + "asdfa", Stop)}
+    }
   }
 
-  it should "_superobject" in {
+  behavior of "_superobject"
 
+  {
+    "_superobject" should "parse a plural type and a payload" in {
+      forAll(f.typeMany) { word: String =>
+        parsesToA(word + f.validJson, SuperObj)
+      }
+    }
+
+    "_superobject" should "parse a universal modifier with a type" in {
+      forAll(f.typeMany) { word: String =>
+        parsesToA("all " + word, SuperObj)
+      }
+    }
+
+    "_superobject" should "parse a universal modifer with a type and clarifying JSON" in {
+      forAll(f.typeMany) { word: String =>
+        parsesToA("all " + word + " " + f.validJson, SuperObj)
+      }
+    }
+
+    "_superobject" should "not parse a universal modifier without a type" in {
+      doesNotParseToA("all " + f.validJson, SuperObj)
+    }
   }
 
   it should "_request" in {
