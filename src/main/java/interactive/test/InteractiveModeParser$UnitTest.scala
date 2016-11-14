@@ -64,6 +64,19 @@ class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
       }
     }
 
+    "_superobject" should "parse a plural type and single JSON object" in {
+      forAll(f.typeMany) {
+        word: String => doesParseToA(word + f.validJson, Obj, p)
+      }
+    }
+
+    "_superobject" should "parse a plural type and multiple JSON objects" in {
+      forAll(f.typeMany) {
+        word: String => doesParseToA(word + f.validJson + f.validJson, Obj, p)
+      }
+    }
+
+
     "_superobject" should "not parse a universal modifier without a type" in {
       doesNotParseToA("all " + f.validJson, SuperObj, parser._superobject)
     }
@@ -126,18 +139,6 @@ class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
     "_object" should "parse a single type and JSON object" in {
       forAll(f.typeSingle) {
         word: String => doesParseToA(word + f.validJson, Obj, p)
-      }
-    }
-
-    "_object" should "parse a plural type and single JSON object" in {
-      forAll(f.typeMany) {
-        word: String => doesParseToA(word + f.validJson, Obj, p)
-      }
-    }
-
-    "_object" should "parse a plural type and multiple JSON objects" in {
-      forAll(f.typeMany) {
-        word: String => doesParseToA(word + f.validJson + f.validJson, Obj, p)
       }
     }
 
