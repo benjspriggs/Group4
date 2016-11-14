@@ -45,17 +45,23 @@ object InteractiveModeParser {
       ~ AnyChar.rep(1).!
       ~ End).map(InteractiveMode.SQL)
 
-  val stop        = _stop       // .opaque("<stop>")
-  val help        = _help       // .opaque("<help>")
-  val request     = _request    // .opaque("<request>")
-  val `object`    = `_object`   // .opaque("<object>")
-  val superobject = _superobject// .opaque("<objects>")
-  val sql_literal = _sql_literal// .opaque("<SQL query>")
+  val stop        = _stop        .opaque("<stop>")
+  val help        = _help        .opaque("<help>")
+  val request     = _request     .opaque("<request>")
+  val `object`    = `_object`    .opaque("<object>")
+  val superobject = _superobject .opaque("<objects>")
+  val sql_literal = _sql_literal .opaque("<SQL query>")
 
   val expr = P( stop
     | help
     | ( request ~ whitespace
         ~ ( superobject | `object`.rep(1) ))
-      // .opaque("<request> with <object> or <objects>")
+       .opaque("<request> with <object> or <objects>")
     | sql_literal )
+
+  val _expr = P( _stop
+      | _help
+      | ( _request ~ whitespace
+        ~ ( _superobject | `_object`.rep(1) ))
+        | _sql_literal )
 }
