@@ -154,11 +154,10 @@ class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
       }
     }
   }
-}
 
-behavior of "_sql_literal"
+  behavior of "_sql_literal"
 
 
-behavior of "_expr"
+  behavior of "_expr"
 
 }

@@ -37,8 +37,8 @@
           <file leaf-file-name="InteractiveModeParser$UnitTest.scala" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$UnitTest.scala">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-1632">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                <state relative-caret-position="389">
+                  <caret line="157" column="27" selection-start-line="157" selection-start-column="27" selection-end-line="157" selection-end-column="27" />
                   <folding>
                     <element signature="n#!!doc;n#InteractiveModeParser$UnitTest#0" expanded="false" />
                     <element signature="e#296#380#0" expanded="false" />
@@ -1209,14 +1209,7 @@
       <workItem from="1479028824918" duration="2731000" />
       <workItem from="1479057559206" duration="14371000" />
       <workItem from="1479072861158" duration="15287000" />
-      <workItem from="1479107709773" duration="2411000" />
-    </task>
-    <task id="LOCAL-00010" summary="replace usage of scala-combinators library with fastparse, add basic parser">
-      <created>1479013574307</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1479013574307</updated>
+      <workItem from="1479107709773" duration="2440000" />
     </task>
     <task id="LOCAL-00011" summary="change SQL parser to capture strings, sketch out other functionalities">
       <created>1479031036065</created>
@@ -1554,7 +1547,14 @@
       <option name="project" value="LOCAL" />
       <updated>1479109839451</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="refactor unit tests">
+      <created>1479110150996</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1479110150996</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1590,7 +1590,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47920000" />
+    <option name="totallyTimeSpent" value="47949000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
@@ -1636,7 +1636,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="modify Help signature, fiddle with tests" />
     <MESSAGE value="okay well cuts are mmm" />
     <MESSAGE value="wrap lines" />
     <MESSAGE value="update grammar" />
@@ -1661,7 +1660,8 @@
     <MESSAGE value="refactor the interactive mode test fixtures" />
     <MESSAGE value="fix types, refactored fixture" />
     <MESSAGE value="add tests for _object, adjust _request test" />
-    <option name="LAST_COMMIT_MESSAGE" value="add tests for _object, adjust _request test" />
+    <MESSAGE value="refactor unit tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor unit tests" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2033,8 +2033,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$UnitTest.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1632">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="389">
+          <caret line="157" column="27" selection-start-line="157" selection-start-column="27" selection-end-line="157" selection-end-column="27" />
           <folding>
             <element signature="n#!!doc;n#InteractiveModeParser$UnitTest#0" expanded="false" />
             <element signature="e#296#380#0" expanded="false" />
