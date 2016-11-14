@@ -29,8 +29,16 @@ class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
     }
   }
 
-  it should "_stop" in {
+  behavior of "_stop"
 
+  {
+      "_stop" should "parse a stop token" in {
+        forAll(f.stopRequests) { word: String => parsesToA(word, Stop)}
+      }
+
+      "_stop" should "not parse if there's something after the stop token" in {
+        forAll(f.stopRequests) { word: String => doesNotParseToA(word + "asdfa", Stop)}
+      }
   }
 
   it should "_superobject" in {
