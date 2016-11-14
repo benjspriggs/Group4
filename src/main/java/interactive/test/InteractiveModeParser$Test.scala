@@ -11,24 +11,19 @@ class InteractiveModeParser$Test extends FlatSpec with TableDrivenPropertyChecks
 
   val parser = InteractiveModeParser
 
-  val stopRequests =
-    Table(
-      "word",
+  val stopRequests = Table( "word",
       "quit",
       "bye",
       "exit",
       ""
     )
 
-  val helpRequests =
-    Table(
-      "word",
+  val helpRequests = Table( "word",
       "help",
       "?"
     )
 
-  val requests =
-    Table(
+  val requests = Table(
       "name",
       "create",
       "show",
@@ -37,8 +32,7 @@ class InteractiveModeParser$Test extends FlatSpec with TableDrivenPropertyChecks
       "write"
     )
 
-  val typeSingle =
-    Table(
+  val typeSingle = Table(
       "type",
       "user",
       "member",
@@ -46,8 +40,7 @@ class InteractiveModeParser$Test extends FlatSpec with TableDrivenPropertyChecks
       "service"
     )
 
-  val typeMany =
-    Table(
+  val typeMany = Table(
       "types",
       "users",
       "members",
@@ -55,8 +48,7 @@ class InteractiveModeParser$Test extends FlatSpec with TableDrivenPropertyChecks
       "services"
     )
 
-  val validJson =
-    """
+  val validJson = """
       |{
       | "name": "Kate Abernathy",
       | "age": 23,
