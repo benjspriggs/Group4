@@ -4,9 +4,6 @@
 
 class InteractiveModeParser$SmokeTest extends InteractiveModeParserFixtures {
   import InteractiveMode._
-  import fastparse.core.Parsed
-
-
 
   it must "handle requests to stop the session" in {
     forAll(f.stopRequests) { word: String => parsesToA(word, Stop) }
