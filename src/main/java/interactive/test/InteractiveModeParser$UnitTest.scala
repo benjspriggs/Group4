@@ -182,4 +182,72 @@ class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
 
   behavior of "_expr"
 
+  {
+    val p = parser._expr
+
+    "_expr" should "parse a stop request" in {
+      forAll(f.stopRequests) {
+        word: String => doesParseToA(word, Stop, p)
+      }
+    }
+
+    "_expr" should "parse a help request with any known keyword" in {
+      forAll(f.helpRequests) { help: String =>
+        forAll(f.requests) { word: String =>
+          doesParseToA(help + " " + word, Help, p)
+        }
+        forAll(f.typeSingle) { word: String =>
+          doesParseToA(help + " " + word, Help, p)
+        }
+        forAll(f.typeMany) { word: String =>
+          doesParseToA(help + " " + word, Help, p)
+        }
+        forAll(f.stopRequests) { word: String =>
+          doesParseToA(help + " " + word, Help, p)
+        }
+        doesParseToA(help + " any", Help, p)
+      }
+    }
+
+    "_expr" should "parse a request with a singular object" in {
+      forAll(f.requests) { word: String =>
+        forAll(f.typeSingle) { `type`: String =>
+          doesParseToA(word + " " + `type` + f.validJson, Request, p)
+        }
+      }
+    }
+
+    "_expr" should "parse a request with a singular type and multiple objects" in {
+      forAll(f.requests) { word: String =>
+        forAll(f.typeSingle) { `type`: String =>
+          doesParseToA(word + " " + `type` + f.validJson + f.validJson + f.validJson, Request, p)
+        }
+      }
+    }
+
+    "_expr" should "parse a request with a plural type and singular object" in {
+      forAll(f.requests) { word: String =>
+        forAll(f.typeMany) { `type`: String =>
+          doesParseToA(word + " " + `type` + f.validJson, Request, p)
+        }
+      }
+    }
+
+    "_expr" should "parse a generic request with a singular object" in {
+      forAll(f.requests) { word: String =>
+        forAll(f.typeMany) { `type`: String =>
+          doesParseToA(word + " all " + `type` + f.validJson, Request, p)
+        }
+      }
+    }
+
+    "_expr" should "not parse a generic request with multiple objects" in {
+      forAll(f.requests) { word: String =>
+        forAll(f.typeMany) { `type`: String =>
+          doesNotParseToA(word + " all " + `type` + f.validJson + f.validJson + f.validJson, Request, p)
+        }
+      }
+    }
+  }
+
 }
