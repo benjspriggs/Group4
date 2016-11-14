@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="53dff48c-3052-4624-ba8e-86c613921f49" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$Test.scala" afterPath="$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$Test.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/interactive/Grammar.md" afterPath="$PROJECT_DIR$/src/main/java/interactive/Grammar.md" />
     </list>
     <ignored path="Group4DataCenter.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,11 +34,11 @@
     <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="InteractiveModeParser.scala" pinned="false" current-in-tab="true">
+          <file leaf-file-name="InteractiveModeParser.scala" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/interactive/src/InteractiveModeParser.scala">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="270">
-                  <caret line="73" column="23" selection-start-line="73" selection-start-column="23" selection-end-line="73" selection-end-column="23" />
+                <state relative-caret-position="357">
+                  <caret line="63" column="19" selection-start-line="63" selection-start-column="19" selection-end-line="63" selection-end-column="19" />
                   <folding>
                     <element signature="e#219#361#0" expanded="false" />
                     <element signature="e#248#293#0" expanded="false" />
@@ -51,11 +51,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="InteractiveModeParser$Test.scala" pinned="false" current-in-tab="false">
+          <file leaf-file-name="InteractiveModeParser$Test.scala" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$Test.scala">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="355">
-                  <caret line="58" column="17" selection-start-line="58" selection-start-column="17" selection-end-line="58" selection-end-column="17" />
+                <state relative-caret-position="339">
+                  <caret line="75" column="23" selection-start-line="75" selection-start-column="23" selection-end-line="75" selection-end-column="23" />
                   <folding>
                     <element signature="e#386#451#0" expanded="false" />
                     <element signature="e#479#518#0" expanded="false" />
@@ -68,10 +68,6 @@
                     <element signature="e#1064#1165#0" expanded="false" />
                     <element signature="e#1223#1295#0" expanded="false" />
                     <element signature="e#1337#1409#0" expanded="false" />
-                    <element signature="e#1454#1739#0" expanded="false" />
-                    <element signature="e#1477#1735#0" expanded="false" />
-                    <element signature="e#1521#1621#0" expanded="false" />
-                    <element signature="e#1645#1729#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -88,8 +84,8 @@
               </provider>
               <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
                 <state split_layout="FIRST">
-                  <first_editor relative-caret-position="410">
-                    <caret line="41" column="12" selection-start-line="41" selection-start-column="12" selection-end-line="41" selection-end-column="12" />
+                  <first_editor relative-caret-position="172">
+                    <caret line="12" column="9" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
                     <folding />
                   </first_editor>
                   <second_editor />
@@ -385,15 +381,15 @@
         <option value="$PROJECT_DIR$/src/test/java/java/sqldb/schemas/UserSchemaTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/sqldb/schemas/UserSchemaTest.java" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/src/main/java/interactive/Grammar.md" />
         <option value="$PROJECT_DIR$/src/main/java/interactive/src/InteractiveModeToken.scala" />
         <option value="$PROJECT_DIR$/src/main/java/interactive/src/InteractiveModeLexer.scala" />
         <option value="$PROJECT_DIR$/src/main/java/interactive/src/InteractiveModeParser$Test.scala" />
         <option value="$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParserTestSuite" />
         <option value="$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParserTestSuite.scala" />
         <option value="$PROJECT_DIR$/src/main/java/interactive/src/JsonParser.scala" />
-        <option value="$PROJECT_DIR$/src/main/java/interactive/src/InteractiveModeParser.scala" />
         <option value="$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$Test.scala" />
+        <option value="$PROJECT_DIR$/src/main/java/interactive/src/InteractiveModeParser.scala" />
+        <option value="$PROJECT_DIR$/src/main/java/interactive/Grammar.md" />
       </list>
     </option>
   </component>
@@ -1213,7 +1209,7 @@
       <workItem from="1479007020661" duration="6546000" />
       <workItem from="1479028824918" duration="2731000" />
       <workItem from="1479057559206" duration="14371000" />
-      <workItem from="1479072861158" duration="9902000" />
+      <workItem from="1479072861158" duration="10506000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit&#10;">
       <created>1478836857289</created>
@@ -1460,7 +1456,14 @@
       <option name="project" value="LOCAL" />
       <updated>1479082577629</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="wrap lines">
+      <created>1479082795072</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1479082795072</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1496,7 +1499,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="40124000" />
+    <option name="totallyTimeSpent" value="40728000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
@@ -1542,7 +1545,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add AST, more parsers" />
     <MESSAGE value="start to add &quot;all&quot; predicate to superobject" />
     <MESSAGE value="change type to sealed trait" />
     <MESSAGE value="add payload as type, extend type, start to convert to AST" />
@@ -1567,7 +1569,8 @@
     <MESSAGE value="fail some tests, refactor common usages of assert" />
     <MESSAGE value="modify Help signature, fiddle with tests" />
     <MESSAGE value="okay well cuts are mmm" />
-    <option name="LAST_COMMIT_MESSAGE" value="okay well cuts are mmm" />
+    <MESSAGE value="wrap lines" />
+    <option name="LAST_COMMIT_MESSAGE" value="wrap lines" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1611,10 +1614,6 @@
             <element signature="e#1064#1165#0" expanded="false" />
             <element signature="e#1223#1295#0" expanded="false" />
             <element signature="e#1337#1409#0" expanded="false" />
-            <element signature="e#1454#1739#0" expanded="false" />
-            <element signature="e#1477#1735#0" expanded="false" />
-            <element signature="e#1521#1621#0" expanded="false" />
-            <element signature="e#1645#1729#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1929,24 +1928,25 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/interactive/Grammar.md">
-      <provider editor-type-id="MarkdownFxPreviewEditor">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
-        <state split_layout="FIRST">
-          <first_editor relative-caret-position="410">
-            <caret line="41" column="12" selection-start-line="41" selection-start-column="12" selection-end-line="41" selection-end-column="12" />
-            <folding />
-          </first_editor>
-          <second_editor />
+    <entry file="file://$PROJECT_DIR$/src/main/java/interactive/src/InteractiveModeParser.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="63" column="19" selection-start-line="63" selection-start-column="19" selection-end-line="63" selection-end-column="19" />
+          <folding>
+            <element signature="e#219#361#0" expanded="false" />
+            <element signature="e#248#293#0" expanded="false" />
+            <element signature="e#821#985#1" expanded="false" />
+            <element signature="e#1026#1056#0" expanded="false" />
+            <element signature="e#1444#1564#0" expanded="false" />
+            <element signature="e#2494#2558#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/interactive/test/InteractiveModeParser$Test.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="58" column="17" selection-start-line="58" selection-start-column="17" selection-end-line="58" selection-end-column="17" />
+        <state relative-caret-position="339">
+          <caret line="75" column="23" selection-start-line="75" selection-start-column="23" selection-end-line="75" selection-end-column="23" />
           <folding>
             <element signature="e#386#451#0" expanded="false" />
             <element signature="e#479#518#0" expanded="false" />
@@ -1959,26 +1959,21 @@
             <element signature="e#1064#1165#0" expanded="false" />
             <element signature="e#1223#1295#0" expanded="false" />
             <element signature="e#1337#1409#0" expanded="false" />
-            <element signature="e#1454#1739#0" expanded="false" />
-            <element signature="e#1477#1735#0" expanded="false" />
-            <element signature="e#1521#1621#0" expanded="false" />
-            <element signature="e#1645#1729#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/interactive/src/InteractiveModeParser.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="73" column="23" selection-start-line="73" selection-start-column="23" selection-end-line="73" selection-end-column="23" />
-          <folding>
-            <element signature="e#219#361#0" expanded="false" />
-            <element signature="e#248#293#0" expanded="false" />
-            <element signature="e#821#985#1" expanded="false" />
-            <element signature="e#1026#1056#0" expanded="false" />
-            <element signature="e#1444#1564#0" expanded="false" />
-            <element signature="e#2494#2558#0" expanded="false" />
-          </folding>
+    <entry file="file://$PROJECT_DIR$/src/main/java/interactive/Grammar.md">
+      <provider editor-type-id="MarkdownFxPreviewEditor">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="172">
+            <caret line="12" column="9" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
+            <folding />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>

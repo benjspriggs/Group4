@@ -7,6 +7,10 @@ see and understand.
 This grammar is whitespace insensitive.
 
 It's described below in [Extended Backus-Naur form](http://www.garshol.priv.no/download/text/bnf.html#id2.4.):
+
+Note: This grammar lets for some non-sensical requests:
+``create all users { ... }`
+ ¯\_(ツ)_/¯
 ```
 <S> ::= <stop>
 | <help> <request>?
