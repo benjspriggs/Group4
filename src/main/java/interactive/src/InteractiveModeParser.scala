@@ -48,8 +48,8 @@ object InteractiveModeParser {
     opt match { // TODO: this is an ugly, fix with some structural changes of how superobjects are paresd
       case opt_cast: JsonParser.Js.Obj =>
         InteractiveMode.SuperObj((t, Some(opt_cast)))
-      case opt_cast: Option[JsonParser.Js.Obj] =>
-        InteractiveMode.SuperObj(t, opt_cast)
+      case o: Option[JsonParser.Js.Obj] =>
+        InteractiveMode.SuperObj(t, o)
     }
   }
 

@@ -81,4 +81,12 @@ class InteractiveModeParser$Test extends FlatSpec with TableDrivenPropertyChecks
       }
     }
   }
+
+  it must "handle specific requests" in {
+    forAll(requests) { request: String =>
+      forAll(typeSingle) {
+        `type`: String => parsesToA(request ++ " " ++ `type` ++ " " ++ validJson, Request)
+      }
+    }
+  }
 }
