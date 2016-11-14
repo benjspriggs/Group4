@@ -1,3 +1,4 @@
+import fastparse.all
 import fastparse.core.Parsed
 import org.scalatest.FlatSpec
 import org.scalatest.prop.TableDrivenPropertyChecks
@@ -59,15 +60,22 @@ trait InteractiveModeParserFixtures extends FlatSpec with TableDrivenPropertyChe
   }
   val f = fixture
 
-  def parsesToA[P](a: String, parsed: P): Unit = {
-    assert(parser.expr.parse(a) match {
+
+  def doesParseToA[P](a: String,
+                      parsed: P,
+                      parser: all.Parser[Product with Serializable]
+                      = parser.expr) = {
+    assert(parser.parse(a) match {
       case Parsed.Success(parsed, _) => true
       case _ => false
     })
   }
 
-  def doesNotParseToA[P](a: String, parsed: P) = {
-    assert(parser.expr.parse(a) match {
+  def doesNotParseToA[P](a: String,
+                         parsed: P,
+                         parser: all.Parser[Product with Serializable]
+                        = parser.expr) = {
+    assert(parser.parse(a) match {
       case Parsed.Failure(parsed, _, _ ) => true
       case _ => false
     })

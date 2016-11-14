@@ -8,14 +8,14 @@ class InteractiveModeParser$SmokeTest extends InteractiveModeParserFixtures {
   behavior of "InteractiveModeParser"
 
   it must "handle requests to stop the session" in {
-    forAll(f.stopRequests) { word: String => parsesToA(word, Stop) }
+    forAll(f.stopRequests) { word: String => doesParseToA(word, Stop) }
   }
 
   it must "handle requests for help" in {
     forAll(f.helpRequests) { word: String =>
-      parsesToA(word, Help)
+      doesParseToA(word, Help)
       forAll(f.typeSingle) { `type`: String =>
-        parsesToA(word ++ " " ++ `type`, Help)
+        doesParseToA(word ++ " " ++ `type`, Help)
       }
     }
   }
@@ -23,10 +23,10 @@ class InteractiveModeParser$SmokeTest extends InteractiveModeParserFixtures {
   it must "handle generalized statements" in {
     forAll(f.requests) { request: String =>
       forAll(f.typeMany) {
-        `type`: String => parsesToA(request ++ " " ++ `type` ++ " " ++ f.validJson, Request)
+        `type`: String => doesParseToA(request ++ " " ++ `type` ++ " " ++ f.validJson, Request)
       }
       forAll(f.typeMany) {
-        `type`: String => parsesToA(request ++ " all " ++ `type`, Request)
+        `type`: String => doesParseToA(request ++ " all " ++ `type`, Request)
       }
     }
   }
@@ -34,12 +34,12 @@ class InteractiveModeParser$SmokeTest extends InteractiveModeParserFixtures {
   it must "handle specific statements" in {
     forAll(f.requests) { request: String =>
       forAll(f.typeSingle) {
-        `type`: String => parsesToA(request ++ " " ++ `type` ++ " " ++ f.validJson, Request)
+        `type`: String => doesParseToA(request ++ " " ++ `type` ++ " " ++ f.validJson, Request)
       }
     }
   }
 
   it must "handle SQL literals" in {
-    parsesToA("SQL " ++ f.literal_sql, SQL)
+    doesParseToA("SQL " ++ f.literal_sql, SQL)
   }
 }
