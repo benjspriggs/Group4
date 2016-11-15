@@ -1,6 +1,6 @@
-package token
+package interactive.token
 
-import parser.JsonParser
+import interactive.parser.JsonParser
 
 /**
   * Created by bspriggs on 11/13/2016.
@@ -70,5 +70,3 @@ object InteractiveMode {
     def value = Stop
   }
 }
-
-
