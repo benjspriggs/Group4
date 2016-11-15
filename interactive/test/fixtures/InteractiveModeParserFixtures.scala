@@ -69,7 +69,7 @@ trait InteractiveModeParserFixtures extends FlatSpec with TableDrivenPropertyChe
                       pr: all.Parser[Product with Serializable]
                       = parser.expr ) = {
     assert(pr.parse(a) match {
-      case Parsed.Success(parsed, _) => true
+      case Parsed.Success(`parsed`, _) => true
       case _ => false
     })
   }
@@ -79,7 +79,7 @@ trait InteractiveModeParserFixtures extends FlatSpec with TableDrivenPropertyChe
                          pr: all.Parser[Product with Serializable]
                          = parser.expr ) = {
     assert(pr.parse(a) match {
-      case Parsed.Failure(parsed, _, _ ) => true
+      case Parsed.Failure(`parsed`, _, _ ) => true
       case _ => false
     })
   }
