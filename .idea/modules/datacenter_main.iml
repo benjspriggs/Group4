@@ -9,5 +9,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="interactive" />
+    <orderEntry type="library" name="com.lihaoyi:fastparse_2.11:0.4.2" level="project" />
   </component>
 </module>

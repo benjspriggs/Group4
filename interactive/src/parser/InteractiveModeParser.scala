@@ -1,8 +1,11 @@
+package parser
+
 
 /**
   * Created by bspriggs on 11/12/2016.
   */
 import fastparse.all._
+import token.InteractiveMode
 
 object InteractiveModeParser {
 

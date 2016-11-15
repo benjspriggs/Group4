@@ -1,7 +1,10 @@
+package fixtures
+
 import fastparse.all
 import fastparse.core.Parsed
 import org.scalatest.FlatSpec
 import org.scalatest.prop.TableDrivenPropertyChecks
+import parser.InteractiveModeParser
 
 /**
   * Created by bspriggs on 11/13/2016.

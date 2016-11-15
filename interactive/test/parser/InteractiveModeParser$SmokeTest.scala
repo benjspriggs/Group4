@@ -1,9 +1,13 @@
+package parser
+
+import fixtures.InteractiveModeParserFixtures
+
 /**
   * Created by bspriggs on 11/13/2016.
   */
 
 class InteractiveModeParser$SmokeTest extends InteractiveModeParserFixtures {
-  import InteractiveMode._
+  import token.InteractiveMode._
 
   behavior of "InteractiveModeParser"
 

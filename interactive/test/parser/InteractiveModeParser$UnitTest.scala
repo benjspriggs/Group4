@@ -1,11 +1,14 @@
-import InteractiveMode._
+package parser
+
+import fixtures.InteractiveModeParserFixtures
+import token.InteractiveMode._
 
 /**
   * Created by bspriggs on 11/13/2016.
   */
 class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
 
-  behavior of "InteractiveModeParser$UnitTest"
+  behavior of "parser.InteractiveModeParser$UnitTest"
 
   behavior of "_help"
 
