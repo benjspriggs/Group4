@@ -1,5 +1,6 @@
 package sqldb.schemas;
 
+import org.jetbrains.annotations.NotNull;
 import sqldb.SqlDatabaseSchema;
 
 /**
@@ -60,6 +61,7 @@ public class ChocanSchema implements SqlDatabaseSchema {
             + PROVIDER_SQL + PROVIDER_INFO_SQL
             + SERVICE_SQL + SERVICE_LOOKUP_SQL + PERFORMED_SERVICES_SQL;
 
+    @NotNull
     public String createTableStatement() {
         return SQL;
     }

@@ -1,5 +1,6 @@
 package sqldb.schemas;
 
+import org.jetbrains.annotations.NotNull;
 import sqldb.SqlDatabaseSchema;
 
 
@@ -15,6 +16,7 @@ public class UserSchema implements SqlDatabaseSchema {
             "last_login TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP" +
             ");";
 
+    @NotNull
     public String createTableStatement() {
         return SQL;
     }
