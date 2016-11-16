@@ -5,6 +5,7 @@ import java.util.function.Consumer
 
 import fastparse.core.Parsed
 import fastparse.core.Parsed.{Failure, Success}
+import interactive.Tokens.Stop
 import interactive.parser.Parser
 
 import scala.Serializable
@@ -18,7 +19,10 @@ class ReadEvaluatePrintLoop {
   def parseInput(s: String) = parser.parse(s)
 
   def continue(t: Parsed[Product with Serializable, Char, String]): Boolean = t match {
-    case _: Success[Product with Serializable, Char, String] => false
+    case s: Parsed.Success[Product with Serializable, Char, String] => s match {
+      case Parsed.Success(Stop, _) => false
+      case _ => true
+    }
     case _ => true
   }
 
