@@ -8,6 +8,10 @@ repositories {
     mavenCentral()
 }
 
+compileScala {
+    options.compilerArgs << "-feature"
+}
+
 dependencies {
     compile 'org.scala-lang:scala-library:2.11.8'
     compile 'com.lihaoyi:fastparse_2.11:0.4.2'
