@@ -26,7 +26,7 @@ public class ChocanConnection {
             String driver = "com.mysql.jdbc.Driver";
             String url = "jdbc:mysql://localhost:3306/datacenter";
             String username = "temp";
-            String password = "password";
+            String password = "YES";
 
             Class.forName(driver);
             Connection conn = DriverManager.getConnection(url, username, password);
