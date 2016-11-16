@@ -77,14 +77,21 @@ trait InteractiveModeParserFixtures extends FlatSpec with TableDrivenPropertyChe
                       pr: all.Parser[Product with Serializable]
                       = parser.expr ) = {
     val Parsed.Success(par, _) = pr.parse(a)
+    assertResult(parsed.getClass)(par.getClass)
   }
 
   def doesNotParseToA[P](a: String,
                          parsed: P,
                          pr: all.Parser[Product with Serializable]
                          = parser.expr ) = {
-    assertThrows[MatchError] {
+    // assertThrows[MatchError] {
+    //   val Parsed.Success(par, _) = pr.parse(a)
+    // }
+    try {
       val Parsed.Success(par, _) = pr.parse(a)
+      assert(par.getClass != parsed.getClass)
+    } catch {
+      case _: Exception => succeed
     }
   }
 
