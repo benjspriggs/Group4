@@ -4,14 +4,14 @@ import fastparse.all
 import fastparse.core.Parsed
 import org.scalatest.FlatSpec
 import org.scalatest.prop.TableDrivenPropertyChecks
-import interactive.parser.InteractiveModeParser
+import interactive.parser.Parser
 
 /**
   * Created by bspriggs on 11/13/2016.
   */
 trait InteractiveModeParserFixtures extends FlatSpec with TableDrivenPropertyChecks {
 
-  val parser = InteractiveModeParser
+  val parser = Parser
 
   def fixture = new {
     val helpRequests = Table( "word",

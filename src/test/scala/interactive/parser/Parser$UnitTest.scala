@@ -6,9 +6,9 @@ import interactive.fixtures.InteractiveModeParserFixtures
 /**
   * Created by bspriggs on 11/13/2016.
   */
-class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
+class Parser$UnitTest extends InteractiveModeParserFixtures {
 
-  behavior of "interactive.parser.InteractiveModeParser$UnitTest"
+  behavior of "interactive.parser.Parser$UnitTest"
 
   behavior of "_help"
 
