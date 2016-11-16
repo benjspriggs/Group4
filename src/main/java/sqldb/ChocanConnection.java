@@ -39,7 +39,7 @@ public class ChocanConnection {
 
             ResultSet result = statement.executeQuery();
 
-            ArrayList<String> array = new ArrayList<String>();
+            ArrayList<String> array = new ArrayList<>();
             while (result.next()) {
                 System.out.print(result.getString("first"));
                 System.out.print(" ");
