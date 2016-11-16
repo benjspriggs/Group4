@@ -22,14 +22,19 @@ class ReadEvaluatePrintLoop {
     case _ => true
   }
 
+  def helpMessage(t: Parsed[Product with Serializable, Char, String]) = t match {
+    case f: Failure[Char, String] => "Error, unrecognized token at: " + f.msg
+    case s: Success[Product with Serializable, Char, String] => "Success! " + s
+  }
+
   def start(input: InputStream, output: OutputStream) = {
-    // Run the repl loop
+    // Run the REPL
     val reader = new BufferedReader(new InputStreamReader(input))
     val writer = new BufferedWriter(new OutputStreamWriter(output))
     Stream.continually(reader readLine)
       .takeWhile(_ != null)
       .map(parser.parse(_))
       .takeWhile(continue)
-      .foreach((s: Parsed[Product with Serializable,_,_]) => { writer write s.toString; writer flush();})
+      .foreach((s: Parsed[Product with Serializable, Char, String]) => { writer write helpMessage(s); writer flush();})
   }
 }
