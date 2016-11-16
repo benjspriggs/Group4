@@ -3,12 +3,6 @@ package sqldb.schemas;
 import org.jetbrains.annotations.NotNull;
 import sqldb.SqlDatabaseSchema;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-
 /**
  * Created by bspriggs on 11/10/2016.
  */
