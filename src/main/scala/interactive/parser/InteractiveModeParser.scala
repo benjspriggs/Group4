@@ -5,34 +5,34 @@ package interactive.parser
   * Created by bspriggs on 11/12/2016.
   */
 import fastparse.all._
-import interactive.token.InteractiveMode
+import interactive.Tokens
 
 object InteractiveModeParser {
 
   lazy val whitespace = P( CharsWhile(" \r\n\t".contains(_: Char)) ).opaque("")
 
   lazy val _stop = P( ("quit" | "bye" | "exit" ).? ~ End)
-    .map(_ => InteractiveMode.Stop)
+    .map(_ => Tokens.Stop)
   lazy val _help = P( ("help" | "?") ~ (whitespace ~ AnyChar.rep.!).? ~ End )
-    .map(InteractiveMode.Help)
+    .map(Tokens.Help)
   lazy val _request = P( ("create" | "show" | "update" | "delete" | "write").! )
-    .map(InteractiveMode.Request)
+    .map(Tokens.Request)
 
   lazy val `type`      = P( ("user" | "member" | "provider" | "service" ).! )
-  lazy val _singleType = P( `type` ~ !"s" ).map(InteractiveMode.Type.One)
-  lazy val _manyType   = P( `type` ~ "s" ) .map(InteractiveMode.Type.Many)
+  lazy val _singleType = P( `type` ~ !"s" ).map(Tokens.Type.One)
+  lazy val _manyType   = P( `type` ~ "s" ) .map(Tokens.Type.Many)
 
   lazy val _payload = JsonParser.jsonExpr // courtesy of Li Haoyi
 
   lazy val `_object` =
     P( (_singleType ~ whitespace ~ _payload).rep(1) )
-    .map(InteractiveMode.Obj(_:_*))
+    .map(Tokens.Obj(_:_*))
   lazy val _superobject =
     P( "all"
       ~ whitespace
       ~ _manyType
       ~ (whitespace ~ _payload ).? ~ End
-      | _manyType ~ whitespace ~ _payload.? ).map(InteractiveMode.SuperObj)
+      | _manyType ~ whitespace ~ _payload.? ).map(Tokens.SuperObj)
 
   lazy val _request_object = P( _request ~ whitespace ~ ( _superobject | `object`.rep(1)))
 
@@ -41,7 +41,7 @@ object InteractiveModeParser {
       ~ whitespace
       ~ AnyChar.rep(1).!
       ~ End)
-      .map(InteractiveMode.SQL)
+      .map(Tokens.SQL)
 
   lazy val stop           = _stop          .opaque("<stop>")
   lazy val help           = _help          .opaque("<help>")

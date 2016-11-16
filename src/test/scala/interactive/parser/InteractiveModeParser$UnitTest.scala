@@ -1,6 +1,6 @@
 package interactive.parser
 
-import interactive.token.InteractiveMode._
+import interactive.Tokens._
 import interactive.fixtures.InteractiveModeParserFixtures
 
 /**

@@ -1,4 +1,4 @@
-package interactive.token
+package interactive
 
 import interactive.parser.JsonParser
 
@@ -7,7 +7,7 @@ import interactive.parser.JsonParser
   *
   * Interactive Mode AST Tokens
   */
-object InteractiveMode {
+object Tokens {
   sealed trait Statement extends Any {
     def value: Any
   }

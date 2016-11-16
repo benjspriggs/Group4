@@ -7,7 +7,7 @@ import interactive.fixtures.InteractiveModeParserFixtures
   */
 
 class InteractiveModeParser$SmokeTest extends InteractiveModeParserFixtures {
-  import interactive.token.InteractiveMode._
+  import interactive.Tokens._
 
   behavior of "InteractiveModeParser"
 
