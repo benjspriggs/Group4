@@ -38,41 +38,41 @@ object JsonParser {
 
   }
 
-  lazy val Whitespace = NamedFunction(" \r\n".contains(_: Char), "Whitespace")
-  lazy val Digits = NamedFunction('0' to '9' contains (_: Char), "Digits")
-  lazy val StringChars = NamedFunction(!"\"\\".contains(_: Char), "StringChars")
+  val Whitespace = NamedFunction(" \r\n".contains(_: Char), "Whitespace")
+  val Digits = NamedFunction('0' to '9' contains (_: Char), "Digits")
+  val StringChars = NamedFunction(!"\"\\".contains(_: Char), "StringChars")
 
-  lazy val space         = P( CharsWhile(Whitespace).? )
-  lazy val digits        = P( CharsWhile(Digits))
-  lazy val exponent      = P( CharIn("eE") ~ CharIn("+-").? ~ digits )
-  lazy val fractional    = P( "." ~ digits )
-  lazy val integral      = P( "0" | CharIn('1' to '9') ~ digits.? )
+  val space         = P( CharsWhile(Whitespace).? )
+  val digits        = P( CharsWhile(Digits))
+  val exponent      = P( CharIn("eE") ~ CharIn("+-").? ~ digits )
+  val fractional    = P( "." ~ digits )
+  val integral      = P( "0" | CharIn('1' to '9') ~ digits.? )
 
-  lazy val number = P( CharIn("+-").? ~ integral ~ fractional.? ~ exponent.? ).!.map(
+  val number = P( CharIn("+-").? ~ integral ~ fractional.? ~ exponent.? ).!.map(
     x => Js.Num(x.toDouble)
   )
 
-  lazy val `null`        = P( "null" ).map(_ => Js.Null)
-  lazy val `false`       = P( "false" ).map(_ => Js.False)
-  lazy val `true`        = P( "true" ).map(_ => Js.True)
+  val `null`        = P( "null" ).map(_ => Js.Null)
+  val `false`       = P( "false" ).map(_ => Js.False)
+  val `true`        = P( "true" ).map(_ => Js.True)
 
-  lazy val hexDigit      = P( CharIn('0'to'9', 'a'to'f', 'A'to'F') )
-  lazy val unicodeEscape = P( "u" ~ hexDigit ~ hexDigit ~ hexDigit ~ hexDigit )
-  lazy val escape        = P( "\\" ~ (CharIn("\"/\\bfnrt") | unicodeEscape) )
+  val hexDigit      = P( CharIn('0'to'9', 'a'to'f', 'A'to'F') )
+  val unicodeEscape = P( "u" ~ hexDigit ~ hexDigit ~ hexDigit ~ hexDigit )
+  val escape        = P( "\\" ~ (CharIn("\"/\\bfnrt") | unicodeEscape) )
 
-  lazy val strChars = P( CharsWhile(StringChars) )
-  lazy val string =
+  val strChars = P( CharsWhile(StringChars) )
+  val string =
     P( space ~ "\"" ~/ (strChars | escape).rep.! ~ "\"").map(Js.Str)
 
-  lazy val array =
+  val array =
     P( "[" ~/ jsonExpr.rep(sep=",".~/) ~ space ~ "]").map(Js.Arr(_:_*))
 
-  lazy val pair = P( string.map(_.value) ~/ ":" ~/ jsonExpr )
+  val pair = P( string.map(_.value) ~/ ":" ~/ jsonExpr )
 
-  lazy val obj =
+  val obj =
     P( "{" ~/ pair.rep(sep=",".~/) ~ space ~ "}").map(Js.Obj(_:_*))
 
-  lazy val jsonExpr: P[Js.Val] = P(
+  val jsonExpr: P[Js.Val] = P(
     space ~ (obj | array | string | `true` | `false` | `null` | number) ~ space
   )
 }

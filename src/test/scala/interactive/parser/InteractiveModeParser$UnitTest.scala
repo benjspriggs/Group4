@@ -16,17 +16,17 @@ class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
     val p = parser._help
 
     "_help" should "parse a help interactive.token" in {
-      forAll(f.helpRequests) { word: String => doesParseToA(word, Help, p) }
+      forAll(f.helpRequests) { word: String => doesParseToA(word, Help(None), p) }
     }
 
     "_help" should "parse a help interactive.token and some query, with whitespace" in {
       forAll(f.helpRequests) { word: String =>
-        doesParseToA(word + " another word", Help, p)
+        doesParseToA(word + " another word", Help(Some("another word")), p)
       }
     }
 
     "_help" should "not parse tokens with missing whitespace" in {
-      forAll(f.helpRequests) { word: String => doesNotParseToA(word + "asdfad", Help, parser._help)}
+      forAll(f.helpRequests) { word: String => doesNotParseToA(word + "asdfad", Help(Some("asdfad")), parser._help)}
     }
   }
 
@@ -51,7 +51,7 @@ class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
 
     "_superobject" should "parse a plural type and a payload" in {
       forAll(f.typeMany) { word: String =>
-        doesParseToA(word + " " + f.validJson, SuperObj, p)
+        doesParseToA(word + " " + f.validJson, SuperObj(_), p)
       }
     }
 

@@ -2,9 +2,10 @@ package interactive.fixtures
 
 import fastparse.all
 import fastparse.core.Parsed
+import interactive.parser.{InteractiveModeParser, JsonParser}
+import interactive.token.InteractiveMode
 import org.scalatest.FlatSpec
 import org.scalatest.prop.TableDrivenPropertyChecks
-import interactive.parser.InteractiveModeParser
 
 /**
   * Created by bspriggs on 11/13/2016.
@@ -59,36 +60,32 @@ trait InteractiveModeParserFixtures extends FlatSpec with TableDrivenPropertyChe
                       | }
                     """.stripMargin
 
+    def optionJson(s: String = validJson): Option[InteractiveMode.Payload] = JsonParser.jsonExpr.parse(s) match {
+      case s: Parsed.Success[_,_,_] => s match {
+        case Parsed.Success(`s`, _) => Option(`s`.asInstanceOf[InteractiveMode.Payload])
+        case _ => None
+      }
+      case _ => None
+    }
+
     val literal_sql = """CREATE TABLE bobby (name VARCHAR(40))"""
   }
   val f = fixture
-
-  def parses[P](a: String,
-                parsed: P,
-                pr: all.Parser[Product with Serializable]
-                = parser.expr ) = {
-    pr.parse(a) match {
-      case s: Parsed.Success[Product with Serializable, Char, String] => s match {
-        case Parsed.Success(`parsed`, _) => true
-        case _ => false
-      }
-      case _ => false
-    }
-  }
-
 
   def doesParseToA[P](a: String,
                       parsed: P,
                       pr: all.Parser[Product with Serializable]
                       = parser.expr ) = {
-    assert(parses(a, parsed, pr))
+    val Parsed.Success(par, _) = pr.parse(a)
   }
 
   def doesNotParseToA[P](a: String,
                          parsed: P,
                          pr: all.Parser[Product with Serializable]
                          = parser.expr ) = {
-    assertResult(false)(parses(a, parsed, pr))
+    assertThrows[MatchError] {
+      val Parsed.Success(par, _) = pr.parse(a)
+    }
   }
 
 }
