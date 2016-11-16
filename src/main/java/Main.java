@@ -11,10 +11,10 @@ import java.sql.DriverManager;
 public class Main {
     public static void main(String[] args) throws Exception{
 
+        ChocanConnection obj = new ChocanConnection();
         System.out.println("Hello world!");
 
-        ChocanConnection.getConnection();
-        ChocanConnection.getProviderReport();
+        obj.getProviderReport();
 
     }
 

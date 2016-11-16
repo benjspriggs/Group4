@@ -10,8 +10,18 @@ import java.util.ArrayList;
  * Created by bspriggs on 11/15/2016.
  */
 public class ChocanConnection {
-    public static Connection getConnection() throws Exception {
+    private Connection conn;
 
+    public ChocanConnection(){
+        try {
+            conn = getConnection();
+            generateData();
+        } catch (Exception e){
+            // whatever
+        }
+    }
+
+    private Connection getConnection() throws Exception {
         try {
             String driver = "com.mysql.jdbc.Driver";
             String url = "jdbc:mysql://localhost:3306/datacenter";
@@ -24,7 +34,7 @@ public class ChocanConnection {
             return conn;
 
         } catch (Exception e) {
-            System.out.println("Connected");
+            System.out.println("Not connected, exception thrown");
         }
 
 
@@ -32,9 +42,8 @@ public class ChocanConnection {
 
     }
 
-    public static ArrayList<String> getProviderReport() throws Exception {
+    public ArrayList<String> getProviderReport() throws Exception {
         try {
-            Connection conn = getConnection();
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM providers");
 
             ResultSet result = statement.executeQuery();
@@ -51,9 +60,26 @@ public class ChocanConnection {
             System.out.println("DONE");
             return array;
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
 
         return null;
+    }
+
+    private void generateData(){
+        // make some data
+        try {
+            String insertStatement ="INSERT INTO providers " +
+                    "(number, name) VALUES" +
+                    "(?, ?)";
+            PreparedStatement insert = conn.prepareStatement(insertStatement);
+            for (int i = 0; i < 200; i++){
+                insert.setInt(1, i);
+                insert.setString(2, "aslfkjasldfkjasdlfkajsf0");
+                insert.executeUpdate();
+            }
+        } catch (Exception e){
+            // idk
+        }
     }
 }
