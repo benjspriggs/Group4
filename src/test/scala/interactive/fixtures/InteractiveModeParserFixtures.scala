@@ -89,9 +89,6 @@ trait InteractiveModeParserFixtures extends FlatSpec with TableDrivenPropertyChe
                          parsed: P,
                          pr: all.Parser[Product with Serializable]
                          = parser.expr ) = {
-    // assertThrows[MatchError] {
-    //   val Parsed.Success(par, _) = pr.parse(a)
-    // }
     try {
       val Parsed.Success(par, _) = pr.parse(a)
       assert(par.getClass != parsed.getClass)
