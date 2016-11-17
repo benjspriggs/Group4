@@ -4,6 +4,7 @@ import fastparse.all
 import fastparse.core.Parsed
 import interactive.parser.{InteractiveModeParser, JsonParser}
 import interactive.token.InteractiveMode
+import interactive.token.InteractiveMode.Statement
 import org.scalatest.FlatSpec
 import org.scalatest.prop.TableDrivenPropertyChecks
 
