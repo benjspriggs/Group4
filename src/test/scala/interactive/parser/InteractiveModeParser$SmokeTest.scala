@@ -45,12 +45,15 @@ class InteractiveModeParser$SmokeTest extends InteractiveModeParserFixtures {
   it must "handle specific statements" in {
     forAll(f.requests) { request: String =>
       forAll(f.typeSingle) {
-        `type`: String => doesParseToA(request ++ " " ++ `type` ++ " " ++ f.validJson, Request)
+        `type`: String => doesParseToA(
+          request ++ " " ++ `type` ++ " " ++ f.validJson,
+          (Request(request), Obj)
+        )
       }
     }
   }
 
   it must "handle SQL literals" in {
-    doesParseToA("SQL " ++ f.literal_sql, SQL)
+    doesParseToA("SQL " ++ f.literal_sql, SQL(f.literal_sql))
   }
 }
