@@ -110,12 +110,12 @@ class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
 
     "_singleType" should "parse a singular type" in {
       forAll(f.typeSingle) {
-        word: String => doesParseToA(word, Type.One, p) }
+        word: String => doesParseToA(word, Type.One(word), p) }
     }
 
     "_singleType" should "not parse a plural type" in {
       forAll(f.typeMany) {
-        word: String => doesNotParseToA(word, Type.One, p) }
+        word: String => doesNotParseToA(word, Type.One(word), p) }
     }
   }
 
@@ -126,12 +126,12 @@ class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
 
     "_manyType" should "parse a plural type" in {
       forAll(f.typeMany) {
-        word: String => doesParseToA(word, Type.Many, p) }
+        word: String => doesParseToA(word, Type.Many(word), p) }
     }
 
     "_manyType" should "not parse a singular type" in {
       forAll(f.typeSingle) {
-        word: String => doesNotParseToA(word, Type.Many, p) }
+        word: String => doesNotParseToA(word, Type.Many(word), p) }
     }
   }
 
@@ -142,20 +142,21 @@ class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
 
     "_object" should "parse a single type and JSON object" in {
       forAll(f.typeSingle) {
-        word: String => doesParseToA(word + f.validJson, Obj, p)
+        word: String => doesParseToA(word + f.validJson,
+          Obj((Type.One(word), f.parsedJson())), p)
       }
     }
 
     "_object" should "not parse a JSON object without a type" in {
-      doesNotParseToA(f.validJson, Obj, p)
+      doesNotParseToA(f.validJson, Obj((Type.One("type"), f.parsedJson())), p)
     }
 
     "_object" should "not parse a type without a JSON object" in {
       forAll(f.typeSingle) {
-        word: String => doesNotParseToA(word, Obj, p)
+        word: String => doesNotParseToA(word, Obj((Type.One(word), f.parsedJson("{}"))), p)
       }
       forAll(f.typeMany) {
-        word: String => doesNotParseToA(word, Obj, p)
+        word: String => doesNotParseToA(word, Obj((Type.One(word), f.parsedJson("{}"))), p)
       }
     }
   }
