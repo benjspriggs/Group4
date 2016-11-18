@@ -87,7 +87,8 @@ trait InteractiveModeParserFixtures extends FlatSpec with TableDrivenPropertyChe
       val Parsed.Success(par, _) = pr.parse(a)
       assertResult(parsed.getClass, "Expected: " + parsed.getClass.toString)(par.getClass)
     } catch {
-      case me: MatchError => fail(s"While parsing `$a`, encountered error:" + me.getMessage())// The parsing failed
+      case me: MatchError =>
+        fail(s"While parsing `$a`, encountered error:" + me.getMessage())
     }
   }
 
