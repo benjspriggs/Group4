@@ -11,7 +11,7 @@ object Parser {
 
   lazy val whitespace = P( CharsWhile(" \r\n\t".contains(_: Char)) ).opaque("")
 
-  lazy val _stop = P( ("quit" | "bye" | "exit" ).? ~ End)
+  lazy val _stop = P( ( "quit" | "bye" | "exit") ~/ End | End  )
     .map(_ => Tokens.Stop)
   lazy val _help = P( ("help" | "?") ~ (whitespace ~ AnyChar.rep.!).? ~ End )
     .map(Tokens.Help)
