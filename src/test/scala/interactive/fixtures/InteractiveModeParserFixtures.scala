@@ -2,10 +2,8 @@ package interactive.fixtures
 
 import fastparse.all
 import fastparse.core.Parsed
-import fastparse.core.Parsed.Success
-import interactive.parser.{InteractiveModeParser, JsonParser}
-import interactive.token.InteractiveMode
-import interactive.token.InteractiveMode.Statement
+import interactive.Tokens.Payload
+import interactive.parser.{JsonParser, Parser}
 import org.scalatest.FlatSpec
 import org.scalatest.prop.TableDrivenPropertyChecks
 
@@ -14,7 +12,7 @@ import org.scalatest.prop.TableDrivenPropertyChecks
   */
 trait InteractiveModeParserFixtures extends FlatSpec with TableDrivenPropertyChecks {
 
-  val parser = InteractiveModeParser
+  val parser = Parser
 
   def fixture = new {
     val helpRequests = Table( "word",
@@ -62,15 +60,15 @@ trait InteractiveModeParserFixtures extends FlatSpec with TableDrivenPropertyChe
                       | }
                     """.stripMargin
 
-    def optionJson(s: String = validJson): Option[InteractiveMode.Payload] = JsonParser.jsonExpr.parse(s) match {
+    def optionJson(s: String = validJson): Option[Payload] = JsonParser.jsonExpr.parse(s) match {
       case o: Parsed.Success[_,_,_] => o match {
-        case Parsed.Success(opt:InteractiveMode.Payload, _) => Some(opt)
+        case Parsed.Success(opt:Payload, _) => Some(opt)
         case _ => None
       }
       case _ => None
     }
 
-    def parsedJson(s: String = validJson): InteractiveMode.Payload = {
+    def parsedJson(s: String = validJson): Payload = {
       optionJson(s) match {
         case Some(parsed) => parsed
         case None => parsedJson("{}")

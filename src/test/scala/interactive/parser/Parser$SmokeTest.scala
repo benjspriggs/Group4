@@ -1,7 +1,6 @@
 package interactive.parser
 
 import interactive.fixtures.InteractiveModeParserFixtures
-import interactive.token.InteractiveMode
 
 /**
   * Created by bspriggs on 11/13/2016.
@@ -30,13 +29,13 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
       forAll(f.typeMany) {
         `type`: String => doesParseToA(
           request ++ " " ++ `type` ++ " " ++ f.validJson,
-          (Request(request), SuperObj((InteractiveMode.Type.Many(`type`), f.optionJson())))
+          (Request(request), SuperObj((Type.Many(`type`), f.optionJson())))
         )
       }
       forAll(f.typeMany) {
         `type`: String => doesParseToA(
           request ++ " all " ++ `type`,
-          (Request(request), SuperObj((InteractiveMode.Type.Many(`type`), f.optionJson(""))))
+          (Request(request), SuperObj((Type.Many(`type`), f.optionJson(""))))
         )
       }
     }
