@@ -3,6 +3,8 @@ package interactive.parser
 import interactive.token.InteractiveMode._
 import interactive.fixtures.InteractiveModeParserFixtures
 
+import scala.collection.mutable.ArrayBuffer
+
 /**
   * Created by bspriggs on 11/13/2016.
   */
@@ -203,33 +205,37 @@ class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
     "_expr" should "parse a help request with any known keyword" in {
       forAll(f.helpRequests) { help: String =>
         forAll(f.requests) { word: String =>
-          doesParseToA(help + " " + word, Help, p)
+          doesParseToA(help + " " + word, Help(Some(word)), p)
         }
         forAll(f.typeSingle) { word: String =>
-          doesParseToA(help + " " + word, Help, p)
+          doesParseToA(help + " " + word, Help(Some(word)), p)
         }
         forAll(f.typeMany) { word: String =>
-          doesParseToA(help + " " + word, Help, p)
+          doesParseToA(help + " " + word, Help(Some(word)), p)
         }
         forAll(f.stopRequests) { word: String =>
-          doesParseToA(help + " " + word, Help, p)
+          doesParseToA(help + " " + word, Help(Some(word)), p)
         }
-        doesParseToA(help + " any", Help, p)
+        doesParseToA(help + " any", Help(Some("any")), p)
       }
     }
 
     "_expr" should "parse a request with a singular object" in {
       forAll(f.requests) { word: String =>
         forAll(f.typeSingle) { `type`: String =>
-          doesParseToA(word + " " + `type` + f.validJson, Request, p)
+          doesParseToA(word + " " + `type` + f.validJson,
+            (Request(word), Obj((Type.One(`type`), f.parsedJson()))), p)
         }
       }
     }
 
-    "_expr" should "parse a request with a singular type and multiple objects" in {
+    "_expr" should "parse a request with a singular implied type and multiple objects" in {
       forAll(f.requests) { word: String =>
         forAll(f.typeSingle) { `type`: String =>
-          doesParseToA(word + " " + `type` + f.validJson + f.validJson + f.validJson, Request, p)
+          def o = Obj((Type.One(`type`), f.parsedJson()))
+          doesParseToA(word + " " + `type` + f.validJson + f.validJson + f.validJson,
+            (Request(word), ArrayBuffer(o, o, o)),
+            p)
         }
       }
     }
