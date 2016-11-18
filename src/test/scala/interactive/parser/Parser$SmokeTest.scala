@@ -7,10 +7,10 @@ import interactive.token.InteractiveMode
   * Created by bspriggs on 11/13/2016.
   */
 
-class InteractiveModeParser$SmokeTest extends InteractiveModeParserFixtures {
+class Parser$SmokeTest extends InteractiveModeParserFixtures {
   import interactive.Tokens._
 
-  behavior of "InteractiveModeParser"
+  behavior of "Parser"
 
   it must "handle requests to stop the session" in {
     forAll(f.stopRequests) { word: String => doesParseToA(word, Stop) }

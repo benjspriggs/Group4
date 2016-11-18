@@ -7,7 +7,7 @@ package interactive.parser
 import fastparse.all._
 import interactive.Tokens
 
-object InteractiveModeParser {
+object Parser {
 
   lazy val whitespace = P( CharsWhile(" \r\n\t".contains(_: Char)) ).opaque("")
 
