@@ -92,11 +92,11 @@ class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
     val p = parser._request
 
     "_request" should "parse a request interactive.token" in {
-      forAll(f.requests) { word: String => doesParseToA(word, Request, p) }
+      forAll(f.requests) { word: String => doesParseToA(word, Request(word), p) }
     }
 
     "_request" should "not parse a non-request interactive.token" in {
-      forAll(f.typeSingle) { word: String => doesNotParseToA(word + "n", Request, p) }
+      forAll(f.typeSingle) { word: String => doesNotParseToA(word + "n", Request(word), p) }
     }
   }
 
