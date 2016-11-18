@@ -1,6 +1,7 @@
 package interactive.parser
 
 import interactive.fixtures.InteractiveModeParserFixtures
+import interactive.token.InteractiveMode
 
 /**
   * Created by bspriggs on 11/13/2016.
@@ -17,9 +18,9 @@ class InteractiveModeParser$SmokeTest extends InteractiveModeParserFixtures {
 
   it must "handle requests for help" in {
     forAll(f.helpRequests) { word: String =>
-      doesParseToA(word, Help)
+      doesParseToA(word, Help(None))
       forAll(f.typeSingle) { `type`: String =>
-        doesParseToA(word ++ " " ++ `type`, Help)
+        doesParseToA(word ++ " " ++ `type`, Help(Some(`type`)))
       }
     }
   }
@@ -27,10 +28,16 @@ class InteractiveModeParser$SmokeTest extends InteractiveModeParserFixtures {
   it must "handle generalized statements" in {
     forAll(f.requests) { request: String =>
       forAll(f.typeMany) {
-        `type`: String => doesParseToA(request ++ " " ++ `type` ++ " " ++ f.validJson, Request)
+        `type`: String => doesParseToA(
+          request ++ " " ++ `type` ++ " " ++ f.validJson,
+          (Request(request), SuperObj((InteractiveMode.Type.Many(`type`), f.optionJson())))
+        )
       }
       forAll(f.typeMany) {
-        `type`: String => doesParseToA(request ++ " all " ++ `type`, Request)
+        `type`: String => doesParseToA(
+          request ++ " all " ++ `type`,
+          (Request(request), SuperObj((InteractiveMode.Type.Many(`type`), f.optionJson(""))))
+        )
       }
     }
   }
@@ -38,12 +45,15 @@ class InteractiveModeParser$SmokeTest extends InteractiveModeParserFixtures {
   it must "handle specific statements" in {
     forAll(f.requests) { request: String =>
       forAll(f.typeSingle) {
-        `type`: String => doesParseToA(request ++ " " ++ `type` ++ " " ++ f.validJson, Request)
+        `type`: String => doesParseToA(
+          request ++ " " ++ `type` ++ " " ++ f.validJson,
+          (Request(request), Obj)
+        )
       }
     }
   }
 
   it must "handle SQL literals" in {
-    doesParseToA("SQL " ++ f.literal_sql, SQL)
+    doesParseToA("SQL " ++ f.literal_sql, SQL(f.literal_sql))
   }
 }

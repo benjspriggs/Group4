@@ -2,9 +2,12 @@ package interactive.fixtures
 
 import fastparse.all
 import fastparse.core.Parsed
+import fastparse.core.Parsed.Success
+import interactive.parser.{InteractiveModeParser, JsonParser}
+import interactive.token.InteractiveMode
+import interactive.token.InteractiveMode.Statement
 import org.scalatest.FlatSpec
 import org.scalatest.prop.TableDrivenPropertyChecks
-import interactive.parser.InteractiveModeParser
 
 /**
   * Created by bspriggs on 11/13/2016.
@@ -59,29 +62,47 @@ trait InteractiveModeParserFixtures extends FlatSpec with TableDrivenPropertyChe
                       | }
                     """.stripMargin
 
+    def optionJson(s: String = validJson): Option[InteractiveMode.Payload] = JsonParser.jsonExpr.parse(s) match {
+      case o: Parsed.Success[_,_,_] => o match {
+        case Parsed.Success(opt:InteractiveMode.Payload, _) => Some(opt)
+        case _ => None
+      }
+      case _ => None
+    }
+
+    def parsedJson(s: String = validJson): InteractiveMode.Payload = {
+      optionJson(s) match {
+        case Some(parsed) => parsed
+        case None => parsedJson("{}")
+      }
+    }
+
     val literal_sql = """CREATE TABLE bobby (name VARCHAR(40))"""
   }
   val f = fixture
-
 
   def doesParseToA[P](a: String,
                       parsed: P,
                       pr: all.Parser[Product with Serializable]
                       = parser.expr ) = {
-    assert(pr.parse(a) match {
-      case Parsed.Success(`parsed`, _) => true
-      case _ => false
-    })
+    try {
+      val Parsed.Success(par, _) = pr.parse(a)
+      assertResult(parsed.getClass)(par.getClass)
+    } catch {
+      case _: MatchError => fail // The parsing failed
+    }
   }
 
   def doesNotParseToA[P](a: String,
                          parsed: P,
                          pr: all.Parser[Product with Serializable]
                          = parser.expr ) = {
-    assert(pr.parse(a) match {
-      case Parsed.Failure(`parsed`, _, _ ) => true
-      case _ => false
-    })
+    try {
+      val Parsed.Success(par, _) = pr.parse(a)
+      assert(par.getClass != parsed.getClass)
+    } catch {
+      case _: MatchError => succeed
+    }
   }
 
 }
