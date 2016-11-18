@@ -29,10 +29,10 @@ object Parser {
     .map(Tokens.Obj(_:_*))
   lazy val _superobject =
     P( "all"
-      ~ whitespace
+      ~/ whitespace
       ~ _manyType
-      ~ (whitespace ~ _payload ).? ~ End
-      | _manyType ~ whitespace ~ _payload.? ~ End ).map(Tokens.SuperObj)
+      ~/ (whitespace ~ _payload ).? ~/ End
+      | _manyType ~/ whitespace ~ _payload.? ~/ End ).map(Tokens.SuperObj)
 
   lazy val _request_object = P( _request ~ whitespace ~ ( _superobject | `object`.rep(1)))
 
