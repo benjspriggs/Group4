@@ -32,7 +32,7 @@ object Parser {
       ~ whitespace
       ~ _manyType
       ~ (whitespace ~ _payload ).? ~ End
-      | _manyType ~ whitespace ~ _payload.? ).map(Tokens.SuperObj)
+      | _manyType ~ whitespace ~ _payload.? ~ End ).map(Tokens.SuperObj)
 
   lazy val _request_object = P( _request ~ whitespace ~ ( _superobject | `object`.rep(1)))
 

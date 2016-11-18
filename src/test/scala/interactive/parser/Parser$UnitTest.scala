@@ -75,9 +75,9 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       }
     }
 
-    "_superobject" should "parse a plural type and multiple JSON objects" in {
+    "_superobject" should "not parse a plural type and multiple JSON objects" in {
       forAll(f.typeMany) {
-        word: String => doesParseToA(word + f.validJson + f.validJson,
+        word: String => doesNotParseToA(word + f.validJson + f.validJson,
           SuperObj(Type.Many(word), f.optionJson()), p)
       }
     }
