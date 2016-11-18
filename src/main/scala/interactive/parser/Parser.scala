@@ -19,8 +19,8 @@ object Parser {
     .map(Tokens.Request)
 
   lazy val `type`      = P( ("user" | "member" | "provider" | "service" ).! )
-  lazy val _singleType = P( `type` ~/ !"s" ).map(Tokens.Type.One)
-  lazy val _manyType   = P( `type` ~/ "s" ) .map(Tokens.Type.Many)
+  lazy val _singleType = P( `type` ~ !"s" ).map(Tokens.Type.One)
+  lazy val _manyType   = P( `type` ~ "s" ) .map(Tokens.Type.Many)
 
   lazy val _payload = JsonParser.jsonExpr // courtesy of Li Haoyi
 
@@ -34,13 +34,13 @@ object Parser {
       ~/ (whitespace ~ _payload ).? ~/ End
       | _manyType ~/ whitespace ~ _payload.? ~/ End ).map(Tokens.SuperObj)
 
-  lazy val _request_object = P( _request ~ whitespace ~ ( _superobject | `object`.rep(1)))
+  lazy val _request_object = P( _request ~/ whitespace ~/ ( _superobject | `object`.rep(1)))
 
   lazy val _sql_literal =
     P( "SQL"
-      ~ whitespace
-      ~ AnyChar.rep(1).!
-      ~ End)
+      ~/ whitespace
+      ~/ AnyChar.rep(1).!
+      ~/ End)
       .map(Tokens.SQL)
 
   lazy val stop           = _stop          .opaque("<stop>")
