@@ -25,7 +25,7 @@ object Parser {
   lazy val _payload = JsonParser.jsonExpr // courtesy of Li Haoyi
 
   lazy val `_object` =
-    P( (_singleType ~ whitespace ~ _payload).rep(1) )
+    P( (_singleType ~/ whitespace ~/ _payload).rep(1) )
     .map(Tokens.Obj(_:_*))
   lazy val _superobject =
     P( "all"
