@@ -1,7 +1,6 @@
 package interactive
 
 import java.io._
-import java.util.function.Consumer
 
 import fastparse.core.Parsed
 import fastparse.core.Parsed.{Failure, Success}
