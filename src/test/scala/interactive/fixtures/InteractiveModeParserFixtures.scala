@@ -2,6 +2,7 @@ package interactive.fixtures
 
 import fastparse.all
 import fastparse.core.Parsed
+import fastparse.core.Parsed.Success
 import interactive.parser.{InteractiveModeParser, JsonParser}
 import interactive.token.InteractiveMode
 import interactive.token.InteractiveMode.Statement
@@ -62,11 +63,18 @@ trait InteractiveModeParserFixtures extends FlatSpec with TableDrivenPropertyChe
                     """.stripMargin
 
     def optionJson(s: String = validJson): Option[InteractiveMode.Payload] = JsonParser.jsonExpr.parse(s) match {
-      case s: Parsed.Success[_,_,_] => s match {
-        case Parsed.Success(`s`, _) => Option(`s`.asInstanceOf[InteractiveMode.Payload])
+      case o: Parsed.Success[_,_,_] => o match {
+        case Parsed.Success(opt:InteractiveMode.Payload, _) => Some(opt)
         case _ => None
       }
       case _ => None
+    }
+
+    def parsedJson(s: String = validJson): InteractiveMode.Payload = {
+      optionJson(s) match {
+        case Some(parsed) => parsed
+        case None => parsedJson("{}")
+      }
     }
 
     val literal_sql = """CREATE TABLE bobby (name VARCHAR(40))"""

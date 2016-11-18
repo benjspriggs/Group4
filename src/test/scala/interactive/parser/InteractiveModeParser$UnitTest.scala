@@ -51,31 +51,32 @@ class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
 
     "_superobject" should "parse a plural type and a payload" in {
       forAll(f.typeMany) { word: String =>
-        doesParseToA(word + " " + f.validJson, SuperObj(_), p)
+        doesParseToA(word + " " + f.validJson, SuperObj((Type.Many(word), f.optionJson())), p)
       }
     }
 
     "_superobject" should "parse a universal modifier with a type" in {
       forAll(f.typeMany) { word: String =>
-        doesParseToA("all " + word, SuperObj, p)
+        doesParseToA("all " + word, SuperObj((Type.Many(word), None)), p)
       }
     }
 
     "_superobject" should "parse a universal modifier with a type and clarifying JSON" in {
       forAll(f.typeMany) { word: String =>
-        doesParseToA("all " + word + " " + f.validJson, SuperObj, p)
+        doesParseToA("all " + word + " " + f.validJson, SuperObj((Type.Many(word), f.optionJson())), p)
       }
     }
 
     "_superobject" should "parse a plural type and single JSON object" in {
       forAll(f.typeMany) {
-        word: String => doesParseToA(word + f.validJson, Obj, p)
+        word: String => doesParseToA(word + f.validJson, SuperObj((Type.Many(word), f.optionJson())), p)
       }
     }
 
     "_superobject" should "parse a plural type and multiple JSON objects" in {
       forAll(f.typeMany) {
-        word: String => doesParseToA(word + f.validJson + f.validJson, Obj, p)
+        word: String => doesParseToA(word + f.validJson + f.validJson,
+          SuperObj((Type.Many(word), f.optionJson())), p)
       }
     }
 
