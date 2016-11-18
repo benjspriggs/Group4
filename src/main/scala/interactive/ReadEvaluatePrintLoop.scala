@@ -14,7 +14,7 @@ import scala.Serializable
   * Created by bspriggs on 11/15/2016.
   */
 class ReadEvaluatePrintLoop {
-  private lazy val parser = Parser.expr
+  private lazy val parser = Parser.expression
 
   def parseInput(s: String) = parser.parse(s)
 

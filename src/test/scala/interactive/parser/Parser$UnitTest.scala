@@ -194,7 +194,7 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
   behavior of "_expr"
 
   {
-    val p = parser._expr
+    val p = parser._expression
 
     "_expr" should "parse a stop request" in {
       forAll(f.stopRequests) {
