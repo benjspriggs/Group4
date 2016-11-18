@@ -243,7 +243,8 @@ class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
     "_expr" should "parse a request with a plural type and singular object" in {
       forAll(f.requests) { word: String =>
         forAll(f.typeMany) { `type`: String =>
-          doesParseToA(word + " " + `type` + f.validJson, Request, p)
+          doesParseToA(word + " " + `type` + f.validJson,
+            (Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p)
         }
       }
     }
@@ -251,7 +252,8 @@ class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
     "_expr" should "parse a generic request with a singular object" in {
       forAll(f.requests) { word: String =>
         forAll(f.typeMany) { `type`: String =>
-          doesParseToA(word + " all " + `type` + f.validJson, Request, p)
+          doesParseToA(word + " all " + `type` + f.validJson,
+            (Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p)
         }
       }
     }
@@ -259,7 +261,8 @@ class InteractiveModeParser$UnitTest extends InteractiveModeParserFixtures {
     "_expr" should "not parse a generic request with multiple objects" in {
       forAll(f.requests) { word: String =>
         forAll(f.typeMany) { `type`: String =>
-          doesNotParseToA(word + " all " + `type` + f.validJson + f.validJson + f.validJson, Request, p)
+          doesNotParseToA(word + " all " + `type` + f.validJson + f.validJson + f.validJson,
+            (Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p)
         }
       }
     }
