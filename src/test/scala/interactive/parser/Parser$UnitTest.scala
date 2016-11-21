@@ -140,14 +140,14 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
     "_superobject" should "parse a plural type and a payload" in {
       forAll(f.typeMany) { word: String =>
         doesParseToA(word + " " + f.validJson, SuperObj(Type.Many(word), f.optionJson()), p)
-        doesParseToA(word + " report " + f.validJson, SuperObj(Type.Many(word + " report"), f.optionJson()), p)
+        doesParseToA(word + " reports " + f.validJson, SuperObj(Type.Many(word + " reports"), f.optionJson()), p)
       }
     }
 
     "_superobject" should "parse a universal modifier with a type" in {
       forAll(f.typeMany) { word: String =>
         doesParseToA("all " + word, SuperObj(Type.Many(word), None), p)
-        doesParseToA("report all " + word, SuperObj(Type.Many(word + " report"), None), p)
+        doesParseToA("all " + word + " reports", SuperObj(Type.Many(word + " reports"), None), p)
       }
     }
 
