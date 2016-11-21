@@ -36,10 +36,14 @@ It's roughly described below in [Extended Backus-Naur form](http://www.garshol.p
 | 'delete'
 | 'write'
 
-<object> ::= <type> <payload>
+<object> ::= <Type> <payload>
 
-<superobject> ::= <types> <payload>
-| 'all' <types>
+<superobject> ::= <Types> <payload>
+| 'all' <Types>
+
+<Type> ::= 'report'? <type>
+
+<Types> ::= 'reports'? <type>
 
 <type> ::= 'user'
 | 'member' 
