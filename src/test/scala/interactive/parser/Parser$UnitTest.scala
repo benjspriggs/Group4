@@ -28,7 +28,7 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
     }
 
     "_help" should "not parse tokens with missing whitespace" in {
-      forAll(f.helpRequests) { word: String => doesNotParseToA(word + "asdfad", Help(Some("asdfad")), parser._help)}
+      forAll(f.helpRequests) { word: String => doesNotParseToA(word + "asdfad", Help(Some("asdfad")), parser._help) }
     }
   }
 
@@ -38,11 +38,11 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
     val p = parser._stop
 
     "_stop" should "parse a stop interactive.token" in {
-      forAll(f.stopRequests) { word: String => doesParseToA(word, Stop, p)}
+      forAll(f.stopRequests) { word: String => doesParseToA(word, Stop, p) }
     }
 
     "_stop" should "not parse if there's something after the stop interactive.token" in {
-      forAll(f.stopRequests) { word: String => doesNotParseToA(word + "asdfa", Stop, parser._stop)}
+      forAll(f.stopRequests) { word: String => doesNotParseToA(word + "asdfa", Stop, parser._stop) }
     }
   }
 
@@ -323,3 +323,5 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       }
 
     }
+  }
+}
