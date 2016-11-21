@@ -41,9 +41,9 @@ It's roughly described below in [Extended Backus-Naur form](http://www.garshol.p
 <superobject> ::= <Types> <payload>
 | 'all' <Types>
 
-<Type> ::= 'report'? <type>
+<Type> ::= <type> 'report'?
 
-<Types> ::= 'reports'? <type>
+<Types> ::= <types> 'reports'?
 
 <type> ::= 'user'
 | 'member' 
