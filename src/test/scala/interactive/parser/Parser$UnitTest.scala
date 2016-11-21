@@ -92,14 +92,14 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
     "_manyType" should "parse a plural type" in {
       forAll(f.typeMany) {
         word: String => doesParseToA(word, Type.Many(word), p)
-          doesParseToA(s"$word report", Type.Many(s"$word report"), p)
+          doesParseToA(s"$word reports", Type.Many(s"$word reports"), p)
       }
     }
 
     "_manyType" should "not parse a singular type" in {
       forAll(f.typeSingle) {
         word: String => doesNotParseToA(word, Type.Many(word), p)
-          doesNotParseToA(s"$word report", Type.Many(s"$word report"), p)
+          doesNotParseToA(s"$word reports", Type.Many(s"$word reports"), p)
       }
     }
   }
