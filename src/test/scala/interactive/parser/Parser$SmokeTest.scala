@@ -58,17 +58,17 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
 
   it must "handle reports" in {
     forAll(f.requests) {
-      word: String =>
+      request: String =>
       forAll(f.typeSingle) {
-        t: String => doesParseToA(s"$word $t report " ++ f.validJson,
-          (Request(word), Obj((Type.One(t), f.parsedJson()))))
+        t: String => doesParseToA(s"$request report $t" ++ f.validJson,
+          (Request(request), Obj((Type.One(t), f.parsedJson()))))
       }
       forAll(f.typeMany) {
         t: String =>
-          doesParseToA(s"$word $t report " ++ f.validJson,
-          (Request(word), SuperObj((Type.Many(t), f.optionJson()))))
-          doesParseToA(s"$word all $t report ",
-            (Request(word), SuperObj((Type.Many(t), f.optionJson()))))
+          doesParseToA(s"$request reports $t" ++ f.validJson,
+          (Request(request), SuperObj((Type.Many(t), f.optionJson()))))
+          doesParseToA(s"$request all reports $t",
+            (Request(request), SuperObj((Type.Many(t), f.optionJson()))))
       }
     }
   }
