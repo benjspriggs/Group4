@@ -55,4 +55,21 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
   it must "handle SQL literals" in {
     doesParseToA("SQL " ++ f.literal_sql, SQL(f.literal_sql))
   }
+
+  it must "handle reports" in {
+    forAll(f.requests) {
+      word: String =>
+      forAll(f.typeSingle) {
+        t: String => doesParseToA(s"$word $t report " ++ f.validJson,
+          (Request(word), Obj((Type.One(t), f.parsedJson()))))
+      }
+      forAll(f.typeMany) {
+        t: String =>
+          doesParseToA(s"$word $t report " ++ f.validJson,
+          (Request(word), SuperObj((Type.Many(t), f.optionJson()))))
+          doesParseToA(s"$word all $t report ",
+            (Request(word), SuperObj((Type.Many(t), f.optionJson()))))
+      }
+    }
+  }
 }
