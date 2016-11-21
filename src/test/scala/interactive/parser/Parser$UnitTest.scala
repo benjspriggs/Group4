@@ -173,7 +173,6 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
 
     "_superobject" should "not parse a universal modifier without a type" in {
       doesNotParseToA("all " + f.validJson, SuperObj((Type.Many(""), f.optionJson())), p)
-      behavior of "_superobject"
     }
   }
 
