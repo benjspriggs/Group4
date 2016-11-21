@@ -112,12 +112,16 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
 
     "_singleType" should "parse a singular type" in {
       forAll(f.typeSingle) {
-        word: String => doesParseToA(word, Type.One(word), p) }
+        word: String => doesParseToA(word, Type.One(word), p)
+          doesParseToA(s"$word report", Type.One(s"$word report"), p)
+      }
     }
 
     "_singleType" should "not parse a plural type" in {
       forAll(f.typeMany) {
-        word: String => doesNotParseToA(word, Type.One(word), p) }
+        word: String => doesNotParseToA(word, Type.One(word), p)
+          doesNotParseToA(s"$word report", Type.One(s"$word report"), p)
+      }
     }
   }
 
@@ -128,12 +132,16 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
 
     "_manyType" should "parse a plural type" in {
       forAll(f.typeMany) {
-        word: String => doesParseToA(word, Type.Many(word), p) }
+        word: String => doesParseToA(word, Type.Many(word), p)
+          doesParseToA(s"$word report", Type.Many(s"$word report"), p)
+      }
     }
 
     "_manyType" should "not parse a singular type" in {
       forAll(f.typeSingle) {
-        word: String => doesNotParseToA(word, Type.Many(word), p) }
+        word: String => doesNotParseToA(word, Type.Many(word), p)
+          doesNotParseToA(s"$word report", Type.Many(s"$word report"), p)
+      }
     }
   }
 
