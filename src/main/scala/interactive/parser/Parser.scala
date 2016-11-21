@@ -19,8 +19,13 @@ object Parser {
     .map(Tokens.Request)
 
   lazy val `type`      = P( ("user" | "member" | "provider" | "service" ).! )
-  lazy val _singleType = P( `type` ~/ !"s" ).map(Tokens.Type.One)
-  lazy val _manyType   = P( `type` ~ "s" ) .map(Tokens.Type.Many)
+  lazy val _singleType = P( `type` ~/ !"s" ~ (whitespace ~ "report".!).? ).map({
+    case (t, Some(r)) => Tokens.Type.One(s"$t $r")
+    case (t, None) => Tokens.Type.One(t)})
+
+  lazy val _manyType   = P( `type` ~ "s" ~ (whitespace ~ "reports".!).? ).map({
+    case (t, Some(r)) => Tokens.Type.Many(s"$t $r")
+    case (t, None) => Tokens.Type.Many(t)})
 
   lazy val _payload = JsonParser.jsonExpr // courtesy of Li Haoyi
 
