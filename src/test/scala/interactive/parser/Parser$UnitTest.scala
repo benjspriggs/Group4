@@ -174,154 +174,112 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
     "_superobject" should "not parse a universal modifier without a type" in {
       doesNotParseToA("all " + f.validJson, SuperObj((Type.Many(""), f.optionJson())), p)
       behavior of "_superobject"
-
-      {
-        val p = parser._superobject
-
-        "_superobject" should "parse a plural type and a payload" in {
-          forAll(f.typeMany) { word: String =>
-            doesParseToA(word + " " + f.validJson, SuperObj(Type.Many(word), f.optionJson()), p)
-            doesParseToA(word + " report " + f.validJson, SuperObj(Type.Many(word + " report"), f.optionJson()), p)
-          }
-        }
-
-        "_superobject" should "parse a universal modifier with a type" in {
-          forAll(f.typeMany) { word: String =>
-            doesParseToA("all " + word, SuperObj(Type.Many(word), None), p)
-            doesParseToA("report all " + word, SuperObj(Type.Many(word + " report"), None), p)
-          }
-        }
-
-        "_superobject" should "parse a universal modifier with a type and clarifying JSON" in {
-          forAll(f.typeMany) { word: String =>
-            doesParseToA("all " + word + " " + f.validJson, SuperObj(Type.Many(word), f.optionJson()), p)
-          }
-        }
-
-        "_superobject" should "parse a plural type and single JSON object" in {
-          forAll(f.typeMany) {
-            word: String => doesParseToA(word + f.validJson, SuperObj((Type.Many(word), f.optionJson())), p)
-          }
-        }
-
-        "_superobject" should "not parse a plural type and multiple JSON objects" in {
-          forAll(f.typeMany) {
-            word: String => doesNotParseToA(word + f.validJson + f.validJson,
-              SuperObj(Type.Many(word), f.optionJson()), p)
-          }
-        }
-
-
-        "_superobject" should "not parse a universal modifier without a type" in {
-          doesNotParseToA("all " + f.validJson, SuperObj((Type.Many(""), f.optionJson())), p)
-        }
-      }
-
-      behavior of "_sql_literal"
-
-      {
-        val p = parser._sql_literal
-
-        "_sql_literal" should "parse a SQL request and query" in {
-          doesParseToA("SQL " + f.literal_sql, SQL(f.literal_sql), p)
-        }
-
-        "_sql_literal" should "not parse a SQL query without a request" in {
-          doesNotParseToA(f.literal_sql, SQL(f.literal_sql), p)
-        }
-
-        "_sql_literal" should "not parse a SQL request without a query" in {
-          doesNotParseToA("SQL", SQL(""), p)
-        }
-
-        "_sql_literal" should "be able to take quoted queries" in {
-          doesParseToA("SQL '" + f.literal_sql + "'",
-            SQL("'" + f.literal_sql + "'"), p)
-          doesParseToA("SQL \"" + f.literal_sql + "\"",
-            SQL("\"" + f.literal_sql + "\""), p)
-          doesParseToA("SQL `" + f.literal_sql + "`",
-            SQL("`" + f.literal_sql + "`"), p)
-        }
-      }
-
-
-      behavior of "_expr"
-
-      {
-        val p = parser._expression
-
-        "_expr" should "parse a stop request" in {
-          forAll(f.stopRequests) {
-            word: String => doesParseToA(word, Stop, p)
-          }
-        }
-
-        "_expr" should "parse a help request with any known keyword" in {
-          forAll(f.helpRequests) { help: String =>
-            forAll(f.requests) { word: String =>
-              doesParseToA(help + " " + word, Help(Some(word)), p)
-            }
-            forAll(f.typeSingle) { word: String =>
-              doesParseToA(help + " " + word, Help(Some(word)), p)
-            }
-            forAll(f.typeMany) { word: String =>
-              doesParseToA(help + " " + word, Help(Some(word)), p)
-            }
-            forAll(f.stopRequests) { word: String =>
-              doesParseToA(help + " " + word, Help(Some(word)), p)
-            }
-            doesParseToA(help + " any", Help(Some("any")), p)
-          }
-        }
-
-        "_expr" should "parse a request with a singular object" in {
-          forAll(f.requests) { word: String =>
-            forAll(f.typeSingle) { `type`: String =>
-              doesParseToA(word + " " + `type` + f.validJson,
-                (Request(word), Obj((Type.One(`type`), f.parsedJson()))), p)
-            }
-          }
-        }
-
-        "_expr" should "parse a request with a singular implied type and multiple objects" in {
-          forAll(f.requests) { word: String =>
-            forAll(f.typeSingle) { `type`: String =>
-              def o = Obj((Type.One(`type`), f.parsedJson()))
-              doesParseToA(word + " " + `type` + f.validJson + f.validJson + f.validJson,
-                (Request(word), ArrayBuffer(o, o, o)),
-                p)
-            }
-          }
-        }
-
-        "_expr" should "parse a request with a plural type and singular object" in {
-          forAll(f.requests) { word: String =>
-            forAll(f.typeMany) { `type`: String =>
-              doesParseToA(word + " " + `type` + f.validJson,
-                (Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p)
-            }
-          }
-        }
-
-        "_expr" should "parse a generic request with a singular object" in {
-          forAll(f.requests) { word: String =>
-            forAll(f.typeMany) { `type`: String =>
-              doesParseToA(word + " all " + `type` + f.validJson,
-                (Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p)
-            }
-          }
-        }
-
-        "_expr" should "not parse a generic request with multiple objects" in {
-          forAll(f.requests) { word: String =>
-            forAll(f.typeMany) { `type`: String =>
-              doesNotParseToA(word + " all " + `type` + f.validJson + f.validJson + f.validJson,
-                (Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p)
-            }
-          }
-        }
-      }
-
     }
   }
+
+  behavior of "_sql_literal"
+
+  {
+    val p = parser._sql_literal
+
+    "_sql_literal" should "parse a SQL request and query" in {
+      doesParseToA("SQL " + f.literal_sql, SQL(f.literal_sql), p)
+    }
+
+    "_sql_literal" should "not parse a SQL query without a request" in {
+      doesNotParseToA(f.literal_sql, SQL(f.literal_sql), p)
+    }
+
+    "_sql_literal" should "not parse a SQL request without a query" in {
+      doesNotParseToA("SQL", SQL(""), p)
+    }
+
+    "_sql_literal" should "be able to take quoted queries" in {
+      doesParseToA("SQL '" + f.literal_sql + "'",
+        SQL("'" + f.literal_sql + "'"), p)
+      doesParseToA("SQL \"" + f.literal_sql + "\"",
+        SQL("\"" + f.literal_sql + "\""), p)
+      doesParseToA("SQL `" + f.literal_sql + "`",
+        SQL("`" + f.literal_sql + "`"), p)
+    }
+  }
+
+
+  behavior of "_expr"
+
+  {
+    val p = parser._expression
+
+    "_expr" should "parse a stop request" in {
+      forAll(f.stopRequests) {
+        word: String => doesParseToA(word, Stop, p)
+      }
+    }
+
+    "_expr" should "parse a help request with any known keyword" in {
+      forAll(f.helpRequests) { help: String =>
+        forAll(f.requests) { word: String =>
+          doesParseToA(help + " " + word, Help(Some(word)), p)
+        }
+        forAll(f.typeSingle) { word: String =>
+          doesParseToA(help + " " + word, Help(Some(word)), p)
+        }
+        forAll(f.typeMany) { word: String =>
+          doesParseToA(help + " " + word, Help(Some(word)), p)
+        }
+        forAll(f.stopRequests) { word: String =>
+          doesParseToA(help + " " + word, Help(Some(word)), p)
+        }
+        doesParseToA(help + " any", Help(Some("any")), p)
+      }
+    }
+
+    "_expr" should "parse a request with a singular object" in {
+      forAll(f.requests) { word: String =>
+        forAll(f.typeSingle) { `type`: String =>
+          doesParseToA(word + " " + `type` + f.validJson,
+            (Request(word), Obj((Type.One(`type`), f.parsedJson()))), p)
+        }
+      }
+    }
+
+    "_expr" should "parse a request with a singular implied type and multiple objects" in {
+      forAll(f.requests) { word: String =>
+        forAll(f.typeSingle) { `type`: String =>
+          def o = Obj((Type.One(`type`), f.parsedJson()))
+          doesParseToA(word + " " + `type` + f.validJson + f.validJson + f.validJson,
+            (Request(word), ArrayBuffer(o, o, o)),
+            p)
+        }
+      }
+    }
+
+    "_expr" should "parse a request with a plural type and singular object" in {
+      forAll(f.requests) { word: String =>
+        forAll(f.typeMany) { `type`: String =>
+          doesParseToA(word + " " + `type` + f.validJson,
+            (Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p)
+        }
+      }
+    }
+
+    "_expr" should "parse a generic request with a singular object" in {
+      forAll(f.requests) { word: String =>
+        forAll(f.typeMany) { `type`: String =>
+          doesParseToA(word + " all " + `type` + f.validJson,
+            (Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p)
+        }
+      }
+    }
+
+    "_expr" should "not parse a generic request with multiple objects" in {
+      forAll(f.requests) { word: String =>
+        forAll(f.typeMany) { `type`: String =>
+          doesNotParseToA(word + " all " + `type` + f.validJson + f.validJson + f.validJson,
+            (Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p)
+        }
+      }
+    }
+  }
+
 }
