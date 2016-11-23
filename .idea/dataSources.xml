@@ -5,7 +5,13 @@
       <driver-ref>derby.embedded</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.apache.derby.jdbc.EmbeddedDriver</jdbc-driver>
-      <jdbc-url>jdbc:derby:$PROJECT_DIR$/lib/testdb;create=true</jdbc-url>
+      <jdbc-url>jdbc:derby:$PROJECT_DIR$/lib/testdb</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="testdb@localhost" uuid="d31da4c4-35b0-47d6-a8c3-723723a8382c">
+      <driver-ref>derby.remote</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.apache.derby.jdbc.ClientDriver</jdbc-driver>
+      <jdbc-url>jdbc:derby://localhost:1527/testdb</jdbc-url>
     </data-source>
   </component>
 </project>
