@@ -70,10 +70,17 @@ Non-required fields:
 The SQL is going to be a little more hairy for this one.
 ```sql
 BEGIN;
-DECLARE 
-INSERT INTO services (service_code, member_number, provider_number)
-  VALUES (...)
-  OUTPUT services.service_id INTO 
---- The rest of the perfomred services to document
+WITH to_ins (member_number, provider_number,
+             service_code, date_service, is_suspended)
+AS (
+VALUES 
+--- all of the members to insert
+)
+INSERT INTO members (member_number, is_suspended)
+SELECT
+    to_ins.member_number, member_info.number
+FROM
+    member_info
+    JOIN to_ins on to_ins.member_number = member_info.number
 COMMIT;
 ```
