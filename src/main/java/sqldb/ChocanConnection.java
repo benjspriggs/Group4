@@ -23,10 +23,10 @@ public class ChocanConnection {
 
     private Connection getConnection() throws Exception {
         try {
-            String driver = "com.mysql.jdbc.Driver";
-            String url = "jdbc:mysql://localhost:3306/datacenter";
-            String username = "temp";
-            String password = "YES";
+            String driver = "org.apache.derby.jdbc.ClientDriver";
+            String url = "jdbc:derby://localhost:1527/testdb";
+            String username = "test";
+            String password = "password1";
 
             Class.forName(driver);
             Connection conn = DriverManager.getConnection(url, username, password);
@@ -35,6 +35,8 @@ public class ChocanConnection {
 
         } catch (Exception e) {
             System.out.println("Not connected, exception thrown");
+            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
 
