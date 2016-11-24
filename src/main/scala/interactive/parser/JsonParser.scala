@@ -12,9 +12,10 @@ object JsonParser {
   object Js {
     sealed trait Val extends Any {
       def value: Any
-      def apply(i: Int): Val = this.asInstanceOf[Arr].value(i)
+      def apply(i: Int): Val = return this.asInstanceOf[Arr].value.apply(i)
+
       def apply(s: java.lang.String): Val =
-        this.asInstanceOf[Obj].value.find(_._1 == s).get._2
+        return this.asInstanceOf[Obj].value.find(_._1.==(s)).get._2
     }
 
     case class Str(value: java.lang.String) extends AnyVal with Val
@@ -33,14 +34,14 @@ object JsonParser {
   }
 
   case class NamedFunction[T, V](f: T => V, name: String) extends (T => V){
-    def apply(t: T) = f(t)
+    def apply(t: T) = f.apply(t)
     override def toString() = name
 
   }
 
-  val Whitespace = NamedFunction(" \r\n".contains(_: Char), "Whitespace")
-  val Digits = NamedFunction('0' to '9' contains (_: Char), "Digits")
-  val StringChars = NamedFunction(!"\"\\".contains(_: Char), "StringChars")
+  val Whitespace = NamedFunction.apply(" \r\n".contains(_: Char), "Whitespace")
+  val Digits = NamedFunction.apply('0' to '9'.contains((_: Char)), "Digits")
+  val StringChars = NamedFunction.apply(!"\"\\".contains(_: Char), "StringChars")
 
   lazy val space         = P( CharsWhile(Whitespace).? )
   lazy val digits        = P( CharsWhile(Digits))
@@ -49,7 +50,7 @@ object JsonParser {
   lazy val integral      = P( "0" | CharIn('1' to '9') ~ digits.? )
 
   lazy val number = P( CharIn("+-").? ~ integral ~ fractional.? ~ exponent.? ).!.map(
-    x => Js.Num(x.toDouble)
+    x => Js.Num.apply(x.toDouble)
   )
 
   lazy val `null`        = P( "null" ).map(_ => Js.Null)
@@ -65,12 +66,12 @@ object JsonParser {
     P( space ~ "\"" ~/ (strChars | escape).rep.! ~ "\"").map(Js.Str)
 
   lazy val array =
-    P( "[" ~/ jsonExpr.rep(sep=",".~/) ~ space ~ "]").map(Js.Arr(_:_*))
+    P( "[" ~/ jsonExpr.rep(sep=",".~/) ~ space ~ "]").map(Js.Arr.apply(_:_*))
 
   lazy val pair = P( string.map(_.value) ~/ ":" ~/ jsonExpr )
 
   lazy val obj =
-    P( "{" ~/ pair.rep(sep=",".~/) ~ space ~ "}").map(Js.Obj(_:_*))
+    P( "{" ~/ pair.rep(sep=",".~/) ~ space ~ "}").map(Js.Obj.apply(_:_*))
 
   lazy val jsonExpr: P[Js.Val] = P(
     space ~ (obj | array | string | `true` | `false` | `null` | number) ~ space

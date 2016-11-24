@@ -3,35 +3,36 @@
 This is a limited description of how Interactive Mode statements
 are translated into SQL.
 
+Also, for each of these blocks, the general form for each of the
+SQL inserts etc will be given, and each are wrapped in a ``BEGIN;`` 
+and ``COMMIT;``, so all this stuff is transactional.
 ## `create`
 - ### `user`
-```SQL
-BEGIN;
-INSERT INTO users (username, last_login) 
-    VALUES (...);
+```sql
+INSERT INTO app.users (username) 
+    VALUES ('username1'), ('username2');
 -- The rest of the users that are to be created
-COMMIT;
 ```
 - ### `member`
 ```sql
-BEGIN;
-INSERT INTO members (member_number, status)
-    VALUES (...);
-INSERT INTO member_info (member_number, 
+INSERT INTO app.members (number, is_suspended)
+    VALUES (1, false), (2, true);
+```
+
+And if there's additional info:
+```sql
+INSERT INTO app.member_info (member_number, 
             `name`, street_address,
             city, state, zip_code)
   VALUES (...);
 --- The rest of the members that are to be created
-COMMIT;
 ```
 - ### `provider`
 ```sql
-BEGIN;
 INSERT INTO providers (provider_number, name)
     VALUES (...);
 INSERT INTO provider_info (provider_number,
             city, state, zip_code)
-COMMIT;
 ```
 - ### `service`
 So here's some issues. Here's where 
@@ -50,11 +51,9 @@ Required fields:
 
 The SQL is going to look something like this:
 ```sql
-BEGIN;
 INSERT INTO service_info (service_code, `name`, fee, description)
     VALUES (...);
 --- The rest of the service descriptions to insert
-COMMIT;
 ```
 
 #### Service Performance
@@ -69,7 +68,6 @@ Non-required fields:
 
 The SQL is going to be a little more hairy for this one.
 ```sql
-BEGIN;
 WITH to_ins (member_number, provider_number,
              service_code, date_service, is_suspended)
 AS (
@@ -82,5 +80,4 @@ SELECT
 FROM
     member_info
     JOIN to_ins on to_ins.member_number = member_info.number
-COMMIT;
 ```
