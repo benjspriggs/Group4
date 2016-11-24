@@ -69,4 +69,5 @@ public class ChocanSchema implements SqlDatabaseSchema {
     public int schemaVersion() {
         return VERSION;
     }
+
 }
