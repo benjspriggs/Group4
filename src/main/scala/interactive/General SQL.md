@@ -14,18 +14,23 @@ INSERT INTO app.users (username)
 -- The rest of the users that are to be created
 ```
 - ### `member`
+If they provide no information:
 ```sql
 INSERT INTO app.members (number, is_suspended)
     VALUES (1, false), (2, true);
 ```
 
-And if there's additional info:
+If the name is provided:
 ```sql
 INSERT INTO app.member_info (member_number, 
             `name`, street_address,
             city, state, zip_code)
   VALUES (...);
 --- The rest of the members that are to be created
+```
+If the name, and location information is provided:
+```sql
+
 ```
 - ### `provider`
 ```sql
