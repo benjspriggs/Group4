@@ -7,9 +7,9 @@ CREATE VIEW `provider_view` AS
     `locations`.`STREET_ADDRESS` AS `STREET_ADDRESS`,
     `locations`.`ZIPCODE`        AS `ZIPCODE`
   FROM `providers`
-    JOIN `entity_lookup`
+    LEFT JOIN `entity_lookup`
       ON `providers`.`NUMBER` = `entity_lookup`.`PROVIDER_NUMBER`
-    JOIN `locations_lookup`
+    LEFT JOIN `locations_lookup`
       ON entity_lookup.ID = locations_lookup.ENTITY_ID
-    JOIN `locations`
+    LEFT JOIN `locations`
       ON locations_lookup.LOCATION_ID = locations.ID
