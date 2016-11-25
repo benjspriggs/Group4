@@ -1,12 +1,15 @@
-create view PROVIDER_VIEW
-AS
+CREATE VIEW `provider_view` AS
   SELECT
-    PROVIDERS.NUMBER,
-    PROVIDERS.NAME,
-    LOCATIONS.CITY,
-    LOCATIONS.STATE,
-    LOCATIONS.STREET_ADDRESS,
-    LOCATIONS.ZIPCODE
-  FROM PROVIDERS
-    JOIN ENTITY_LOOKUP ON PROVIDERS.NUMBER = ENTITY_LOOKUP.PROVIDER_NUMBER
-    JOIN LOCATIONS ON ENTITY_LOOKUP.PROVIDER_NUMBER = PROVIDERS.NUMBER
+    `providers`.`NUMBER`         AS `NUMBER`,
+    `providers`.`NAME`           AS `NAME`,
+    `locations`.`CITY`           AS `CITY`,
+    `locations`.`STATE`          AS `STATE`,
+    `locations`.`STREET_ADDRESS` AS `STREET_ADDRESS`,
+    `locations`.`ZIPCODE`        AS `ZIPCODE`
+  FROM `providers`
+    JOIN `entity_lookup`
+      ON `providers`.`NUMBER` = `entity_lookup`.`PROVIDER_NUMBER`
+    JOIN `locations_lookup`
+      ON entity_lookup.ID = locations_lookup.ENTITY_ID
+    JOIN `locations`
+      ON locations_lookup.LOCATION_ID = locations.ID
