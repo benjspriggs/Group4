@@ -2,6 +2,6 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/chocan_ddl.sql" dialect="Derby" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/chocan_ddl.sql" dialect="MySQL" />
   </component>
 </project>
