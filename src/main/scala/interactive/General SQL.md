@@ -160,7 +160,7 @@ UPDATE members
 ```
 If you want to update the member's name:
 ```sql
-UPDATE members
+UPDATE member -- TODO: Make joins more specifics
  JOIN member_info USING (NUMBER)
  SET member_info.NAME = @new_name
  -- SET members.is_suspended = @new_status
