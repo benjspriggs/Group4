@@ -155,8 +155,8 @@ UPDATE users
 If all that's being updated is the member status:
 ```sql
 UPDATE members
- SET IS_SUSPENDED=@suspended_status
- WHERE NUMBER=@number
+ SET IS_SUSPENDED=@new_suspended_status
+ WHERE NUMBER=@`number`
 ```
 If you want to update the member's name:
 ```sql
@@ -164,19 +164,19 @@ UPDATE members
  JOIN member_info USING (NUMBER)
  SET member_info.NAME = @new_name
  -- SET members.is_suspended = @new_status
- WHERE NUMBER = @number
+ WHERE NUMBER = @`number`
 ```
 
-If you want to update just the member's address:
+If you want to update just the member's address, given the member's number:
 ```sql
 UPDATE locations
  JOIN locations_lookup ON locations.ID = locations_lookup.location_id
  JOIN members ON locations_lookup.MEMBER_NUMBER = members.NUMBER
- SET STREET_ADDRESS=@street_address,
- CITY=@city,
- STATE=@state,
- ZIPCODE=@zipcode
- WHERE members.number = @number AND 
+ SET STREET_ADDRESS=@new_street_address,
+ CITY=@new_city,
+ STATE=@new_state,
+ ZIPCODE=@new_zipcode
+ WHERE members.number = @`number` AND 
  locations_lookup.location_id = locations.ID
 ```
 - ### `provider`
