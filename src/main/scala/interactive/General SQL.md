@@ -125,7 +125,7 @@ SELECT NUMBER, NAME, STREET_ADDRESS, CITY, STATE, ZIPCODE
  LIMIT 1;
 ```
 - ### `service`
-Another area for clarification. For now, default giving lots of information about the service.
+Another area for clarification. For now, default to giving lots of information about the service.
 ```sql
 SELECT service_info.NAME, service_info.DESCRIPTION, service_info.SERVICE_CODE
  FROM service_info 
@@ -246,11 +246,25 @@ SERVICE_ID=@`service_id`
 ```
 ## `delete`
 - ### `user`
+```sql
+DELETE FROM users WHERE USERNAME = @username_to_delete;
+```
 - ### `member`
+```sql
+DELETE FROM members WHERE NUMBER = @number_to_delete;
+```
 - ### `provider`
+```sql
+DELETE FROM members WHERE NUMBER = @number_to_delete;
+```
 - ### `service`
+```sql
+DELETE FROM service_info WHERE SERVICE_CODE = @service_code_to_delete;
+```
 ## `write`
-- ### `user`
-- ### `member`
-- ### `provider`
-- ### `service`
+- ### `member report`
+Pipe everything that `show member report` does, but to a file.
+- ### `provider report`
+Pipe everything that `show provider report` does, but to a file.
+- ### `service report`
+Pipe everything that `show service report` does, but to a file.
