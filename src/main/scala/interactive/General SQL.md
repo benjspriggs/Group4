@@ -1,6 +1,6 @@
 # General SQL Translation
 
-This is a limited description of how Interactive Mode statements
+This is a general description of how Interactive Mode statements
 are translated into SQL.
 
 Also, for each of these blocks, the general form for each of the
