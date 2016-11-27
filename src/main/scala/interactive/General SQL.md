@@ -226,6 +226,24 @@ UPDATE providers -- TODO: Make joins more specific
  WHERE providers.number = @`number`
 ```
 - ### `service`
+We can update the general information for a service:
+```sql
+UPDATE service_info
+SET DESCRIPTION = @new_description,
+NAME = @new_name,
+FEE = @new_fee
+WHERE
+SERVICE_CODE=@`service_code`
+```
+
+We can update comments for a specific service event, or performed service given its unique service id:
+```sql
+UPDATE performed_services
+SET COMMENTS=@new_comments,
+DATE_SERVICE=@new_date_service
+WHERE
+SERVICE_ID=@`service_id`
+```
 ## `delete`
 - ### `user`
 - ### `member`
