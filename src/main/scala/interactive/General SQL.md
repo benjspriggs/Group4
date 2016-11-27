@@ -271,18 +271,18 @@ SERVICE_ID=@`service_id`
 ```
 ## `delete`
 - ### `user`
-```sql
+``
 DELETE FROM users WHERE USERNAME = @username_to_delete;
-```
+``
 - ### `member`
-```sql
+```s``
 DELETE FROM members WHERE NUMBER = @number_to_delete;
-```
+``
 - ### `provider`
-```sql
+``
 DELETE FROM members WHERE NUMBER = @number_to_delete;
-```
+``
 - ### `service`
-```sql
+``
 DELETE FROM service_info WHERE SERVICE_CODE = @service_code_to_delete;
-```
+``
