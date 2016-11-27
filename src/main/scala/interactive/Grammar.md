@@ -17,8 +17,8 @@ It's roughly described below in [Extended Backus-Naur form](http://www.garshol.p
 ```
 <S> ::= <stop>
 | <help> <request>?
-| <request> 'report'? <object>+
-| <request> 'report'? <superobject>
+| <request> <object>+
+| <request> <superobject>
 | 'SQL' <sSQL>
 
 <sSQL> ::= (Grammar for a valid SQL statement)
