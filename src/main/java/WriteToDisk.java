@@ -112,12 +112,12 @@ public class WriteToDisk {
                 serve_date + "\n\t" + "Date and Time Computer Received Data: " + comp_time +
                 "\n\t" + "Member Name: " + mem_name + "\n\t" + "Member Number: " +
                 Integer.toString(mem_num) + "\n\t" + "Service Code: " + Integer.toString(serve_id) +
-                "\n\t" + "Fee: " + Double.toString(fee) + "\n\n";
+                "\n\t" + "Fee: $" + Double.toString(fee) + "\n\n";
 
 
         //Add totals and append to report
         to_write += "Total Number of Consultants With Members: " +
-                Integer.toString(total_consult) + '\n' + "Total Fee: " +
+                Integer.toString(total_consult) + '\n' + "Total Fee: $" +
                 Double.toString(total_fee);
 
         //write report to file
@@ -136,6 +136,43 @@ public class WriteToDisk {
 
     public void WriteOutSummary()
     {
+        //Variables that will be written to the report. These will need to be updated to
+        //pull info from the sql database.
+
+        int total_prov = 0;
+        int total_consult = 0;
+        double week_fee = 0;
+
+        String prov_name = "test name";
+        int consult_num = 2;
+        double total_fee = 999.99;
+        String to_write = "";
+
+        total_prov += 1;
+        total_consult += consult_num;
+        week_fee += total_fee;
+
+        to_write += "Provider " + total_prov + "\n\t" + "Provider Name: " + prov_name +
+                "\n\t" + "Number of consultants for provider: " + Integer.toString(consult_num) +
+                "\n\t" + "Total fee for provider: " + Double.toString(total_fee) + "\n\n";
+
+         //Some sort of loop will be needed here to go over each provider.
+
+
+        //add totals
+        to_write += "Total amount of providers: " + Integer.toString(total_prov) + '\n' +
+                "Total amount of consultants: " + Integer.toString(total_consult) + '\n' +
+                "Total fee for the week: " + Double.toString(week_fee);
+
+        //write report to file
+        WriteFile data = new WriteFile("Accounts Payable.txt");
+        try {
+            data.writeToFile(to_write);
+        }
+        catch (IOException e){
+            System.out.println("IOException caught");
+        }
+
 
     }
 }
