@@ -10,9 +10,7 @@ CREATE VIEW member_view AS
   FROM members
     LEFT JOIN member_info
       ON members.NUMBER = member_info.NUMBER
-    LEFT JOIN entity_lookup
-      ON members.NUMBER = entity_lookup.MEMBER_NUMBER
     LEFT JOIN locations_lookup
-      ON locations_lookup.ENTITY_ID = entity_lookup.ID
+      ON members.NUMBER = locations_lookup.MEMBER_NUMBER
     LEFT JOIN locations
       ON locations.ID = locations_lookup.LOCATION_ID
