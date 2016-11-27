@@ -169,7 +169,7 @@ UPDATE members
 
 If you want to update just the member's address, given the member's number:
 ```sql
-UPDATE locations
+UPDATE locations -- TODO: Make joins more specific
  JOIN locations_lookup ON locations.ID = locations_lookup.location_id
  JOIN members ON locations_lookup.MEMBER_NUMBER = members.NUMBER
  SET STREET_ADDRESS=@new_street_address,
@@ -178,6 +178,20 @@ UPDATE locations
  ZIPCODE=@new_zipcode
  WHERE members.number = @`number` AND 
  locations_lookup.location_id = locations.ID
+```
+
+If you want to do a batch update on all of the changeable information for a member:
+```sql
+UPDATE members -- TODO: Make joins more specific
+ JOIN member_info USING (NUMBER)
+ JOIN locations_lookup ON members.NUMBER = locations_lookup.MEMBER_NUMBER
+ JOIN locations ON locations_lookup.location_id = locations.ID
+ SET IS_SUSPENDED=@new_suspended_status,
+ NAME=@new_name,
+ STREET_ADDRESS=@new_street_address,
+ STATE=@new_state,
+ ZIPCODE=@new_zipcode
+ WHERE members.number = @`number`
 ```
 - ### `provider`
 - ### `service`
