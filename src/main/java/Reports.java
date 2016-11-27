@@ -43,7 +43,7 @@ public class Reports {
         int zip = 12345;
 
         //add member info to report
-        String to_write = "Member Name: " + name + '\n' + "Member Number: " + Integer.toString(id) +
+        String report = "Member Name: " + name + '\n' + "Member Number: " + Integer.toString(id) +
                 '\n' + "Member Street Address: " + address + '\n' + "Member City: " + city + '\n' +
                 "Member State: " + state + '\n' + "Member Zip Code: " + Integer.toString(zip)
                 + "\n\n";
@@ -55,21 +55,21 @@ public class Reports {
         String service = "test service";
 
         //append provider info to report
-        to_write += "Service " + Integer.toString(service_num) + "\n\t" + "Service Date: " +
+        report += "Service " + Integer.toString(service_num) + "\n\t" + "Service Date: " +
                 serve_date + "\n\t" + "Provider Name: " + prov_name + "\n\t" + "Service Name: " +
                 service + "\n\n";
 
-        //second service for testing purposes. delete once sql access is created
+        //second service for testing purposes. delete once sql access is implemented
         service_num = 2;
         serve_date = "01/03/16";
         prov_name = "test name2";
         service = "test service2";
 
-        to_write += "Service " + Integer.toString(service_num) + "\n\t" + "Service Date: " +
+        report += "Service " + Integer.toString(service_num) + "\n\t" + "Service Date: " +
                 serve_date + "\n\t" + "Provider Name: " + prov_name + "\n\t" + "Service Name: " +
                 service + '\n';
 
-        return to_write;
+        return report;
     }
 
     public String WriteProviderReport (int id){
@@ -83,7 +83,7 @@ public class Reports {
         int zip = 54321;
 
         //add provider info to report
-        String to_write = "Provider Name: " + name + '\n' + "Provider Number: " +
+        String report = "Provider Name: " + name + '\n' + "Provider Number: " +
                 Integer.toString(id) + '\n' + "Provider Street Address: " + address +
                 '\n' + "Provider City: " + city + '\n' + "Provider State: " + state +
                 '\n' + "Provider Zip Code: " + Integer.toString(zip) + "\n\n";
@@ -104,7 +104,7 @@ public class Reports {
         total_consult += 1;
 
         //append provider info to report
-        to_write += "Service " + Integer.toString(service_num) + "\n\t" + "Service Date: " +
+        report += "Service " + Integer.toString(service_num) + "\n\t" + "Service Date: " +
                 serve_date + "\n\t" + "Date and Time Computer Received Data: " + comp_time +
                 "\n\t" + "Member Name: " + mem_name + "\n\t" + "Member Number: " +
                 Integer.toString(mem_num) + "\n\t" + "Service Code: " + Integer.toString(serve_id) +
@@ -122,7 +122,7 @@ public class Reports {
         total_fee += fee;
         total_consult += 1;
 
-        to_write += "Service " + Integer.toString(service_num) + "\n\t" + "Service Date: " +
+        report += "Service " + Integer.toString(service_num) + "\n\t" + "Service Date: " +
                 serve_date + "\n\t" + "Date and Time Computer Received Data: " + comp_time +
                 "\n\t" + "Member Name: " + mem_name + "\n\t" + "Member Number: " +
                 Integer.toString(mem_num) + "\n\t" + "Service Code: " + Integer.toString(serve_id) +
@@ -130,11 +130,11 @@ public class Reports {
 
 
         //append totals to report
-        to_write += "Total Number of Consultants With Members: " +
+        report += "Total Number of Consultants With Members: " +
                 Integer.toString(total_consult) + '\n' + "Total Fee: $" +
                 Double.toString(total_fee);
 
-        return to_write;
+        return report;
     }
 
     public String WriteSummaryReport (){
@@ -148,23 +148,23 @@ public class Reports {
         String prov_name = "test name";
         int consult_num = 2;
         double total_fee = 999.99;
-        String to_write = "";
+        String report = "";
 
         total_prov += 1;
         total_consult += consult_num;
         week_fee += total_fee;
 
-        to_write += "Provider " + total_prov + "\n\t" + "Provider Name: " + prov_name +
+        report += "Provider " + total_prov + "\n\t" + "Provider Name: " + prov_name +
                 "\n\t" + "Number of consultants for provider: " + Integer.toString(consult_num) +
                 "\n\t" + "Total fee for provider: " + Double.toString(total_fee) + "\n\n";
 
         //Some sort of loop will be needed here to go over each provider.
 
         //add totals
-        to_write += "Total amount of providers: " + Integer.toString(total_prov) + '\n' +
+        report += "Total amount of providers: " + Integer.toString(total_prov) + '\n' +
                 "Total amount of consultants: " + Integer.toString(total_consult) + '\n' +
                 "Total fee for the week: " + Double.toString(week_fee);
 
-        return to_write;
+        return report;
     }
 }
