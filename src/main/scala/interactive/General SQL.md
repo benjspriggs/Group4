@@ -6,6 +6,8 @@ are translated into SQL.
 Also, for each of these blocks, the general form for each of the
 SQL inserts etc will be given, and each are wrapped in a ``BEGIN;`` 
 and ``COMMIT;``, so all this stuff is transactional.
+
+As well, each of the inserting arguments is prepended with an `@` symbol.
 ## `create`
 - ### `user`
 ```sql
@@ -20,9 +22,9 @@ Because locational arguments are optional, those can be replaced
 with ``NULL`` if they are not specified.
 ```sql
 CALL create_member(
-  @number,
+  @`number`,
   @is_suspended,
-  @name,
+  @`name`,
   @street_address,
   @city,
   @state,
@@ -34,8 +36,8 @@ Similar to [create member](##`create`), locational arguments are optional,
 and can be replaced with ``NULL``.
 ```sql
 CALL create_provider(
-  @number,
-  @name,
+  @`number`,
+  @`name`,
   @street_address,
   @city,
   @state,
