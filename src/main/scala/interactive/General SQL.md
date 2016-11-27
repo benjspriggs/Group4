@@ -158,7 +158,7 @@ UPDATE members
  SET IS_SUSPENDED=@new_suspended_status
  WHERE NUMBER=@`number`
 ```
-If you want to update the member's name:
+If you want to update the member's name (and status):
 ```sql
 UPDATE member -- TODO: Make joins more specifics
  JOIN member_info USING (NUMBER)
@@ -194,6 +194,37 @@ UPDATE members -- TODO: Make joins more specific
  WHERE members.number = @`number`
 ```
 - ### `provider`
+Similar to how members are updated, we can update the provider's name with a simple `UPDATE`:
+```sql
+UPDATE providers
+ SET NAME=@new_name
+ WHERE NUMBER=@`number`
+```
+
+And if we want to update the address:
+```sql
+UPDATE locations -- TODO: Make joins more specific
+ JOIN locations_lookup ON locations.ID = locations_lookup.location_id
+ JOIN providers ON locations_lookup.MEMBER_NUMBER = providers.NUMBER
+ SET STREET_ADDRESS=@new_street_address,
+ CITY=@new_city,
+ STATE=@new_state,
+ ZIPCODE=@new_zipcode
+ WHERE providers.number = @`number` AND 
+ locations_lookup.location_id = locations.ID
+```
+
+And if we want to do a batch update:
+```sql
+UPDATE providers -- TODO: Make joins more specific
+ JOIN locations_lookup ON providers.NUMBER = locations_lookup.MEMBER_NUMBER
+ JOIN locations ON locations_lookup.location_id = locations.ID
+ SET NAME=@new_name,
+ STREET_ADDRESS=@new_street_address,
+ STATE=@new_state,
+ ZIPCODE=@new_zipcode
+ WHERE providers.number = @`number`
+```
 - ### `service`
 ## `delete`
 - ### `user`
