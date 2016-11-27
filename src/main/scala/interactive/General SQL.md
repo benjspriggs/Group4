@@ -128,7 +128,20 @@ SELECT NUMBER, NAME, STREET_ADDRESS, CITY, STATE, ZIPCODE
 Another area for clarification. For now, default giving lots of information about the service.
 ```sql
 SELECT service_info.NAME, service_info.DESCRIPTION, service_info.SERVICE_CODE
-FROM service_info WHERE SERVICE_CODE=@service_code;
+ FROM service_info 
+ WHERE SERVICE_CODE=@service_code;
+```
+- ### `service report`
+Now for the fun bits.
+```sql
+SELECT service_info.NAME, service_info.SERVICE_CODE,
+performed_services.TIMESTAMP, performed_services.DATE_SERVICE, performed_services.COMMENTS, 
+members.NUMBER, providers.NUMBER
+ FROM services_lookup -- TODO: Make joins more specific
+ JOIN service_info using (SERVICE_CODE)
+ JOIN performed_services ON services_lookup.ID = performed_services.SERVICE_ID
+ JOIN members ON services_lookup.MEMBER_NUMBER = members.NUMBER
+ JOIN providers ON services_lookup.PROVIDER_NUMBER = providers.NUMBER
 ```
 ## `update`
 - ### `user`
