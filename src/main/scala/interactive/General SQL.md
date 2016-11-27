@@ -9,35 +9,38 @@ and ``COMMIT;``, so all this stuff is transactional.
 ## `create`
 - ### `user`
 ```sql
-INSERT INTO app.users (username) 
-    VALUES ('username1'), ('username2');
--- The rest of the users that are to be created
+INSERT INTO users 
+(USERNAME) 
+    VALUES (
+    @username
+);
 ```
 - ### `member`
-If they provide no information:
+Because locational arguments are optional, those can be replaced
+with ``NULL`` if they are not specified.
 ```sql
-INSERT INTO app.members (number, is_suspended)
-    VALUES (1, false), (2, true);
-```
-
-If the name is provided:
-```sql
-INSERT INTO app.member_info (member_number, 
-            `name`, street_address,
-            city, state, zip_code)
-  VALUES (...);
---- The rest of the members that are to be created
-```
-If the name, and location information is provided:
-```sql
-
+CALL create_member(
+  @number,
+  @is_suspended,
+  @name,
+  @street_address,
+  @city,
+  @state,
+  @zipcode
+);
 ```
 - ### `provider`
+Similar to [create member](##`create`), locational arguments are optional, 
+and can be replaced with ``NULL``.
 ```sql
-INSERT INTO providers (provider_number, name)
-    VALUES (...);
-INSERT INTO provider_info (provider_number,
-            city, state, zip_code)
+CALL create_provider(
+  @number,
+  @name,
+  @street_address,
+  @city,
+  @state,
+  @zipcode
+);
 ```
 - ### `service`
 So here's some issues. Here's where 
@@ -56,33 +59,40 @@ Required fields:
 
 The SQL is going to look something like this:
 ```sql
-INSERT INTO service_info (service_code, `name`, fee, description)
-    VALUES (...);
---- The rest of the service descriptions to insert
+INSERT INTO service_info 
+(service_code, name, fee, description)
+VALUES (
+    @service_code,
+    @`name`,
+    @fee,
+    @description
+);
 ```
 
-#### Service Performance
+#### Performed Service Event
 Required fields:
 - Member number
 - Provider number
 - Service code
-- Date of service (recorded by provider)
+- Date of service (as recorded by provider)
 
 Non-required fields:
-- Comments
+- Comments (can be ``NULL``-able)
 
-The SQL is going to be a little more hairy for this one.
+The magic of foreign keys will make sure that each service, 
+member, and provider exists before inserting.
 ```sql
-WITH to_ins (member_number, provider_number,
-             service_code, date_service, is_suspended)
-AS (
-VALUES 
---- all of the members to insert
-)
-INSERT INTO members (member_number, is_suspended)
-SELECT
-    to_ins.member_number, member_info.number
-FROM
-    member_info
-    JOIN to_ins on to_ins.member_number = member_info.number
+INSERT INTO services_lookup 
+(MEMBER_NUMBER, PROVIDER_NUMBER, SERVICE_CODE) 
+VALUES (
+  @member_number,
+  @provider_number,
+  @service_code
+);
+insert into performed_services(SERVICE_ID, DATE_SERVICE, COMMENTS) 
+VALUES (
+  LAST_INSERT_ID(),
+  @date_service,
+  @comments
+);
 ```
