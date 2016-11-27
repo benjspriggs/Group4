@@ -91,7 +91,8 @@ VALUES (
   @provider_number,
   @service_code
 );
-insert into performed_services(SERVICE_ID, DATE_SERVICE, COMMENTS) 
+insert into performed_services
+(SERVICE_ID, DATE_SERVICE, COMMENTS) 
 VALUES (
   LAST_INSERT_ID(),
   @date_service,
@@ -100,9 +101,47 @@ VALUES (
 ```
 
 ## `show`
+- ### `user`, `user report`
+```sql
+SELECT * FROM users WHERE USERNAME=@username;
+```
+- ### `member`, `member report`
+This is another area that may require some fine-tuning of the grammar
+that we don't have time to do. For now, select a row from the member view,
+and pass in any provided arguments to the `WHERE` clause (member_number is guaranteed to be unique):
+```sql
+SELECT NUMBER, NAME, STREET_ADDRESS, CITY, STATE, ZIPCODE
+ FROM member_view 
+ WHERE NUMBER=@member_number 
+ LIMIT 1;
+```
 
+- ### `provider`
+Same as `member`.
+```sql
+SELECT NUMBER, NAME, STREET_ADDRESS, CITY, STATE, ZIPCODE
+ FROM provider_view 
+ WHERE NUMBER=@provider_number 
+ LIMIT 1;
+```
+- ### `service`
+Another area for clarification. For now, default giving lots of information about the service.
+```sql
+SELECT service_info.NAME, service_info.DESCRIPTION, service_info.SERVICE_CODE
+FROM service_info WHERE SERVICE_CODE=@service_code;
+```
 ## `update`
-
+- ### `user`
+- ### `member`
+- ### `provider`
+- ### `service`
 ## `delete`
-
+- ### `user`
+- ### `member`
+- ### `provider`
+- ### `service`
 ## `write`
+- ### `user`
+- ### `member`
+- ### `provider`
+- ### `service`
