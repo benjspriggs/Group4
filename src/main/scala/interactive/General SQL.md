@@ -98,3 +98,11 @@ VALUES (
   @comments
 );
 ```
+
+## `show`
+
+## `update`
+
+## `delete`
+
+## `write`
