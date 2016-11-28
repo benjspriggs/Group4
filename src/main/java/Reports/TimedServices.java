@@ -8,6 +8,6 @@ public class TimedServices {
         Reports all_reports = new Reports();
         all_reports.MemberSummaryReports(false);
         all_reports.ProviderSummaryReports(false);
-        all_reports.SummerizeReports(false);
+        all_reports.SummarizeReports(false);
     }
 }

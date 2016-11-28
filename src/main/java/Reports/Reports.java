@@ -1,7 +1,11 @@
+
+
+
 /**
  * Created by The Borg on 11/25/2016.
  * aka Cameron
  */
+
 public class Reports {
     float serviceTotal;
     float ServicesFeesTotal;
@@ -49,6 +53,7 @@ public class Reports {
 
     //Takes in a member ID and returns their report as a string
     public String WriteMemberReport(int id){
+
 
         //Variables that will be written to the report. These will need to be updated to
         //pull info from the sql database.
