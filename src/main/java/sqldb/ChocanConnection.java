@@ -214,7 +214,7 @@ public class ChocanConnection {
     }
 
     //method written by Michael Cohoe
-    //returns an array of all provider names, their consultants, and each provider\s total fee
+    //returns an array of all provider names, their consultants, and each provider's total fee
     //(CURRENTLY NOT TESTED)
     public ArrayList<SummaryInfo> obtainSummaryInfo() {
         try {
@@ -236,6 +236,26 @@ public class ChocanConnection {
             }
             return array;
 
+
+        } catch (SQLException e) {
+            System.out.println("SQL problem in obtainMemberInfo");
+        }
+        return null;
+    }
+
+    //method written by Michael Cohoe
+    //returns an array of all members ids
+    //(CURRENTLY NOT TESTED)
+    public ArrayList<Integer> obtainMemberIDs() {
+        try {
+            PreparedStatement statement = conn.prepareStatement("SELECT * from members");
+
+            ResultSet result = statement.executeQuery();
+            ArrayList<Integer> array = new ArrayList<>();
+            while(result.next()) {
+                array.add(result.getInt("number"));
+            }
+            return array;
 
         } catch (SQLException e) {
             System.out.println("SQL problem in obtainMemberInfo");
