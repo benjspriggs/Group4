@@ -21,16 +21,30 @@ public class Reports {
 
     //Prints a single member's report to the screen. Requires the id of the member
     //whose reports is to be viewed.
+    //CURRENTLY NOT TESTED
     public void PrintMemberReport(int memberID)
     {
-        System.out.println(WriteMemberReport(memberID));
+        String to_print = WriteProviderReport(memberID);
+        if (to_print == null) {
+            System.out.println("Incorrect member ID.");
+        }
+        else {
+            System.out.println(to_print);
+        }
     }
 
     //Prints a single provider's report to the screen. Requires the id of the provider
     //whose reports is to be viewed.
+    //CURRENTLY NOT TESTED
     public void PrintProviderReport(int providerID)
     {
-        System.out.println(WriteProviderReport(providerID));
+        String to_print = WriteProviderReport(providerID);
+        if (to_print == null) {
+            System.out.println("Incorrect provider ID.");
+        }
+        else {
+            System.out.println(to_print);
+        }
     }
 
     //Creates all member reports. Method prints out all member reports if the manager variable is
@@ -137,29 +151,29 @@ public class Reports {
         return report;
     }
 
-    //Takes in a provider ID and returns their report as a string
+    //Returns a summary report as a string
+    //CURRENTLY NOT TESTED
     public String WriteSummaryReport (){
         //Variables that will be written to the report. These will need to be updated to
         //pull info from the sql database.
 
         int total_prov = 0;
         int total_consult = 0;
-        double week_fee = 0;
-
-        String prov_name = "test name";
-        int consult_num = 2;
-        double total_fee = 999.99;
+        double week_fee = 0.0;
         String report = "";
 
-        total_prov += 1;
-        total_consult += consult_num;
-        week_fee += total_fee;
+        ArrayList<SummaryInfo> summaries = conn.obtainSummaryInfo();
 
-        report += "Provider " + total_prov + "\n\t" + "Provider Name: " + prov_name +
-                "\n\t" + "Number of consultants for provider: " + Integer.toString(consult_num) +
-                "\n\t" + "Total fee for provider: " + Double.toString(total_fee) + "\n\n";
-
-        //Some sort of loop will be needed here to go over each provider.
+        //add services to report
+        for(SummaryInfo summary : summaries) {
+            total_prov += 1;
+            report += "Provider " + Integer.toString(total_prov) + "\n\t" + "Provider Name: " +
+                    summary.getProv_name() + "\n\t" + "Number of consultants for provider: " +
+                    Integer.toString(summary.getConsult_num()) + "\n\t" +
+                    "Total fee for provider: " + Double.toString(summary.getTotal_fee()) + "\n\n";
+            total_consult += summary.getConsult_num();
+            week_fee += summary.getTotal_fee();
+        }
 
         //add totals
         report += "Total amount of providers: " + Integer.toString(total_prov) + '\n' +
