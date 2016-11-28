@@ -4,6 +4,7 @@ package sqldb;
 import Reports.MemberInfo;
 import Reports.ProviderInfo;
 import Reports.ServiceInfo;
+import Reports.SummaryInfo;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -200,7 +201,8 @@ public class ChocanConnection {
                 int mem_id = result.getInt("member_number");
                 double fee = result.getDouble("fee");
 
-                ServiceInfo info = new ServiceInfo(date, timestamp, prov_name, service, mem_name, serve_id, mem_id, fee);
+                ServiceInfo info = new ServiceInfo(date, timestamp, prov_name, service, mem_name,
+                        serve_id, mem_id, fee);
                 array.add(info);
             }
             return array;
@@ -210,4 +212,38 @@ public class ChocanConnection {
         }
         return null;
     }
+
+    //method written by Michael Cohoe
+    //returns an array of all provider names, their consultants, and each provider\s total fee
+    //(CURRENTLY NOT TESTED)
+    public ArrayList<SummaryInfo> obtainSummaryInfo() {
+        try {
+            PreparedStatement statement = conn.prepareStatement("SELECT providers.name, count(*) as consult_num," +
+                    " sum(service.fee) as total_fee FROM services_lookup join service on service_code = service.code " +
+                    "join providers on provider_number = providers.number group by providers.name");
+
+            ResultSet result = statement.executeQuery();
+            ArrayList<SummaryInfo> array = new ArrayList<>();
+            while(result.next()) {
+
+                String name = result.getString("providers.name");
+                int consults = result.getInt("consult_num");
+                double fee = result.getDouble("total_fee");
+
+
+                SummaryInfo info = new SummaryInfo(name, consults, fee);
+                array.add(info);
+            }
+            return array;
+
+
+        } catch (SQLException e) {
+            System.out.println("SQL problem in obtainMemberInfo");
+        }
+        return null;
+    }
+
 }
+
+
+

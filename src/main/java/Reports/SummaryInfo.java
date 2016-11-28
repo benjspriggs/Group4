@@ -6,9 +6,9 @@ package Reports;
 public class SummaryInfo {
     private String prov_name;
     private int consult_num;
-    private int total_fee;
+    private double total_fee;
 
-    public SummaryInfo(String prov_name, int consult_num, int total_fee) {
+    public SummaryInfo(String prov_name, int consult_num, double total_fee) {
         this.prov_name = prov_name;
         this.consult_num = consult_num;
         this.total_fee = total_fee;
@@ -22,7 +22,7 @@ public class SummaryInfo {
         return consult_num;
     }
 
-    public int getTotal_fee() {
+    public double getTotal_fee() {
         return total_fee;
     }
 }
