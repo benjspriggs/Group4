@@ -11,14 +11,14 @@ public class Reports {
 
     public void PrintMemberReport(int memberID)
     {
-
+        System.out.println(WriteMemberReport(memberID));
     }
 
     //Prints a single provider's report to the screen. Requires the id of the provider
     //whose reports is to be viewed.
     public void PrintProviderReport(int providerID)
     {
-
+        
     }
 
     //Creates all member reports. Method prints out all member reports if the manager variable is
