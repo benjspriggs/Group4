@@ -8,7 +8,8 @@ import java.io.*;
 
 public class Menu extends Utilities{
 
-    public Menu(){}
+    //Empty Constructor
+    public Menu(){    }
 
 
     public void providerMenu()
