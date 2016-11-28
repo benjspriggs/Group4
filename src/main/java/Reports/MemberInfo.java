@@ -1,3 +1,5 @@
+package Reports;
+
 /**
  * Created by Michael Cohoe on 11/27/2016.
  */
@@ -6,10 +8,10 @@ public class MemberInfo {
     private String address;
     private String city;
     private String state;
-    private int zip;
+    private String zip;
 
 
-    public MemberInfo(String name, String address, String city, String state, int zip) {
+    public MemberInfo(String name, String address, String city, String state, String zip) {
         this.name = name;
         this.address = address;
         this.city = city;
@@ -32,7 +34,7 @@ public class MemberInfo {
         return state;
     }
 
-    public int getZip() {
+    public String getZip() {
         return zip;
     }
 
