@@ -3,6 +3,8 @@ package Reports;
 
 import sqldb.ChocanConnection;
 
+import java.util.ArrayList;
+
 /**
  * Created by The Borg on 11/25/2016.
  * aka Cameron
@@ -59,55 +61,33 @@ public class Reports {
     }
 
     //Takes in a member ID and returns their report as a string
+    //CURRENTLY NOT TESTED
     public String WriteMemberReport(int id){
 
-        /*
-
-        //Variables that will be written to the report. These can be used to test if SQL is not
-        //working
-
-        String name = "Michael";
-        String address = "1234 street st";
-        String city = "Portland";
-        String state = "OR";
-        int zip = 12345;
-        */
-
-        //get member's info
-
+        //obtain member info
         MemberInfo mem_info =  conn.obtainMemberInfo(id);
 
         if (mem_info == null){
             return null;
         }
 
-        //add member info to report
+        //Write member info to report
         String report = "Member Name: " + mem_info.getName() + '\n' + "Member Number: " +
                 Integer.toString(id) + '\n' + "Member Street Address: " + mem_info.getAddress() +
                 '\n' + "Member City: " + mem_info.getCity() + '\n' + "Member State: " +
                 mem_info.getState() + '\n' + "Member Zip Code: " + mem_info.getZip() + "\n\n";
 
-        
-        //There will need to be some kind of loop here eventually to go through all services provided
+        //obtain services info
+        ArrayList<ServiceInfo> services = conn.obtainServiceInfo(id);
         int service_num = 1;
-        String serve_date = "01/02/16";
-        String prov_name = "test name";
-        String service = "test service";
 
-        //append provider info to report
-        report += "Service " + Integer.toString(service_num) + "\n\t" + "Service Date: " +
-                serve_date + "\n\t" + "Provider Name: " + prov_name + "\n\t" + "Service Name: " +
-                service + "\n\n";
-
-        //second service for testing purposes. delete once sql access is implemented
-        service_num = 2;
-        serve_date = "01/03/16";
-        prov_name = "test name2";
-        service = "test service2";
-
-        report += "Service " + Integer.toString(service_num) + "\n\t" + "Service Date: " +
-                serve_date + "\n\t" + "Provider Name: " + prov_name + "\n\t" + "Service Name: " +
-                service + '\n';
+        //add services to report
+        for(ServiceInfo service : services) {
+            report += "Service " + Integer.toString(service_num) + "\n\t" + "Service Date: " +
+                    service.getServe_date() + "\n\t" + "Provider Name: " + service.getProv_name() +
+                    "\n\t" + "Service Name: " + service.getService() + "\n\n";
+            service_num += 1;
+        }
 
         return report;
     }
