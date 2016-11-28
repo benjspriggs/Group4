@@ -1,10 +1,14 @@
 package sqldb;
 
+
+import Reports.MemberInfo;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+
 
 /**
  * Created by bspriggs on 11/15/2016.
@@ -83,5 +87,32 @@ public class ChocanConnection {
         } catch (Exception e){
             // idk
         }
+    }
+
+    //method written by Michael Cohoe
+    //returns the memberinfo for a specific member
+    //(CURRENTLY NOT TESTED)
+    public MemberInfo obtainMemberInfo(int id) throws Exception {
+        try {
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM member_info where number = " + id);
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+
+                String name = result.getString("name");
+                String address = result.getString("street_address");
+                String city = result.getString("city");
+                String state = result.getString("state");
+                String zip = result.getString("zipcode");
+                MemberInfo info = new MemberInfo(name, address, city, state, zip);
+                return info;
+            }
+            else{
+                return null;
+            }
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 }
