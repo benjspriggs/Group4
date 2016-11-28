@@ -2,6 +2,7 @@ package sqldb;
 
 
 import Reports.MemberInfo;
+import Reports.ServiceInfo;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -91,7 +92,9 @@ public class ChocanConnection {
     //(CURRENTLY NOT TESTED)
     public MemberInfo obtainMemberInfo(int id) {
         try {
-            PreparedStatement statement = conn.prepareStatement("SELECT * FROM member_info where number = " + id);
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
+                    "member_info where number = " + id);
+
             ResultSet result = statement.executeQuery();
             if (result.next()) {
 
@@ -112,4 +115,34 @@ public class ChocanConnection {
         }
         return null;
     }
+
+    //method written by Michael Cohoe
+    //returns all serviceinfo for a specific member
+    //(CURRENTLY NOT TESTED)
+    public ArrayList<ServiceInfo> obtainServiceInfo(int id){
+        try {
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
+                    "services_lookup join service on service_code = code join " +
+                    "performed_services_info on id = service_id join providers on " +
+                    "number = provider_number where member_number = " + id);
+
+            ResultSet result = statement.executeQuery();
+            ArrayList<ServiceInfo> array = new ArrayList<>();
+            while(result.next()) {
+
+                String date = result.getString("date_service");
+                String prov_name = result.getString("providers.name");
+                String service = result.getString("service.name");
+
+                ServiceInfo info = new ServiceInfo(date, prov_name, service);
+                array.add(info);
+            }
+            return array;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
