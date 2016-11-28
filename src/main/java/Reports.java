@@ -8,7 +8,6 @@ public class Reports {
 
     //Prints a single member's report to the screen. Requires the id of the member
     //whose reports is to be viewed.
-
     public void PrintMemberReport(int memberID)
     {
         System.out.println(WriteMemberReport(memberID));
@@ -37,7 +36,7 @@ public class Reports {
 
     //Creates the summary report. Method prints out the summary report if the manager variable is
     //set to true. Otherwise it writes the report to disk
-    public void SummerizeReports(boolean isManager)
+    public void SummarizeReports(boolean isManager)
     {
         if (isManager){
             System.out.println(WriteSummaryReport());
@@ -101,14 +100,16 @@ public class Reports {
         String state = "OR";
         int zip = 54321;
 
+        double total_fee = 0;
+        int total_consult = 0;
+
         //add provider info to report
         String report = "Provider Name: " + name + '\n' + "Provider Number: " +
                 Integer.toString(id) + '\n' + "Provider Street Address: " + address +
                 '\n' + "Provider City: " + city + '\n' + "Provider State: " + state +
                 '\n' + "Provider Zip Code: " + Integer.toString(zip) + "\n\n";
 
-        double total_fee = 0;
-        int total_consult = 0;
+
 
         //There will need to be some kind of loop here eventually to go through all services provided
         int service_num = 1;
@@ -119,10 +120,9 @@ public class Reports {
         int serve_id = 123456;
         double fee = 799.99;
 
-        total_fee += fee;
-        total_consult += 1;
 
-        //append provider info to report
+
+        //append service info to report
         report += "Service " + Integer.toString(service_num) + "\n\t" + "Service Date: " +
                 serve_date + "\n\t" + "Date and Time Computer Received Data: " + comp_time +
                 "\n\t" + "Member Name: " + mem_name + "\n\t" + "Member Number: " +
