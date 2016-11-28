@@ -18,7 +18,7 @@ public class Reports {
     //whose reports is to be viewed.
     public void PrintProviderReport(int providerID)
     {
-        System.out.println(WriteMemberReport(providerID));
+        System.out.println(WriteProviderReport(providerID));
     }
 
     //Creates all member reports. Method prints out all member reports if the manager variable is
@@ -39,7 +39,13 @@ public class Reports {
     //set to true. Otherwise it writes the report to disk
     public void SummerizeReports(boolean isManager)
     {
-
+        if (isManager){
+            System.out.println(WriteSummaryReport());
+        }
+        else{
+            WriteToDisk disk_writer = new WriteToDisk();
+            disk_writer.WriteOutSummary(WriteSummaryReport());
+        }
     }
 
     //Takes in a member ID and returns their report as a string
@@ -145,7 +151,7 @@ public class Reports {
         //append totals to report
         report += "Total Number of Consultants With Members: " +
                 Integer.toString(total_consult) + '\n' + "Total Fee: $" +
-                Double.toString(total_fee);
+                Double.toString(total_fee) + '\n';
 
         return report;
     }
@@ -177,7 +183,7 @@ public class Reports {
         //add totals
         report += "Total amount of providers: " + Integer.toString(total_prov) + '\n' +
                 "Total amount of consultants: " + Integer.toString(total_consult) + '\n' +
-                "Total fee for the week: " + Double.toString(week_fee);
+                "Total fee for the week: " + Double.toString(week_fee) + '\n';
 
         return report;
     }
