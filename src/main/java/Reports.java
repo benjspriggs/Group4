@@ -18,7 +18,7 @@ public class Reports {
     //whose reports is to be viewed.
     public void PrintProviderReport(int providerID)
     {
-        
+        System.out.println(WriteMemberReport(providerID));
     }
 
     //Creates all member reports. Method prints out all member reports if the manager variable is
