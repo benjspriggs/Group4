@@ -8,8 +8,11 @@ import java.io.*;
 
 public class Menu extends Utilities{
 
+<<<<<<< HEAD
     public Menu(){}
 
+=======
+>>>>>>> origin/josh-jeff
 
     public void providerMenu()
     {
@@ -37,7 +40,11 @@ public class Menu extends Utilities{
             providerMenu();
         }
 
+<<<<<<< HEAD
     }
+=======
+     }
+>>>>>>> origin/josh-jeff
 
     public void operatorMenu(){
         int userInput;

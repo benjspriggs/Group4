@@ -6,7 +6,7 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Utilities {
-    protected static FileReader fileReader;
+protected static FileReader fileReader;
     protected static Scanner input = null;
 
     public Utilities() {
