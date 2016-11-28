@@ -61,22 +61,43 @@ public class Reports {
             if(isManager == true){
                 PrintMemberReport(id);
             }
-            else{
+            else {
                 WriteToDisk disk_writer = new WriteToDisk();
-                disk_writer.WriteOutSummary(WriteMemberReport(id));
+                String to_write = WriteMemberReport(id);
+                if (to_write != null) {
+                    disk_writer.WriteOutMember(to_write, id);
+                }
             }
         }
     }
 
     //Creates all summary reports. Method prints out all summary reports if the manager variable is
     //set to true. Otherwise it writes the reports to disk
+    //CURRENTLY NOT TESTED
     public void ProviderSummaryReports(boolean isManager)
     {
+        ArrayList<Integer> all_ids = conn.obtainProviderIDs();
+        if (isManager == true && (all_ids == null || all_ids.size() == 0)){
+            System.out.println("There are no provider reports currently registered.");
+        }
 
+        for(Integer id : all_ids) {
+            if(isManager == true){
+                PrintProviderReport(id);
+            }
+            else{
+                WriteToDisk disk_writer = new WriteToDisk();
+                String to_write = WriteProviderReport(id);
+                if (to_write != null) {
+                    disk_writer.WriteOutProviders(to_write, id);
+                }
+            }
+        }
     }
 
     //Creates the summary report. Method prints out the summary report if the manager variable is
-    //set to true. Otherwise it writes the report to disk
+    //set to true. Otherwise it writes the reports to disk
+    //CURRENTLY NOT TESTED
     public void SummarizeReports(boolean isManager)
     {
         if (isManager){
@@ -168,8 +189,6 @@ public class Reports {
     //Returns a summary report as a string
     //CURRENTLY NOT TESTED
     public String WriteSummaryReport (){
-        //Variables that will be written to the report. These will need to be updated to
-        //pull info from the sql database.
 
         int total_prov = 0;
         int total_consult = 0;
