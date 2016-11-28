@@ -3,10 +3,7 @@ package sqldb;
 
 import Reports.MemberInfo;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 
 
@@ -92,7 +89,7 @@ public class ChocanConnection {
     //method written by Michael Cohoe
     //returns the memberinfo for a specific member
     //(CURRENTLY NOT TESTED)
-    public MemberInfo obtainMemberInfo(int id) throws Exception {
+    public MemberInfo obtainMemberInfo(int id) {
         try {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM member_info where number = " + id);
             ResultSet result = statement.executeQuery();
@@ -109,9 +106,9 @@ public class ChocanConnection {
             else{
                 return null;
             }
-            
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+
+        } catch (SQLException e) {
+            System.out.println("SQL problem in obtainMemberInfo");
         }
         return null;
     }

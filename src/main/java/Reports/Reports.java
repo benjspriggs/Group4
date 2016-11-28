@@ -1,5 +1,7 @@
+package Reports;
 
 
+import sqldb.ChocanConnection;
 
 /**
  * Created by The Borg on 11/25/2016.
@@ -7,8 +9,13 @@
  */
 
 public class Reports {
+    ChocanConnection conn;
     float serviceTotal;
     float ServicesFeesTotal;
+
+    public Reports(ChocanConnection conn) {
+        this.conn = conn;
+    }
 
     //Prints a single member's report to the screen. Requires the id of the member
     //whose reports is to be viewed.
@@ -54,22 +61,33 @@ public class Reports {
     //Takes in a member ID and returns their report as a string
     public String WriteMemberReport(int id){
 
+        /*
 
-        //Variables that will be written to the report. These will need to be updated to
-        //pull info from the sql database.
+        //Variables that will be written to the report. These can be used to test if SQL is not
+        //working
 
         String name = "Michael";
         String address = "1234 street st";
         String city = "Portland";
         String state = "OR";
         int zip = 12345;
+        */
+
+        //get member's info
+
+        MemberInfo mem_info =  conn.obtainMemberInfo(id);
+
+        if (mem_info == null){
+            return null;
+        }
 
         //add member info to report
-        String report = "Member Name: " + name + '\n' + "Member Number: " + Integer.toString(id) +
-                '\n' + "Member Street Address: " + address + '\n' + "Member City: " + city + '\n' +
-                "Member State: " + state + '\n' + "Member Zip Code: " + Integer.toString(zip)
-                + "\n\n";
+        String report = "Member Name: " + mem_info.getName() + '\n' + "Member Number: " +
+                Integer.toString(id) + '\n' + "Member Street Address: " + mem_info.getAddress() +
+                '\n' + "Member City: " + mem_info.getCity() + '\n' + "Member State: " +
+                mem_info.getState() + '\n' + "Member Zip Code: " + mem_info.getZip() + "\n\n";
 
+        
         //There will need to be some kind of loop here eventually to go through all services provided
         int service_num = 1;
         String serve_date = "01/02/16";
