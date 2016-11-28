@@ -49,9 +49,23 @@ public class Reports {
 
     //Creates all member reports. Method prints out all member reports if the manager variable is
     //set to true. Otherwise it writes the reports to disk
+    //CURRENTLY NOT TESTED
     public void MemberSummaryReports(boolean isManager)
     {
+        ArrayList<Integer> all_ids = conn.obtainMemberIDs();
+        if (isManager == true && (all_ids == null || all_ids.size() == 0)){
+            System.out.println("There are no member reports currently registered.");
+        }
 
+        for(Integer id : all_ids) {
+            if(isManager == true){
+                PrintMemberReport(id);
+            }
+            else{
+                WriteToDisk disk_writer = new WriteToDisk();
+                disk_writer.WriteOutSummary(WriteMemberReport(id));
+            }
+        }
     }
 
     //Creates all summary reports. Method prints out all summary reports if the manager variable is
