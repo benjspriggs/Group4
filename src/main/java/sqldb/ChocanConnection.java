@@ -177,14 +177,15 @@ public class ChocanConnection {
     }
 
     //method written by Michael Cohoe
-    //returns all serviceinfo for a specific member
+    //returns all serviceinfo for a specific provider
     //(CURRENTLY NOT TESTED)
     public ArrayList<ServiceInfo> obtainProvServiceInfo(int id){
         try {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
                     "services_lookup join service on service_code = service.code join " +
                     "performed_services_info on id = service_id join providers on " +
-                    "providers.number = provider_info.number where provider_number = " + id);
+                    "providers.number = provider_info.number join member_info on " +
+                    "member_number = member_info.number where provider_number = " + id);
 
             ResultSet result = statement.executeQuery();
             ArrayList<ServiceInfo> array = new ArrayList<>();
@@ -194,15 +195,16 @@ public class ChocanConnection {
                 String timestamp = result.getString("timestamp");
                 String prov_name = result.getString("providers.name");
                 String service = result.getString("service.name");
+                String mem_name = result.getString("member_info.name");
                 int serve_id = result.getInt("service_id");
                 int mem_id = result.getInt("member_number");
                 double fee = result.getDouble("fee");
 
-                ServiceInfo info = new ServiceInfo(date, timestamp, prov_name, service, serve_id, mem_id, fee);
+                ServiceInfo info = new ServiceInfo(date, timestamp, prov_name, service, mem_name, serve_id, mem_id, fee);
                 array.add(info);
             }
             return array;
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

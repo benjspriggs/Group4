@@ -8,6 +8,7 @@ public class ServiceInfo {
     private String timestamp;
     private String prov_name;
     private String service;
+    private String mem_name;
     private int service_id;
     private int mem_id;
     private Double fee;
@@ -17,19 +18,25 @@ public class ServiceInfo {
         this.timestamp = "";
         this.prov_name = prov_name;
         this.service = service;
+        this.mem_name = "";
         this.service_id = 0;
         this.mem_id = 0;
         this.fee = 0.0;
     }
 
-    public ServiceInfo(String serve_date, String timestamp, String prov_name, String service, int service_id, int mem_id, Double fee) {
+    public ServiceInfo(String serve_date, String timestamp, String prov_name, String service, String mem_name, int service_id, int mem_id, Double fee) {
         this.serve_date = serve_date;
         this.timestamp = timestamp;
         this.prov_name = prov_name;
+        this.mem_name = mem_name;
         this.service = service;
         this.service_id = service_id;
         this.mem_id = mem_id;
         this.fee = fee;
+    }
+
+    public String getMem_name() {
+        return mem_name;
     }
 
     public String getServe_date() {
