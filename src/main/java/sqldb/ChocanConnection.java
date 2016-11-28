@@ -118,14 +118,14 @@ public class ChocanConnection {
     }
 
     //method written by Michael Cohoe
-    //returns providerinfo for a specific provider
+    //returns all serviceinfo for a specific member
     //(CURRENTLY NOT TESTED)
-    public ArrayList<ServiceInfo> obtainServiceInfo(int id){
+    public ArrayList<ServiceInfo> obtainMemServiceInfo(int id){
         try {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
                     "services_lookup join service on service_code = service.code join " +
                     "performed_services_info on id = service_id join providers on " +
-                    "providers.number = provider_number where member_number = " + id);
+                    "providers.number = provider_info.number where member_number = " + id);
 
             ResultSet result = statement.executeQuery();
             ArrayList<ServiceInfo> array = new ArrayList<>();
@@ -146,7 +146,9 @@ public class ChocanConnection {
         return null;
     }
 
-
+    //method written by Michael Cohoe
+    //returns providerinfo for a specific provider
+    //(CURRENTLY NOT TESTED)
     public ProviderInfo obtainProviderInfo(int id) {
         try {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
@@ -170,6 +172,39 @@ public class ChocanConnection {
 
         } catch (SQLException e) {
             System.out.println("SQL problem in obtainProviderInfo");
+        }
+        return null;
+    }
+
+    //method written by Michael Cohoe
+    //returns all serviceinfo for a specific member
+    //(CURRENTLY NOT TESTED)
+    public ArrayList<ServiceInfo> obtainProvServiceInfo(int id){
+        try {
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
+                    "services_lookup join service on service_code = service.code join " +
+                    "performed_services_info on id = service_id join providers on " +
+                    "providers.number = provider_info.number where provider_number = " + id);
+
+            ResultSet result = statement.executeQuery();
+            ArrayList<ServiceInfo> array = new ArrayList<>();
+            while(result.next()) {
+
+                String date = result.getString("date_service");
+                String timestamp = result.getString("timestamp");
+                String prov_name = result.getString("providers.name");
+                String service = result.getString("service.name");
+                int serve_id = result.getInt("service_id");
+                int mem_id = result.getInt("member_number");
+                double fee = result.getDouble("fee");
+
+                ServiceInfo info = new ServiceInfo(date, timestamp, prov_name, service, serve_id, mem_id, fee);
+                array.add(info);
+            }
+            return array;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }
