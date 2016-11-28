@@ -238,13 +238,13 @@ public class ChocanConnection {
 
 
         } catch (SQLException e) {
-            System.out.println("SQL problem in obtainMemberInfo");
+            System.out.println("SQL problem in obtainSummaryInfo");
         }
         return null;
     }
 
     //method written by Michael Cohoe
-    //returns an array of all members ids
+    //returns an array of all member ids
     //(CURRENTLY NOT TESTED)
     public ArrayList<Integer> obtainMemberIDs() {
         try {
@@ -252,17 +252,38 @@ public class ChocanConnection {
 
             ResultSet result = statement.executeQuery();
             ArrayList<Integer> array = new ArrayList<>();
+
             while(result.next()) {
                 array.add(result.getInt("number"));
             }
             return array;
 
         } catch (SQLException e) {
-            System.out.println("SQL problem in obtainMemberInfo");
+            System.out.println("SQL problem in obtainMemberID");
         }
         return null;
     }
 
+    //method written by Michael Cohoe
+    //returns an array of all provider ids
+    //(CURRENTLY NOT TESTED)
+    public ArrayList<Integer> obtainProviderIDs() {
+        try {
+            PreparedStatement statement = conn.prepareStatement("SELECT * from providers");
+
+            ResultSet result = statement.executeQuery();
+            ArrayList<Integer> array = new ArrayList<>();
+
+            while(result.next()) {
+                array.add(result.getInt("number"));
+            }
+            return array;
+
+        } catch (SQLException e) {
+            System.out.println("SQL problem in obtainProviderIDs");
+        }
+        return null;
+    }
 }
 
 
