@@ -2,6 +2,7 @@ package sqldb;
 
 
 import Reports.MemberInfo;
+import Reports.ProviderInfo;
 import Reports.ServiceInfo;
 
 import java.sql.*;
@@ -93,7 +94,7 @@ public class ChocanConnection {
     public MemberInfo obtainMemberInfo(int id) {
         try {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
-                    "member_info where number = " + id);
+                    "member_info where member_info.number = " + id);
 
             ResultSet result = statement.executeQuery();
             if (result.next()) {
@@ -117,14 +118,14 @@ public class ChocanConnection {
     }
 
     //method written by Michael Cohoe
-    //returns all serviceinfo for a specific member
+    //returns providerinfo for a specific provider
     //(CURRENTLY NOT TESTED)
     public ArrayList<ServiceInfo> obtainServiceInfo(int id){
         try {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
-                    "services_lookup join service on service_code = code join " +
+                    "services_lookup join service on service_code = service.code join " +
                     "performed_services_info on id = service_id join providers on " +
-                    "number = provider_number where member_number = " + id);
+                    "providers.number = provider_number where member_number = " + id);
 
             ResultSet result = statement.executeQuery();
             ArrayList<ServiceInfo> array = new ArrayList<>();
@@ -145,4 +146,31 @@ public class ChocanConnection {
         return null;
     }
 
+
+    public ProviderInfo obtainProviderInfo(int id) {
+        try {
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
+                    "provider_info join providers on provider_info.number = providers.number where " +
+                    "provider_info.number = " + id);
+
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+
+                String name = result.getString("name");
+                String address = result.getString("street_address");
+                String city = result.getString("city");
+                String state = result.getString("state");
+                String zip = result.getString("zipcode");
+                ProviderInfo info = new ProviderInfo(name, address, city, state, zip);
+                return info;
+            }
+            else{
+                return null;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("SQL problem in obtainProviderInfo");
+        }
+        return null;
+    }
 }
