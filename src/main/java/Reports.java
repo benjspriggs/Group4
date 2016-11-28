@@ -6,31 +6,43 @@ public class Reports {
     float serviceTotal;
     float ServicesFeesTotal;
 
+    //Prints a single member's report to the screen. Requires the id of the member
+    //whose reports is to be viewed.
+
     public void PrintMemberReport(int memberID)
     {
 
     }
 
+    //Prints a single provider's report to the screen. Requires the id of the provider
+    //whose reports is to be viewed.
     public void PrintProviderReport(int providerID)
     {
 
     }
 
+    //Creates all member reports. Method prints out all member reports if the manager variable is
+    //set to true. Otherwise it writes the reports to disk
     public void MemberSummaryReports(boolean isManager)
     {
 
     }
 
+    //Creates all summary reports. Method prints out all summary reports if the manager variable is
+    //set to true. Otherwise it writes the reports to disk
     public void ProviderSummaryReports(boolean isManager)
     {
 
     }
 
+    //Creates the summary report. Method prints out the summary report if the manager variable is
+    //set to true. Otherwise it writes the report to disk
     public void SummerizeReports(boolean isManager)
     {
 
     }
 
+    //Takes in a member ID and returns their report as a string
     public String WriteMemberReport(int id){
 
         //Variables that will be written to the report. These will need to be updated to
@@ -72,6 +84,7 @@ public class Reports {
         return report;
     }
 
+    //Takes in a provider ID and returns their report as a string
     public String WriteProviderReport (int id){
         //Variables that will be written to the report. These will need to be updated to
         //pull info from the sql database.
@@ -137,6 +150,7 @@ public class Reports {
         return report;
     }
 
+    //Takes in a provider ID and returns their report as a string
     public String WriteSummaryReport (){
         //Variables that will be written to the report. These will need to be updated to
         //pull info from the sql database.
