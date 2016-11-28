@@ -94,23 +94,24 @@ public class Reports {
 
     //Takes in a provider ID and returns their report as a string
     public String WriteProviderReport (int id){
-        //Variables that will be written to the report. These will need to be updated to
-        //pull info from the sql database.
 
-        String name = "test name";
-        String address = "4321 street st";
-        String city = "Portland";
-        String state = "OR";
-        int zip = 54321;
+        //obtain provider info
+        ProviderInfo prov_info =  conn.obtainProviderInfo(id);
+
+        if (prov_info == null){
+            return null;
+        }
+
+        //Write provider info to report
+        String report = "Provider Name: " + prov_info.getName() + '\n' + "Provider Number: " +
+                Integer.toString(id) + '\n' + "Provider Street Address: " + prov_info.getAddress() +
+                '\n' + "Provider City: " + prov_info.getCity() + '\n' + "Provider State: " +
+                prov_info.getState() + '\n' + "Provider Zip Code: " + prov_info.getZip() + "\n\n";
 
         double total_fee = 0;
         int total_consult = 0;
 
-        //add provider info to report
-        String report = "Provider Name: " + name + '\n' + "Provider Number: " +
-                Integer.toString(id) + '\n' + "Provider Street Address: " + address +
-                '\n' + "Provider City: " + city + '\n' + "Provider State: " + state +
-                '\n' + "Provider Zip Code: " + Integer.toString(zip) + "\n\n";
+
 
 
 
