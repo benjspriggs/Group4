@@ -42,13 +42,25 @@ public class TimedServices {
     {
         Calendar timeOfDayCal = Calendar.getInstance();
 
-        timeOfDayCal.add(Calendar.DAY_OF_MONTH, 1);
-        timeOfDayCal.set(Calendar.HOUR_OF_DAY, 0);
-        timeOfDayCal.set(Calendar.MINUTE, 0);
+        timeOfDayCal.add(Calendar.DAY_OF_MONTH, 0);
+        timeOfDayCal.set(Calendar.HOUR_OF_DAY, 23);
+        timeOfDayCal.set(Calendar.MINUTE, 59);
         timeOfDayCal.set(Calendar.SECOND, 0);
         timeOfDayCal.set(Calendar.MILLISECOND, 0);
 
-        long howLong;
+        long howLong = (timeOfDayCal.getTimeInMillis()-System.currentTimeMillis());;
+
+        timeOfDayAdjustmentScheduler.schedule(new Runnable() {
+            public void run() {
+                try {
+                    weeklyServiceTimer();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }, howLong, TimeUnit.MILLISECONDS);
+
+
     }
 
     /**
@@ -57,11 +69,11 @@ public class TimedServices {
      *
      * Still gotta add time of day offset*
      */
-    private void weeklyServiceTimer(boolean reinitialize)
+    private void weeklyServiceTimer()
     {
         int delayInDays;
         int dayOfWeek;
-        if(reinitialize == false) {
+        //if(reinitialize == false) {
             Map<Integer, Integer> dayOfWeekOffset = new HashMap<>();
             dayOfWeekOffset.put(Calendar.FRIDAY, 0);
             dayOfWeekOffset.put(Calendar.SATURDAY, 6);
@@ -72,11 +84,11 @@ public class TimedServices {
             dayOfWeekOffset.put(Calendar.THURSDAY, 1);
             dayOfWeek = with.get(DAY_OF_WEEK);
             delayInDays = dayOfWeekOffset.get(dayOfWeek);
-        }
-        else
-        {
-            delayInDays = 7;
-        }
+        //}
+        //else
+        //{
+            //delayInDays = 7;
+        //}
 
         weeklyReportScheduler.scheduleAtFixedRate(new Runnable() {
             public void run() {
