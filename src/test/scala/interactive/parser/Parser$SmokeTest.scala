@@ -17,7 +17,7 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
 
   it must "handle requests for help" in {
     forAll(f.helpRequests) { word: String =>
-      doesParseToA(word, Help(None))
+      doesParseToA(s"$word", Help(None))
       forAll(f.typeSingle) { type_s: String =>
         doesParseToA(s"$word $type_s; ", Help(Some(type_s)))
       }
@@ -28,13 +28,13 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
     forAll(f.requests) { request: String =>
       forAll(f.typeMany) {
         typem: String => doesParseToA(
-          s"$request $typem " + f.validJson,
+          s"$request $typem " + f.validJson + ";",
           (Request(request), SuperObj((Type.Many(typem), f.optionJson())))
         )
       }
       forAll(f.typeMany) {
         typem: String => doesParseToA(
-          s"$request all $typem",
+          s"$request all $typem;",
           (Request(request), SuperObj((Type.Many(typem), f.optionJson(""))))
         )
       }
