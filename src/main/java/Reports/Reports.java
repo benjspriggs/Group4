@@ -24,7 +24,7 @@ public class Reports {
     {
         String to_print = WriteMemberReport(memberID);
         if (to_print == null) {
-            System.out.println("Incorrect member ID.");
+            System.out.println("Invalid member ID.");
         }
         else {
             System.out.println(to_print);
@@ -38,7 +38,7 @@ public class Reports {
     {
         String to_print = WriteProviderReport(providerID);
         if (to_print == null) {
-            System.out.println("Incorrect provider ID.");
+            System.out.println("Invalid provider ID.");
         }
         else {
             System.out.println(to_print);
@@ -126,6 +126,7 @@ public class Reports {
 
         //obtain services info
         ArrayList<ServiceInfo> services = conn.obtainMemServiceInfo(id);
+
         int service_num = 1;
 
         //add services to report
@@ -134,6 +135,9 @@ public class Reports {
                     service.getServe_date() + "\n\t" + "Provider Name: " + service.getProv_name() +
                     "\n\t" + "Service Name: " + service.getService() + "\n\n";
             service_num += 1;
+        }
+        if (service_num == 1){
+            report += "No services were used this week\n\n";
         }
 
         return report;
@@ -176,10 +180,15 @@ public class Reports {
             total_fee += service.getFee();
         }
 
-        //append totals to report
-        report += "Total Number of Consultants With Members: " +
-                Integer.toString(total_consult) + '\n' + "Total Fee: $" +
-                Double.toString(total_fee) + '\n';
+        if (service_num == 1){
+            report += "No services were provided this week\n\n";
+        }
+        else {
+            //append totals to report
+            report += "Total Number of Consultants With Members: " +
+                    Integer.toString(total_consult) + '\n' + "Total Fee: $" +
+                    Double.toString(total_fee) + '\n';
+        }
 
         return report;
     }
