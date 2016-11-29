@@ -1,29 +1,36 @@
 package sqldb;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.sql.*;
+//import java.util.ArrayList;
 
-/**
- * Created by bspriggs on 11/15/2016.
- */
 public class ChocanConnection {
-    private Connection conn;
-
-    public ChocanConnection(){
+    public ChocanConnection() {
         try {
-            conn = getConnection();
-            generateData();
-        } catch (Exception e){
+            // get a connection to database
+
+           Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/chocan_server", "root", "root");
+
+           Statement myStmt = conn.createStatement();
+
+           ResultSet myRs = myStmt.executeQuery("SELECT * from member_info");
+
+           while (myRs.next()){
+              // System.out.println(myRs.getString("last"))
+           }
+
+
+            // create statement
+
+            // execute query.
+        } catch (Exception e) {
             // whatever
         }
     }
-
+}
+/*
     private Connection getConnection() throws Exception {
         try {
-            String driver = "org.apache.derby.jdbc.ClientDriver";
+         /*   String driver = "org.apache.derby.jdbc.ClientDriver";
             String url = "jdbc:derby://localhost:1527/testdb";
             String username = "test";
             String password = "password1";
@@ -33,11 +40,14 @@ public class ChocanConnection {
             System.out.println("Connected");
             return conn;
 
+
+
         } catch (Exception e) {
             System.out.println("Not connected, exception thrown");
             e.printStackTrace();
             System.out.println(e.getMessage());
         }
+
 
 
         return null;
@@ -85,3 +95,5 @@ public class ChocanConnection {
         }
     }
 }
+
+*/
