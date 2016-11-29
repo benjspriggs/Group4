@@ -5,9 +5,9 @@ BEGIN
 
   WHILE x < 1000 DO
     -- select a member
-    SET @member_number = (SELECT MEMBER_NUMBER from members ORDER BY RAND() LIMIT 1);
+    SET @member_number = (SELECT NUMBER from members ORDER BY RAND() LIMIT 1);
     -- select a provider
-    SET @provider_number = (SELECT PROVIDER_NUMBER from providers ORDER BY RAND() LIMIT 1);
+    SET @provider_number = (SELECT NUMBER from providers ORDER BY RAND() LIMIT 1);
     -- select a service
     SET @service_code = (SELECT SERVICE_CODE FROM service_info ORDER BY RAND() LIMIT 1);
     -- set a date
