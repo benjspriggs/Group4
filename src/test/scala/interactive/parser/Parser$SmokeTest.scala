@@ -17,7 +17,7 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
 
   it must "handle requests for help" in {
     forAll(f.helpRequests) { word: String =>
-      doesParseToA(s"$word", Help(None))
+      doesParseToA(s"$word;", Help(None))
       forAll(f.typeSingle) { type_s: String =>
         doesParseToA(s"$word $type_s; ", Help(Some(type_s)))
       }
