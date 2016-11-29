@@ -33,27 +33,48 @@ public class TimedServices {
         all_reports.MemberSummaryReports(false);
         all_reports.ProviderSummaryReports(false);
         all_reports.SummarizeReports(false);
+
+        //serviceTimer(false);
     }
 
     public void serviceTimer()
     {
-        Map<Integer, Integer> dayOfWeekOffset = new HashMap<Integer, Integer>();
-        dayOfWeekOffset.put(Calendar.FRIDAY, 0);
-        dayOfWeekOffset.put(Calendar.SATURDAY, 6);
-        dayOfWeekOffset.put(Calendar.SUNDAY, 5);
-        dayOfWeekOffset.put(Calendar.MONDAY, 4);
-        dayOfWeekOffset.put(Calendar.TUESDAY, 3);
-        dayOfWeekOffset.put(Calendar.WEDNESDAY, 2);
-        dayOfWeekOffset.put(Calendar.THURSDAY, 1);
-        int dayOfWeek = with.get(DAY_OF_WEEK);
-        int delayInDays = dayOfWeekOffset.get(dayOfWeek);
+
+    }
+
+    /**
+     * This should in theory, set a delay based on the current day of the week
+     * and run on friday.
+     *
+     * Still gotta add time of day offset*
+     */
+    private void weeklyServiceTimer(boolean reinitialize)
+    {
+        int delayInDays;
+        int dayOfWeek;
+        if(reinitialize == false) {
+            Map<Integer, Integer> dayOfWeekOffset = new HashMap<>();
+            dayOfWeekOffset.put(Calendar.FRIDAY, 0);
+            dayOfWeekOffset.put(Calendar.SATURDAY, 6);
+            dayOfWeekOffset.put(Calendar.SUNDAY, 5);
+            dayOfWeekOffset.put(Calendar.MONDAY, 4);
+            dayOfWeekOffset.put(Calendar.TUESDAY, 3);
+            dayOfWeekOffset.put(Calendar.WEDNESDAY, 2);
+            dayOfWeekOffset.put(Calendar.THURSDAY, 1);
+            dayOfWeek = with.get(DAY_OF_WEEK);
+            delayInDays = dayOfWeekOffset.get(dayOfWeek);
+        }
+        else
+        {
+            delayInDays = 7;
+        }
 
         weeklyReportScheduler.scheduleAtFixedRate(new Runnable() {
             public void run() {
                 try {
                     callWeeklySummary();
                 } catch (Exception ex) {
-                    ex.printStackTrace(); // or loggger would be better
+                    ex.printStackTrace();
                 }
             }
         }, delayInDays, 7, TimeUnit.DAYS);
