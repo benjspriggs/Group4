@@ -1,15 +1,25 @@
 package interactive.action;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  * Created by bspriggs on 11/29/2016.
  */
 abstract public class SqlAction implements Action {
-    private Connection connection;
+    protected Connection connection;
     SqlAction(Connection c)
     {
         connection = c;
     }
-    abstract public void execute();
+
+    protected PreparedStatement prepareStatement(final String s){
+        try {
+            return connection.prepareStatement(s);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

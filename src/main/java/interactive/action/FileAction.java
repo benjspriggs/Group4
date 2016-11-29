@@ -7,6 +7,7 @@ import java.io.File;
  */
 abstract public class FileAction implements Action {
     private File file;
+    private FileAction(){}
     FileAction(File f){
         file = f;
     }
