@@ -30,6 +30,13 @@ final public class CreateUserAction extends SqlAction {
             connection.commit();
         } catch (SQLException e){
             e.printStackTrace();
+        } finally {
+            try {
+                createUserStatement.close();
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
