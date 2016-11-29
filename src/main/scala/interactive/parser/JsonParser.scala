@@ -40,7 +40,7 @@ object JsonParser {
   }
 
   val Whitespace = NamedFunction.apply(" \r\n".contains(_: Char), "Whitespace")
-  val Digits = NamedFunction.apply('0' to '9'.contains((_: Char)), "Digits")
+  val Digits = NamedFunction.apply('0' to '9' contains(_: Char), "Digits")
   val StringChars = NamedFunction.apply(!"\"\\".contains(_: Char), "StringChars")
 
   lazy val space         = P( CharsWhile(Whitespace).? )
