@@ -1,5 +1,9 @@
 # ChocAn Data Center
-[![Build Status](https://travis-ci.org/Gilmore-PDX-CS/Group4.svg?branch=master)](https://travis-ci.org/Gilmore-PDX-CS/Group4)
+| Branch | Status |
+|:---:|:---:|
+| Master | [![Build Status](https://travis-ci.org/Gilmore-PDX-CS/Group4.svg?branch=master)](https://travis-ci.org/Gilmore-PDX-CS/Group4) |
+| Dev | [![Build Status](https://travis-ci.org/Gilmore-PDX-CS/Group4.svg?branch=dev)](https://travis-ci.org/Gilmore-PDX-CS/Group4) |
+| RC1 | [![Build Status](https://travis-ci.org/Gilmore-PDX-CS/Group4.svg?branch=dev_1.0.0.rc)](https://travis-ci.org/Gilmore-PDX-CS/Group4) |
 
 
 An implementation of a data center to track users, members, providers, etc
