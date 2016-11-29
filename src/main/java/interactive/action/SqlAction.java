@@ -18,8 +18,16 @@ abstract public class SqlAction implements Action {
         try {
             return connection.prepareStatement(s);
         } catch (SQLException e) {
+            System.err.println("An error occurred preparing the statement in SqlAction");
             e.printStackTrace();
             return null;
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                System.err.println("An error occurred setting the autocommit status in SqlAction");
+                e.printStackTrace();
+            }
         }
     }
 }
