@@ -5,6 +5,7 @@ import Reports.MemberInfo;
 import Reports.ProviderInfo;
 import Reports.ServiceInfo;
 import Reports.SummaryInfo;
+import sqldb.schemas.ChocanSchema;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class ChocanConnection {
             conn = getConnection();
             generateData();
         } catch (Exception e){
-            // whatever
+            e.printStackTrace();
         }
     }
 
@@ -91,7 +92,7 @@ public class ChocanConnection {
 
     //method written by Michael Cohoe
     //returns the memberinfo for a specific member
-    //(CURRENTLY NOT TESTED)
+    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public MemberInfo obtainMemberInfo(int id) {
         try {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
@@ -113,20 +114,22 @@ public class ChocanConnection {
             }
 
         } catch (SQLException e) {
-            System.out.println("SQL problem in obtainMemberInfo");
+            e.printStackTrace();
         }
         return null;
     }
 
     //method written by Michael Cohoe
     //returns all serviceinfo for a specific member
-    //(CURRENTLY NOT TESTED)
+    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public ArrayList<ServiceInfo> obtainMemServiceInfo(int id){
         try {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
                     "services_lookup join service on service_code = service.code join " +
                     "performed_services_info on id = service_id join providers on " +
-                    "providers.number = provider_info.number where member_number = " + id);
+                    "providers.number = provider_info.number where (select max(timestamp) " +
+                    "from report_dates) < performed_services_info.timestamp and " +
+                    "member_number = " + id);
 
             ResultSet result = statement.executeQuery();
             ArrayList<ServiceInfo> array = new ArrayList<>();
@@ -149,7 +152,7 @@ public class ChocanConnection {
 
     //method written by Michael Cohoe
     //returns providerinfo for a specific provider
-    //(CURRENTLY NOT TESTED)
+    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public ProviderInfo obtainProviderInfo(int id) {
         try {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
@@ -179,14 +182,16 @@ public class ChocanConnection {
 
     //method written by Michael Cohoe
     //returns all serviceinfo for a specific provider
-    //(CURRENTLY NOT TESTED)
+    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public ArrayList<ServiceInfo> obtainProvServiceInfo(int id){
         try {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
                     "services_lookup join service on service_code = service.code join " +
                     "performed_services_info on id = service_id join providers on " +
                     "providers.number = provider_info.number join member_info on " +
-                    "member_number = member_info.number where provider_number = " + id);
+                    "member_number = member_info.number where (select max(timestamp) " +
+                    "from report_dates) < performed_services_info.timestamp and " +
+                    "provider_number = " + id);
 
             ResultSet result = statement.executeQuery();
             ArrayList<ServiceInfo> array = new ArrayList<>();
@@ -215,12 +220,15 @@ public class ChocanConnection {
 
     //method written by Michael Cohoe
     //returns an array of all provider names, their consultants, and each provider's total fee
-    //(CURRENTLY NOT TESTED)
+    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public ArrayList<SummaryInfo> obtainSummaryInfo() {
         try {
-            PreparedStatement statement = conn.prepareStatement("SELECT providers.name, count(*) as consult_num," +
-                    " sum(service.fee) as total_fee FROM services_lookup join service on service_code = service.code " +
-                    "join providers on provider_number = providers.number group by providers.name");
+            PreparedStatement statement = conn.prepareStatement("SELECT providers.name, " +
+                    "count(*) as consult_num, sum(service.fee) as total_fee FROM services_lookup " +
+                    "join service on service_code = service.code join performed_services_info on " +
+                    "id = service_id join providers on provider_number " +
+                    "= providers.number where (select max(timestamp) from report_dates) " +
+                    "< performed_services_info.timestamp group by providers.name");
 
             ResultSet result = statement.executeQuery();
             ArrayList<SummaryInfo> array = new ArrayList<>();
@@ -245,7 +253,7 @@ public class ChocanConnection {
 
     //method written by Michael Cohoe
     //returns an array of all member ids
-    //(CURRENTLY NOT TESTED)
+    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public ArrayList<Integer> obtainMemberIDs() {
         try {
             PreparedStatement statement = conn.prepareStatement("SELECT * from members");
@@ -266,7 +274,7 @@ public class ChocanConnection {
 
     //method written by Michael Cohoe
     //returns an array of all provider ids
-    //(CURRENTLY NOT TESTED)
+    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public ArrayList<Integer> obtainProviderIDs() {
         try {
             PreparedStatement statement = conn.prepareStatement("SELECT * from providers");
@@ -283,6 +291,22 @@ public class ChocanConnection {
             System.out.println("SQL problem in obtainProviderIDs");
         }
         return null;
+    }
+
+    //method written by Michael Cohoe
+    //Adds a new timestamp to the file_write_dates table
+    //(CURRENTLY NOT TESTED)
+    public void addFileWriteDate(Timestamp to_add){
+        try {
+            PreparedStatement statement = conn.prepareStatement("INSERT INTO report_dates " +
+                    "(timestamp) VALUES (?)");
+            statement.setTimestamp(1, to_add);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("SQL problem in addFileWriteDate");
+        }
+
     }
 }
 
