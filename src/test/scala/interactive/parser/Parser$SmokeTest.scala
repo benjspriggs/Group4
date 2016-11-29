@@ -18,8 +18,8 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
   it must "handle requests for help" in {
     forAll(f.helpRequests) { word: String =>
       doesParseToA(word, Help(None))
-      forAll(f.typeSingle) { `type`: String =>
-        doesParseToA(s"$word $`type`; ", Help(Some(`type`)))
+      forAll(f.typeSingle) { type_s: String =>
+        doesParseToA(s"$word $type_s; ", Help(Some(type_s)))
       }
     }
   }
@@ -27,15 +27,15 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
   it must "handle generalized statements" in {
     forAll(f.requests) { request: String =>
       forAll(f.typeMany) {
-        `type`: String => doesParseToA(
-          s"$request $`type` " ++ f.validJson,
-          (Request(request), SuperObj((Type.Many(`type`), f.optionJson())))
+        typem: String => doesParseToA(
+          s"$request $typem " + f.validJson,
+          (Request(request), SuperObj((Type.Many(typem), f.optionJson())))
         )
       }
       forAll(f.typeMany) {
-        `type`: String => doesParseToA(
-          s"$request all $`type`",
-          (Request(request), SuperObj((Type.Many(`type`), f.optionJson(""))))
+        typem: String => doesParseToA(
+          s"$request all $typem",
+          (Request(request), SuperObj((Type.Many(typem), f.optionJson(""))))
         )
       }
     }
@@ -44,8 +44,8 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
   it must "handle specific statements" in {
     forAll(f.requests) { request: String =>
       forAll(f.typeSingle) {
-        `type`: String => doesParseToA(
-          s"$request $`type` " ++ f.validJson,
+        type_s: String => doesParseToA(
+          s"$request $type_s " + f.validJson,
           (Request(request), Obj)
         )
       }
@@ -53,19 +53,19 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
   }
 
   it must "handle SQL literals" in {
-    doesParseToA("SQL " ++ f.literal_sql ++ ";", SQL(f.literal_sql))
+    doesParseToA("SQL " + f.literal_sql + ";", SQL(f.literal_sql))
   }
 
   it must "handle reports" in {
     forAll(f.requests) {
       request: String =>
       forAll(f.typeSingle) {
-        t: String => doesParseToA(s"$request $t report;" ++ f.validJson,
+        t: String => doesParseToA(s"$request $t report;" + f.validJson,
           (Request(request), Obj((Type.One(t), f.parsedJson()))))
       }
       forAll(f.typeMany) {
         t: String =>
-          doesParseToA(s"$request $t reports;" ++ f.validJson,
+          doesParseToA(s"$request $t reports;" + f.validJson,
           (Request(request), SuperObj((Type.Many(t), f.optionJson()))))
           doesParseToA(s"$request all $t reports;",
             (Request(request), SuperObj((Type.Many(t), f.optionJson()))))

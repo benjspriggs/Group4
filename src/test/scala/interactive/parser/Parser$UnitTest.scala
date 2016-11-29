@@ -18,17 +18,17 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
     val p = parser._help
 
     "_help" should "parse a help interactive.token" in {
-      forAll(f.helpRequests) { word: String => doesParseToA(word, Help(None), p) }
+      forAll(f.helpRequests) { word: String => doesParseToA(s"$word;", Help(None), p) }
     }
 
     "_help" should "parse a help interactive.token and some query, with whitespace" in {
       forAll(f.helpRequests) { word: String =>
-        doesParseToA(word + " another word", Help(Some("another word")), p)
+        doesParseToA(word + " another word;", Help(Some("another word")), p)
       }
     }
 
     "_help" should "not parse tokens with missing whitespace" in {
-      forAll(f.helpRequests) { word: String => doesNotParseToA(word + "asdfad", Help(Some("asdfad")), parser._help) }
+      forAll(f.helpRequests) { word: String => doesNotParseToA(word + "asdfad;", Help(Some("asdfad")), parser._help) }
     }
   }
 
@@ -38,11 +38,11 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
     val p = parser._stop
 
     "_stop" should "parse a stop interactive.token" in {
-      forAll(f.stopRequests) { word: String => doesParseToA(word, Stop, p) }
+      forAll(f.stopRequests) { word: String => doesParseToA(s"$word;", Stop, p) }
     }
 
     "_stop" should "not parse if there's something after the stop interactive.token" in {
-      forAll(f.stopRequests) { word: String => doesNotParseToA(word + "asdfa", Stop, parser._stop) }
+      forAll(f.stopRequests) { word: String => doesNotParseToA(word + "asdfa;", Stop, parser._stop) }
     }
   }
 
@@ -182,40 +182,40 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
     val p = parser._sql_literal
 
     "_sql_literal" should "parse a SQL request and query" in {
-      doesParseToA("SQL " + f.literal_sql, SQL(f.literal_sql), p)
+      doesParseToA("SQL " + f.literal_sql + ";", SQL(f.literal_sql), p)
     }
 
     "_sql_literal" should "not parse a SQL query without a request" in {
-      doesNotParseToA(f.literal_sql, SQL(f.literal_sql), p)
+      doesNotParseToA(f.literal_sql + ";", SQL(f.literal_sql), p)
     }
 
     "_sql_literal" should "not parse a SQL request without a query" in {
-      doesNotParseToA("SQL", SQL(""), p)
+      doesNotParseToA("SQL;", SQL(""), p)
     }
 
     "_sql_literal" should "be able to take quoted queries" in {
-      doesParseToA("SQL '" + f.literal_sql + "'",
+      doesParseToA("SQL '" + f.literal_sql + "';",
         SQL("'" + f.literal_sql + "'"), p)
-      doesParseToA("SQL \"" + f.literal_sql + "\"",
+      doesParseToA("SQL \"" + f.literal_sql + "\";",
         SQL("\"" + f.literal_sql + "\""), p)
-      doesParseToA("SQL `" + f.literal_sql + "`",
+      doesParseToA("SQL `" + f.literal_sql + "`;",
         SQL("`" + f.literal_sql + "`"), p)
     }
   }
 
 
-  behavior of "_expr"
+  behavior of "_expression"
 
   {
     val p = parser._expression
 
-    "_expr" should "parse a stop request" in {
+    "_expression" should "parse a stop request" in {
       forAll(f.stopRequests) {
         word: String => doesParseToA(s"$word;", Stop, p)
       }
     }
 
-    "_expr" should "parse a help request with any known keyword" in {
+    "_expression" should "parse a help request with any known keyword" in {
       forAll(f.helpRequests) { help: String =>
         forAll(f.requests) { word: String =>
           doesParseToA(s"$help $word;", Help(Some(word)), p)
@@ -233,7 +233,7 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       }
     }
 
-    "_expr" should "parse a request with a singular object" in {
+    "_expression" should "parse a request with a singular object" in {
       forAll(f.requests) { word: String =>
         forAll(f.typeSingle) { `type`: String =>
           doesParseToA(word + " " + `type` + f.validJson + ";",
@@ -242,7 +242,7 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       }
     }
 
-    "_expr" should "parse a request with a singular implied type and multiple objects" in {
+    "_expression" should "parse a request with a singular implied type and multiple objects" in {
       forAll(f.requests) { word: String =>
         forAll(f.typeSingle) { `type`: String =>
           def o = Obj((Type.One(`type`), f.parsedJson()))
@@ -253,7 +253,7 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       }
     }
 
-    "_expr" should "parse a request with a plural type and singular object" in {
+    "_expression" should "parse a request with a plural type and singular object" in {
       forAll(f.requests) { word: String =>
         forAll(f.typeMany) { `type`: String =>
           doesParseToA(word + " " + `type` + f.validJson + ";",
@@ -262,7 +262,7 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       }
     }
 
-    "_expr" should "parse a generic request with a singular object" in {
+    "_expression" should "parse a generic request with a singular object" in {
       forAll(f.requests) { word: String =>
         forAll(f.typeMany) { `type`: String =>
           doesParseToA(word + " all " + `type` + f.validJson + ";",
@@ -271,7 +271,7 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       }
     }
 
-    "_expr" should "not parse a generic request with multiple objects" in {
+    "_expression" should "not parse a generic request with multiple objects" in {
       forAll(f.requests) { word: String =>
         forAll(f.typeMany) { `type`: String =>
           doesNotParseToA(word + " all " + `type` + f.validJson + f.validJson + f.validJson + ";",
