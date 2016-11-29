@@ -12,14 +12,14 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
   behavior of "Parser"
 
   it must "handle requests to stop the session" in {
-    forAll(f.stopRequests) { word: String => doesParseToA(word, Stop) }
+    forAll(f.stopRequests) { word: String => doesParseToA(s"$word;", Stop) }
   }
 
   it must "handle requests for help" in {
     forAll(f.helpRequests) { word: String =>
       doesParseToA(word, Help(None))
       forAll(f.typeSingle) { `type`: String =>
-        doesParseToA(word ++ " " ++ `type`, Help(Some(`type`)))
+        doesParseToA(s"$word $`type`; ", Help(Some(`type`)))
       }
     }
   }
@@ -28,13 +28,13 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
     forAll(f.requests) { request: String =>
       forAll(f.typeMany) {
         `type`: String => doesParseToA(
-          request ++ " " ++ `type` ++ " " ++ f.validJson,
+          s"$request $`type` " ++ f.validJson,
           (Request(request), SuperObj((Type.Many(`type`), f.optionJson())))
         )
       }
       forAll(f.typeMany) {
         `type`: String => doesParseToA(
-          request ++ " all " ++ `type`,
+          s"$request all $`type`",
           (Request(request), SuperObj((Type.Many(`type`), f.optionJson(""))))
         )
       }
@@ -45,7 +45,7 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
     forAll(f.requests) { request: String =>
       forAll(f.typeSingle) {
         `type`: String => doesParseToA(
-          request ++ " " ++ `type` ++ " " ++ f.validJson,
+          s"$request $`type` " ++ f.validJson,
           (Request(request), Obj)
         )
       }
@@ -53,21 +53,21 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
   }
 
   it must "handle SQL literals" in {
-    doesParseToA("SQL " ++ f.literal_sql, SQL(f.literal_sql))
+    doesParseToA("SQL " ++ f.literal_sql ++ ";", SQL(f.literal_sql))
   }
 
   it must "handle reports" in {
     forAll(f.requests) {
       request: String =>
       forAll(f.typeSingle) {
-        t: String => doesParseToA(s"$request $t report" ++ f.validJson,
+        t: String => doesParseToA(s"$request $t report;" ++ f.validJson,
           (Request(request), Obj((Type.One(t), f.parsedJson()))))
       }
       forAll(f.typeMany) {
         t: String =>
-          doesParseToA(s"$request $t reports" ++ f.validJson,
+          doesParseToA(s"$request $t reports;" ++ f.validJson,
           (Request(request), SuperObj((Type.Many(t), f.optionJson()))))
-          doesParseToA(s"$request all $t reports",
+          doesParseToA(s"$request all $t reports;",
             (Request(request), SuperObj((Type.Many(t), f.optionJson()))))
       }
     }
