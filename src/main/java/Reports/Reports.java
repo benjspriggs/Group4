@@ -1,6 +1,5 @@
 package Reports;
 
-
 import sqldb.ChocanConnection;
 
 import java.util.ArrayList;
@@ -12,8 +11,7 @@ import java.util.ArrayList;
 
 public class Reports {
     ChocanConnection conn;
-    float serviceTotal;
-    float ServicesFeesTotal;
+
 
     public Reports(ChocanConnection conn) {
         this.conn = conn;
@@ -24,7 +22,7 @@ public class Reports {
     //CURRENTLY NOT TESTED
     public void PrintMemberReport(int memberID)
     {
-        String to_print = WriteProviderReport(memberID);
+        String to_print = WriteMemberReport(memberID);
         if (to_print == null) {
             System.out.println("Incorrect member ID.");
         }
