@@ -8,12 +8,13 @@ import fastparse.all._
 import interactive.Tokens
 
 object Parser {
+  lazy val semiEnd = P( ";" ~ End )
 
-  lazy val whitespace = P( CharsWhile(" \r\n\t".contains(_: Char)) ).opaque("")
+  lazy val whitespace = P( CharsWhile(" \r\n\t".contains(_: Char)) ).opaque("<whitespace>")
 
-  lazy val _stop = P( ( "quit" | "bye" | "exit") ~/ End | End  )
+  lazy val _stop = P( ( "quit" | "bye" | "exit") ~/ semiEnd | semiEnd  )
     .map(_ => Tokens.Stop)
-  lazy val _help = P( ("help" | "?") ~/ (whitespace ~ AnyChar.rep.!).? ~/ End )
+  lazy val _help = P( ("help" | "?") ~/ (whitespace ~ CharsWhile(_ != ';').!) .? ~/ semiEnd )
     .map(Tokens.Help)
   lazy val _request = P( ("create" | "show" | "update" | "delete" | "write").! )
     .map(Tokens.Request)
@@ -36,8 +37,8 @@ object Parser {
     P( "all"
       ~/ whitespace
       ~ _manyType
-      ~/ (whitespace ~ _payload ).? ~/ End
-      | _manyType ~/ whitespace ~ _payload.? ~/ End ).map(Tokens.SuperObj)
+      ~/ (whitespace ~ _payload ).? ~/ semiEnd
+      | _manyType ~/ whitespace ~ _payload.? ~/ semiEnd ).map(Tokens.SuperObj)
 
   lazy val _request_object = P( _request ~/ whitespace ~/ ( _superobject | `object`.rep(1)))
 
@@ -45,7 +46,7 @@ object Parser {
     P( "SQL"
       ~/ whitespace
       ~/ AnyChar.rep(1).!
-      ~/ End)
+      ~/ semiEnd)
       .map(Tokens.SQL)
 
   lazy val stop           = _stop          .opaque("<stop>")
@@ -56,13 +57,13 @@ object Parser {
   lazy val sql_literal    = _sql_literal   .opaque("<SQL query>")
   lazy val request_object = _request_object.opaque("<request> with <object> or <objects>")
 
-  lazy val expression = P( (stop
+  lazy val expression = P( stop
     | help
     | request_object
-    | sql_literal) ~ whitespace ~ ";" )
+    | sql_literal )
 
-  lazy val _expression = P( (_stop
+  lazy val _expression = P( _stop
       | _help
       | _request_object
-      | _sql_literal) ~ whitespace ~ ";" )
+      | _sql_literal )
 }
