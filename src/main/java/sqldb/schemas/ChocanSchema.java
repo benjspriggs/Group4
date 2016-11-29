@@ -58,7 +58,7 @@ public class ChocanSchema implements SqlDatabaseSchema {
             "comments VARCHAR(100)"+
             ");";
     private final String FILE_WRITE_DATES =
-            "CREATE TABLE dates (" +
+            "CREATE TABLE report_dates (" +
             "timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP);";
 
     private final String SQL = MEMBER_SQL + MEMBER_INFO_SQL
