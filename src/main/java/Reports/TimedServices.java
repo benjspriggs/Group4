@@ -20,6 +20,7 @@ public class TimedServices {
     private ChocanConnection conn;
     private Calendar with;
     ScheduledExecutorService weeklyReportScheduler = Executors.newScheduledThreadPool(1);
+    ScheduledExecutorService timeOfDayAdjustmentScheduler = Executors.newScheduledThreadPool(1);
     //private timer weeklySummaryReport;
 
     public TimedServices(ChocanConnection conn){
@@ -39,7 +40,15 @@ public class TimedServices {
 
     public void serviceTimer()
     {
+        Calendar timeOfDayCal = Calendar.getInstance();
 
+        timeOfDayCal.add(Calendar.DAY_OF_MONTH, 1);
+        timeOfDayCal.set(Calendar.HOUR_OF_DAY, 0);
+        timeOfDayCal.set(Calendar.MINUTE, 0);
+        timeOfDayCal.set(Calendar.SECOND, 0);
+        timeOfDayCal.set(Calendar.MILLISECOND, 0);
+
+        //long howLong;
     }
 
     /**
