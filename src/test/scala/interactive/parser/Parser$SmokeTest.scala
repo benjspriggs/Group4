@@ -19,7 +19,7 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
     forAll(f.helpRequests) { word: String =>
       doesParseToA(s"$word;", Help(None))
       forAll(f.typeSingle) { type_s: String =>
-        doesParseToA(s"$word $type_s; ", Help(Some(type_s)))
+        doesParseToA(s"$word $type_s;", Help(Some(type_s)))
       }
     }
   }
