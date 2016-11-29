@@ -126,7 +126,9 @@ public class ChocanConnection {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
                     "services_lookup join service on service_code = service.code join " +
                     "performed_services_info on id = service_id join providers on " +
-                    "providers.number = provider_info.number where member_number = " + id);
+                    "providers.number = provider_info.number where (select max(timestamp) " +
+                    "from dates) < performed_services_info.timestamp and " +
+                    "member_number = " + id);
 
             ResultSet result = statement.executeQuery();
             ArrayList<ServiceInfo> array = new ArrayList<>();
@@ -186,7 +188,9 @@ public class ChocanConnection {
                     "services_lookup join service on service_code = service.code join " +
                     "performed_services_info on id = service_id join providers on " +
                     "providers.number = provider_info.number join member_info on " +
-                    "member_number = member_info.number where provider_number = " + id);
+                    "member_number = member_info.number where (select max(timestamp) " +
+                    "from dates) < performed_services_info.timestamp and " +
+                    "provider_number = " + id);
 
             ResultSet result = statement.executeQuery();
             ArrayList<ServiceInfo> array = new ArrayList<>();
@@ -218,9 +222,12 @@ public class ChocanConnection {
     //(CURRENTLY NOT TESTED)
     public ArrayList<SummaryInfo> obtainSummaryInfo() {
         try {
-            PreparedStatement statement = conn.prepareStatement("SELECT providers.name, count(*) as consult_num," +
-                    " sum(service.fee) as total_fee FROM services_lookup join service on service_code = service.code " +
-                    "join providers on provider_number = providers.number group by providers.name");
+            PreparedStatement statement = conn.prepareStatement("SELECT providers.name, " +
+                    "count(*) as consult_num, sum(service.fee) as total_fee FROM services_lookup " +
+                    "join service on service_code = service.code join performed_services_info on " +
+                    "id = service_id join providers on provider_number " +
+                    "= providers.number where (select max(timestamp) from dates) " +
+                    "< performed_services_info.timestamp group by providers.name");
 
             ResultSet result = statement.executeQuery();
             ArrayList<SummaryInfo> array = new ArrayList<>();
