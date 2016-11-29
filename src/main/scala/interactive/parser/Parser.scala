@@ -8,7 +8,7 @@ import fastparse.all._
 import interactive.Tokens
 
 object Parser {
-  lazy val semiEnd = P( ";" ~ End )
+  lazy val semiEnd = P( ";" ~ whitespace.? ~ End )
 
   lazy val whitespace = P( CharsWhile(" \r\n\t".contains(_: Char)) ).opaque("<whitespace>")
 
