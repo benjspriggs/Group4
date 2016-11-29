@@ -57,13 +57,13 @@ object Parser {
   lazy val sql_literal    = _sql_literal   .opaque("<SQL query>")
   lazy val request_object = _request_object.opaque("<request> with <object> or <objects>")
 
-  lazy val expression = P( stop
+  lazy val expression = P( (stop
     | help
     | request_object
-    | sql_literal )
+    | sql_literal) ~ whitespace ~ ";" )
 
-  lazy val _expression = P( _stop
+  lazy val _expression = P( (_stop
       | _help
       | _request_object
-      | _sql_literal )
+      | _sql_literal) ~ whitespace ~ ";" )
 }
