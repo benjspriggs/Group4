@@ -57,9 +57,14 @@ public class ChocanSchema implements SqlDatabaseSchema {
             "timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,"+
             "comments VARCHAR(100)"+
             ");";
+    private final String FILE_WRITE_DATES =
+            "CREATE TABLE report_dates (" +
+            "timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP);";
+
     private final String SQL = MEMBER_SQL + MEMBER_INFO_SQL
             + PROVIDER_SQL + PROVIDER_INFO_SQL
-            + SERVICE_SQL + SERVICE_LOOKUP_SQL + PERFORMED_SERVICES_SQL;
+            + SERVICE_SQL + SERVICE_LOOKUP_SQL + PERFORMED_SERVICES_SQL
+            + FILE_WRITE_DATES;
 
     @NotNull
     public String createTableStatement() {
