@@ -19,7 +19,7 @@ public class Reports {
 
     //Prints a single member's report to the screen. Requires the id of the member
     //whose reports is to be viewed.
-    //CURRENTLY NOT TESTED
+    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public void PrintMemberReport(int memberID)
     {
         String to_print = WriteMemberReport(memberID);
@@ -33,7 +33,7 @@ public class Reports {
 
     //Prints a single provider's report to the screen. Requires the id of the provider
     //whose reports is to be viewed.
-    //CURRENTLY NOT TESTED
+    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public void PrintProviderReport(int providerID)
     {
         String to_print = WriteProviderReport(providerID);
@@ -47,7 +47,7 @@ public class Reports {
 
     //Creates all member reports. Method prints out all member reports if the manager variable is
     //set to true. Otherwise it writes the reports to disk
-    //CURRENTLY NOT TESTED
+    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public void MemberSummaryReports(boolean isManager)
     {
         ArrayList<Integer> all_ids = conn.obtainMemberIDs();
@@ -71,7 +71,7 @@ public class Reports {
 
     //Creates all summary reports. Method prints out all summary reports if the manager variable is
     //set to true. Otherwise it writes the reports to disk
-    //CURRENTLY NOT TESTED
+    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public void ProviderSummaryReports(boolean isManager)
     {
         ArrayList<Integer> all_ids = conn.obtainProviderIDs();
@@ -95,7 +95,7 @@ public class Reports {
 
     //Creates the summary report. Method prints out the summary report if the manager variable is
     //set to true. Otherwise it writes the reports to disk
-    //CURRENTLY NOT TESTED
+    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public void SummarizeReports(boolean isManager)
     {
         if (isManager){
@@ -108,7 +108,7 @@ public class Reports {
     }
 
     //Takes in a member ID and returns their report as a string
-    //CURRENTLY NOT TESTED
+    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public String WriteMemberReport(int id){
 
         //obtain member info
@@ -144,7 +144,7 @@ public class Reports {
     }
 
     //Takes in a provider ID and returns their report as a string
-    //CURRENTLY NOT TESTED
+    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public String WriteProviderReport (int id){
 
         //obtain provider info

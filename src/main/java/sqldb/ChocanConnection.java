@@ -5,6 +5,7 @@ import Reports.MemberInfo;
 import Reports.ProviderInfo;
 import Reports.ServiceInfo;
 import Reports.SummaryInfo;
+import sqldb.schemas.ChocanSchema;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class ChocanConnection {
             conn = getConnection();
             generateData();
         } catch (Exception e){
-            // whatever
+            e.printStackTrace();
         }
     }
 
@@ -91,7 +92,7 @@ public class ChocanConnection {
 
     //method written by Michael Cohoe
     //returns the memberinfo for a specific member
-    //(CURRENTLY NOT TESTED)
+    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public MemberInfo obtainMemberInfo(int id) {
         try {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
@@ -113,14 +114,14 @@ public class ChocanConnection {
             }
 
         } catch (SQLException e) {
-            System.out.println("SQL problem in obtainMemberInfo");
+            e.printStackTrace();
         }
         return null;
     }
 
     //method written by Michael Cohoe
     //returns all serviceinfo for a specific member
-    //(CURRENTLY NOT TESTED)
+    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public ArrayList<ServiceInfo> obtainMemServiceInfo(int id){
         try {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
@@ -151,7 +152,7 @@ public class ChocanConnection {
 
     //method written by Michael Cohoe
     //returns providerinfo for a specific provider
-    //(CURRENTLY NOT TESTED)
+    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public ProviderInfo obtainProviderInfo(int id) {
         try {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
@@ -181,7 +182,7 @@ public class ChocanConnection {
 
     //method written by Michael Cohoe
     //returns all serviceinfo for a specific provider
-    //(CURRENTLY NOT TESTED)
+    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public ArrayList<ServiceInfo> obtainProvServiceInfo(int id){
         try {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
@@ -219,7 +220,7 @@ public class ChocanConnection {
 
     //method written by Michael Cohoe
     //returns an array of all provider names, their consultants, and each provider's total fee
-    //(CURRENTLY NOT TESTED)
+    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public ArrayList<SummaryInfo> obtainSummaryInfo() {
         try {
             PreparedStatement statement = conn.prepareStatement("SELECT providers.name, " +
@@ -252,7 +253,7 @@ public class ChocanConnection {
 
     //method written by Michael Cohoe
     //returns an array of all member ids
-    //(CURRENTLY NOT TESTED)
+    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public ArrayList<Integer> obtainMemberIDs() {
         try {
             PreparedStatement statement = conn.prepareStatement("SELECT * from members");
@@ -273,7 +274,7 @@ public class ChocanConnection {
 
     //method written by Michael Cohoe
     //returns an array of all provider ids
-    //(CURRENTLY NOT TESTED)
+    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public ArrayList<Integer> obtainProviderIDs() {
         try {
             PreparedStatement statement = conn.prepareStatement("SELECT * from providers");

@@ -14,7 +14,6 @@ public class TimedServices {
     public TimedServices(ChocanConnection conn){
         this.conn = conn;
     }
-    
     public void callWeeklySummary()
     {
 
