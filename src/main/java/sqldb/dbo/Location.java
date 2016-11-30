@@ -12,20 +12,6 @@ public class Location extends DatabaseObject{
     public final String city;
     public final String state;
     public final String zipcode;
-    protected final String createString =
-            "INSERT INTO locations (street_address, city, state, zipcode) " +
-            "VALUES (?, ?, ?, ?);";
-    protected final String showString =
-            "SELECT * FROM locations WHERE id = ?;";
-    protected final String updateString =
-            "UPDATE locations " +
-                    "SET street_address = ?," +
-                    "city = ?," +
-                    "state = ?," +
-                    "zipcode = ?" +
-                    " WHERE id = ?;";
-    protected final String deleteString =
-            "DELETE FROM locations WHERE id = ?;";
 
     public Location(final Location l){
         id = l.id;
@@ -64,21 +50,27 @@ public class Location extends DatabaseObject{
 
     @Override
     protected String create() {
-        return createString;
+        return "INSERT INTO locations (street_address, city, state, zipcode) " +
+                "VALUES (?, ?, ?, ?);";
     }
 
     @Override
     protected String show() {
-        return showString;
+        return "SELECT * FROM locations WHERE id = ?;";
     }
 
     @Override
     protected String update() {
-        return updateString;
+        return "UPDATE locations " +
+                "SET street_address = ?," +
+                "city = ?," +
+                "state = ?," +
+                "zipcode = ?" +
+                " WHERE id = ?;";
     }
 
     @Override
     protected String delete() {
-        return deleteString;
+        return "DELETE FROM locations WHERE id = ?;";
     }
 }
