@@ -2,12 +2,13 @@ package interactive.action;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
  * Created by bspriggs on 11/29/2016.
  */
-abstract public class SqlAction<V> implements Action {
+abstract public class SqlAction<V> implements ReturnableAction<ResultSet> {
     protected Connection connection;
     protected V value;
     protected PreparedStatement statement;
@@ -32,12 +33,14 @@ abstract public class SqlAction<V> implements Action {
     abstract protected void setStatement(PreparedStatement s) throws SQLException;
 
     @Override
-    public void execute(){
+    public ResultSet executeAndReturn(){
+        ResultSet r = null;
         try {
             connection.setAutoCommit(false);
             setStatement(statement);
-            statement.execute();
-        } catch (SQLException e){
+            statement.executeQuery();
+            r = statement.getResultSet();
+        } catch (SQLException e) {
             System.err.println("An error occurred preparing the statement");
             e.printStackTrace();
         } finally {
@@ -45,9 +48,16 @@ abstract public class SqlAction<V> implements Action {
                 connection.commit();
                 connection.setAutoCommit(true);
             } catch (SQLException e) {
+                try {
+                    connection.rollback();
+                } catch (SQLException e1) {
+                    System.err.println("An error occurred rolling back the changes");
+                    e1.printStackTrace();
+                }
                 e.printStackTrace();
             }
         }
+        return r;
     }
 
 }

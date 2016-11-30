@@ -9,7 +9,7 @@ import java.util.HashMap;
 /**
  * Created by bspriggs on 11/29/2016.
  */
-abstract public class SqlBatchAction<V> implements Action, ReturnableAction<ResultSet> {
+abstract public class SqlBatchAction<V> implements ReturnableAction<ResultSet> {
     protected Connection connection;
     protected HashMap<Integer, V> map;
     protected PreparedStatement preparedStatement;
