@@ -39,7 +39,7 @@ public class Provider extends DatabaseObject {
     }
 
     @Override
-    void fillStatement(DatabaseAction action, PreparedStatement statement) throws SQLException {
+    public void fillStatement(DatabaseAction action, PreparedStatement statement) throws SQLException {
         switch (action) {
             case SHOW:
             case DELETE: statement.setInt(1, number); break;
