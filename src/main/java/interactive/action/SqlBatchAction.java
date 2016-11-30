@@ -1,0 +1,43 @@
+package interactive.action;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.HashMap;
+
+/**
+ * Created by bspriggs on 11/29/2016.
+ */
+abstract public class SqlBatchAction<V> extends SqlAction {
+    protected HashMap<Integer, V> map;
+    protected PreparedStatement preparedStatement;
+
+    SqlBatchAction(Connection c, final String statement, HashMap<Integer, V> map){
+        super(c);
+        this.map = map;
+        preparedStatement = prepareStatement(statement);
+    }
+
+    abstract protected void setStatements(final Integer index) throws SQLException;
+
+    @Override
+    public void execute(){
+        try {
+            connection.setAutoCommit(false);
+            for (Integer i = 0; i < map.size(); ++i){
+                setStatements(i);
+                preparedStatement.execute();
+            }
+        } catch (SQLException e){
+            System.err.println("An error occurred preparing the statement");
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.commit();
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
