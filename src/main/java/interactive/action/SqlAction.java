@@ -36,7 +36,7 @@ abstract public class SqlAction<V extends DatabaseObject> implements ReturnableA
         try {
             this.statement = value.prepareStatement(action, connection);
             connection.setAutoCommit(false);
-            setStatement(statement);
+            value.fillStatement(action, statement);
             statement.executeQuery();
             r = statement.getResultSet();
         } catch (SQLException e) {
