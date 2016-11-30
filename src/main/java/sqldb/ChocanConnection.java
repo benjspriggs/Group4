@@ -7,31 +7,17 @@ import Reports.SummaryInfo;
 
 import java.sql.*;
 import java.util.ArrayList;
-<<<<<<< HEAD
-=======
-
->>>>>>> be24d52... Added chocanConn functions.
 //import java.util.ArrayList;
 
 public class ChocanConnection {
     private Connection conn;
-<<<<<<< HEAD
-=======
-
->>>>>>> be24d52... Added chocanConn functions.
     public ChocanConnection() {
 
 
         try {
             // get a connection to database
 
-<<<<<<< HEAD
            conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/chocan_server", "root", "root");
-
-=======
-           Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/chocan_server", "root", "root");
-            this.conn = conn;
->>>>>>> be24d52... Added chocanConn functions.
            Statement myStmt = conn.createStatement();
 
            ResultSet myRs = myStmt.executeQuery("SELECT * from member_info");
@@ -49,11 +35,6 @@ public class ChocanConnection {
         }
     }
 
-
-<<<<<<< HEAD
-=======
-/*
->>>>>>> be24d52... Added chocanConn functions.
     private Connection getConnection() throws Exception {
         try {
             String driver = "org.apache.derby.jdbc.ClientDriver";
@@ -121,41 +102,7 @@ public class ChocanConnection {
         }
     }
 
-    public ArrayList<Integer> obtainMemberIDs() {
-        return null;
-    }
-
-    public ArrayList<Integer> obtainProviderIDs() {
-        return null;
-    }
-
-    public MemberInfo obtainMemberInfo(int id) {
-        return null;
-    }
-
-    public ArrayList<ServiceInfo> obtainMemServiceInfo(int id) {
-        return null;
-    }
-
-    public ProviderInfo obtainProviderInfo(int id) {
-        return null;
-    }
-
-    public ArrayList<ServiceInfo> obtainProvServiceInfo(int id) {
-        return null;
-    }
-
-    public ArrayList<SummaryInfo> obtainSummaryInfo() {
-        return null;
-    }
-}
-
-<<<<<<< HEAD
-=======
-*/
-
-
-    //method written by Michael Cohoe
+  //method written by Michael Cohoe
     //returns the memberinfo for a specific member
     //(CURRENTLY NOT TESTED)
     public MemberInfo obtainMemberInfo(int id) {
@@ -374,4 +321,3 @@ public class ChocanConnection {
 
     }
 }
->>>>>>> be24d52... Added chocanConn functions.
