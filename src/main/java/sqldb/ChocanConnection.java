@@ -1,21 +1,28 @@
 package sqldb;
 
+import Reports.MemberInfo;
+import Reports.ProviderInfo;
+import Reports.ServiceInfo;
+import Reports.SummaryInfo;
+
 import java.sql.*;
+import java.util.ArrayList;
 //import java.util.ArrayList;
 
 public class ChocanConnection {
+    private Connection conn;
     public ChocanConnection() {
         try {
             // get a connection to database
 
-           Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/chocan_server", "root", "root");
+           conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/chocan_server", "root", "root");
 
            Statement myStmt = conn.createStatement();
 
            ResultSet myRs = myStmt.executeQuery("SELECT * from member_info");
 
            while (myRs.next()){
-              // System.out.println(myRs.getString("last"))
+              System.out.println(myRs.getString("last"));
            }
 
 
@@ -26,11 +33,11 @@ public class ChocanConnection {
             // whatever
         }
     }
-}
-/*
+
+
     private Connection getConnection() throws Exception {
         try {
-         /*   String driver = "org.apache.derby.jdbc.ClientDriver";
+            String driver = "org.apache.derby.jdbc.ClientDriver";
             String url = "jdbc:derby://localhost:1527/testdb";
             String username = "test";
             String password = "password1";
@@ -94,6 +101,33 @@ public class ChocanConnection {
             // idk
         }
     }
+
+    public ArrayList<Integer> obtainMemberIDs() {
+        return null;
+    }
+
+    public ArrayList<Integer> obtainProviderIDs() {
+        return null;
+    }
+
+    public MemberInfo obtainMemberInfo(int id) {
+        return null;
+    }
+
+    public ArrayList<ServiceInfo> obtainMemServiceInfo(int id) {
+        return null;
+    }
+
+    public ProviderInfo obtainProviderInfo(int id) {
+        return null;
+    }
+
+    public ArrayList<ServiceInfo> obtainProvServiceInfo(int id) {
+        return null;
+    }
+
+    public ArrayList<SummaryInfo> obtainSummaryInfo() {
+        return null;
+    }
 }
 
-*/
