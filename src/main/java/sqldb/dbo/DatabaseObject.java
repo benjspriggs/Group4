@@ -16,9 +16,9 @@ abstract public class DatabaseObject {
     abstract protected String show();
     abstract protected String update();
     abstract protected String delete();
-    abstract void fillStatement(DatabaseAction action, PreparedStatement statement) throws SQLException;
+    abstract public void fillStatement(DatabaseAction action, PreparedStatement statement) throws SQLException;
 
-    PreparedStatement prepareStatement(DatabaseAction action, Connection conn) throws SQLException {
+    public PreparedStatement prepareStatement(DatabaseAction action, Connection conn) throws SQLException {
         PreparedStatement p = null;
         switch (action){
             case CREATE: p = conn.prepareStatement(create()); break;

@@ -1,5 +1,7 @@
 package interactive.action;
 
+import sqldb.dbo.DatabaseObject;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,7 +10,7 @@ import java.sql.SQLException;
 /**
  * Created by bspriggs on 11/29/2016.
  */
-abstract public class SqlAction<V> implements ReturnableAction<ResultSet> {
+abstract public class SqlAction<V extends DatabaseObject> implements ReturnableAction<ResultSet> {
     protected Connection connection;
     protected V value;
     protected PreparedStatement statement;
