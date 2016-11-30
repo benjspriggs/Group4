@@ -1,13 +1,12 @@
 package sqldb.dbo;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
  * Created by bspriggs on 11/29/2016.
  */
-public class Location implements DatabaseObject{
+public class Location extends DatabaseObject{
     public final int id;
     public final String street_address;
     public final String city;
@@ -61,18 +60,6 @@ public class Location implements DatabaseObject{
                 statement.setString(4, zipcode);
                 break;
         }
-    }
-
-    @Override
-    public PreparedStatement prepareStatement(DatabaseAction action, Connection conn) throws SQLException {
-        PreparedStatement p = null;
-        switch (action){
-            case CREATE: p = conn.prepareStatement(create());
-            case SHOW: p = conn.prepareStatement(show());
-            case UPDATE: p = conn.prepareStatement(update());
-            case DELETE: p = conn.prepareStatement(delete());
-        }
-        return p;
     }
 
     @Override
