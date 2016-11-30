@@ -12,9 +12,9 @@ final public class CreateUserAction extends SqlAction {
     private String username;
     private final String createUserString = "INSERT INTO users (USERNAME) VALUES ( ? );";
 
-    public CreateUserAction(Connection c, final String u) {
+    public CreateUserAction(Connection c, final String username) {
         super(c);
-        username = u;
+        this.username = username;
         createUserStatement = prepareStatement(createUserString);
     }
 
