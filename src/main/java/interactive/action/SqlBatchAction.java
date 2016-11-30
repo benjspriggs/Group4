@@ -13,7 +13,7 @@ abstract public class SqlBatchAction<V> implements Action {
     protected HashMap<Integer, V> map;
     protected PreparedStatement preparedStatement;
 
-    SqlBatchAction(Connection c, final String statement, HashMap<Integer, V> map){
+    protected SqlBatchAction(Connection c, final String statement, HashMap<Integer, V> map){
         connection = c;
         this.map = map;
         preparedStatement = prepareStatement(statement);

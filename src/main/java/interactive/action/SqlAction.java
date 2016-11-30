@@ -12,7 +12,7 @@ abstract public class SqlAction<V> implements Action {
     protected V value;
     protected PreparedStatement statement;
 
-    SqlAction(Connection c, V value, final String statementString)
+    protected SqlAction(Connection c, V value, final String statementString)
     {
         connection = c;
         this.value = value;

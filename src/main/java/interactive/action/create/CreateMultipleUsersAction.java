@@ -1,4 +1,6 @@
-package interactive.action;
+package interactive.action.create;
+
+import interactive.action.SqlBatchAction;
 
 import java.sql.Connection;
 import java.sql.SQLException;

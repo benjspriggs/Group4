@@ -1,4 +1,6 @@
-package interactive.action;
+package interactive.action.create;
+
+import interactive.action.SqlAction;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
