@@ -63,22 +63,22 @@ public class Location extends DatabaseObject{
     }
 
     @Override
-    public String create() {
+    protected String create() {
         return createString;
     }
 
     @Override
-    public String show() {
+    protected String show() {
         return showString;
     }
 
     @Override
-    public String update() {
+    protected String update() {
         return updateString;
     }
 
     @Override
-    public String delete() {
+    protected String delete() {
         return deleteString;
     }
 }
