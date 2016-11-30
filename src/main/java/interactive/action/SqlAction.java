@@ -25,7 +25,7 @@ abstract public class SqlAction implements Action {
     }
 
     abstract protected void setStatement(PreparedStatement s);
-    abstract protected void setStatements(PreparedStatement s);
+    abstract protected void setStatements(PreparedStatement s, final int index);
 
     protected void executeSingleStatement(PreparedStatement s){
         try {
@@ -49,10 +49,9 @@ abstract public class SqlAction implements Action {
         try {
             connection.setAutoCommit(false);
             for (int i = 0; i < count; ++i){
-                setStatement(s);
+                setStatements(s, i);
                 s.execute();
             }
-
         } catch (SQLException e){
             System.err.println("An error occurred preparing the statement");
             e.printStackTrace();
