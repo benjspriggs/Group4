@@ -7,7 +7,7 @@ import java.sql.SQLException;
  * Created by bspriggs on 11/29/2016.
  */
 public class Member extends DatabaseObject {
-    public final String number;
+    public final int number;
     public final String name;
     public boolean is_suspended;
     public final Location location;
@@ -19,7 +19,7 @@ public class Member extends DatabaseObject {
         is_suspended = m.is_suspended;
     }
 
-    public Member(String number, String name, boolean is_suspended, Location location) {
+    public Member(int number, String name, boolean is_suspended, Location location) {
         this.number = number;
         this.name = name;
         this.location = location;
@@ -28,7 +28,7 @@ public class Member extends DatabaseObject {
 
     @Override
     public String create() {
-        return "CALL create_member(?, ?, ?, ?, ?, ?)";
+        return "CALL create_member(?, ?, ?, ?, ?, ?, ?)";
     }
 
     @Override
@@ -39,7 +39,7 @@ public class Member extends DatabaseObject {
 
     @Override
     public String update() {
-        return "CALL update_member(?);";
+        return "CALL update_member(?, ?, ?, ?, ?, ?, ?);";
     }
 
     @Override
@@ -50,10 +50,17 @@ public class Member extends DatabaseObject {
     @Override
     public void fillStatement(DatabaseAction action, PreparedStatement statement) throws SQLException {
         switch (action) {
-            case CREATE:
             case SHOW:
+            case DELETE: statement.setInt(1, number);
+            case CREATE:
             case UPDATE:
-            case DELETE:
+                statement.setInt(1, number);
+                statement.setBoolean(2, is_suspended);
+                statement.setString(3, name);
+                statement.setString(4, location.street_address);
+                statement.setString(5, location.city);
+                statement.setString(6, location.state);
+                statement.setString(7, location.zipcode);
         }
     }
 }

@@ -35,11 +35,22 @@ public class Provider extends DatabaseObject {
 
     @Override
     protected String delete() {
-        return null;
+        return "DELETE FROM providers WHERE number = ?;";
     }
 
     @Override
     void fillStatement(DatabaseAction action, PreparedStatement statement) throws SQLException {
-
+        switch (action) {
+            case SHOW:
+            case DELETE: statement.setInt(1, number);
+            case CREATE:
+            case UPDATE:
+                statement.setInt(1, number);
+                statement.setString(2, name);
+                statement.setString(3, location.street_address);
+                statement.setString(4, location.city);
+                statement.setString(5, location.state);
+                statement.setString(6, location.zipcode);
+        }
     }
 }
