@@ -7,41 +7,19 @@ import java.sql.SQLException;
 /**
  * Created by bspriggs on 11/29/2016.
  */
-public class CreateUserAction extends SqlAction {
-    protected PreparedStatement createUserStatement;
-    private String username;
+public class CreateUserAction extends SqlAction<String> {
     protected final static String createUserString = "INSERT INTO users (USERNAME) VALUES ( ? );";
 
-    protected CreateUserAction(Connection c) {
-        super(c);
-        createUserStatement = prepareStatement(createUserString);
-    }
-
     public CreateUserAction(Connection c, final String username) {
-        super(c);
-        this.username = username;
-        createUserStatement = prepareStatement(createUserString);
+        super(c, createUserString, "INSERT INTO users (USERNAME) VALUES ( ? );");
     }
 
     public boolean isPrepared() {
         return true;
     }
 
-    public void execute(){
-        try {
-            connection.setAutoCommit(false);
-            createUserStatement.setString(1, username);
-            createUserStatement.execute();
-            connection.commit();
-        } catch (SQLException e){
-            e.printStackTrace();
-        } finally {
-            try {
-                createUserStatement.close();
-                connection.setAutoCommit(true);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+    @Override
+    protected void setStatement(PreparedStatement s) throws SQLException {
+        s.setString(1, super.value);
     }
 }
