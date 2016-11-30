@@ -2,12 +2,14 @@ package Reports;
 
 import sqldb.ChocanConnection;
 
+import java.security.Timestamp;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+//import java.sql.Timestamp;
 
 
 import static java.util.Calendar.DAY_OF_WEEK;
@@ -29,7 +31,8 @@ public class TimedServices {
     
     public void callWeeklySummary()
     {
-
+        java.sql.Timestamp time = new java.sql.Timestamp(System.currentTimeMillis());
+        conn.addFileWriteDate(time);
         Reports all_reports = new Reports(conn);
         all_reports.MemberSummaryReports(false);
         all_reports.ProviderSummaryReports(false);
