@@ -8,4 +8,9 @@ public class UserTest extends DatabaseObjectTest {
     protected DatabaseObject getImplementation() {
         return new User(0, "username");
     }
+
+    @Override
+    protected Class getImplementationClass() {
+        return User.class;
+    }
 }

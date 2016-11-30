@@ -18,23 +18,23 @@ public class Provider extends DatabaseObject {
     }
 
     @Override
-    protected String create() {
+    public String create() {
         return "CALL create_providers(?, ?, ?, ?, ?, ?);";
     }
 
     @Override
-    protected String show() {
+    public String show() {
         return "SELECT * FROM provider_view WHERE number = ?";
     }
 
     // TODO: Make a procedure that does this
     @Override
-    protected String update() {
+    public String update() {
         return "CALL update_provider(?);";
     }
 
     @Override
-    protected String delete() {
+    public String delete() {
         return "DELETE FROM providers WHERE number = ?;";
     }
 

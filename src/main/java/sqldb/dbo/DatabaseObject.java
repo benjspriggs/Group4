@@ -12,10 +12,10 @@ abstract public class DatabaseObject {
         CREATE, SHOW,
         UPDATE, DELETE
     }
-    abstract protected String create();
-    abstract protected String show();
-    abstract protected String update();
-    abstract protected String delete();
+    abstract public String create();
+    abstract public String show();
+    abstract public String update();
+    abstract public String delete();
     abstract public void fillStatement(DatabaseAction action, PreparedStatement statement) throws SQLException;
 
     public PreparedStatement prepareStatement(DatabaseAction action, Connection conn) throws SQLException {

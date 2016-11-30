@@ -49,18 +49,18 @@ public class Location extends DatabaseObject{
     }
 
     @Override
-    protected String create() {
+    public String create() {
         return "INSERT INTO locations (street_address, city, state, zipcode) " +
                 "VALUES (?, ?, ?, ?);";
     }
 
     @Override
-    protected String show() {
+    public String show() {
         return "SELECT * FROM locations WHERE id = ?;";
     }
 
     @Override
-    protected String update() {
+    public String update() {
         return "UPDATE locations " +
                 "SET street_address = ?," +
                 "city = ?," +
@@ -70,7 +70,7 @@ public class Location extends DatabaseObject{
     }
 
     @Override
-    protected String delete() {
+    public String delete() {
         return "DELETE FROM locations WHERE id = ?;";
     }
 }

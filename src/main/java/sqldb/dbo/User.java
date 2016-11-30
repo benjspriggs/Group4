@@ -16,22 +16,22 @@ public class User extends DatabaseObject {
     }
 
     @Override
-    protected String create() {
+    public String create() {
         return "INSERT INTO users (username) VALUES (?);";
     }
 
     @Override
-    protected String show() {
+    public String show() {
         return "SELECT * FROM users WHERE id = ?;";
     }
 
     @Override
-    protected String update() {
+    public String update() {
         return "UPDATE users SET username = ? WHERE id = ?;";
     }
 
     @Override
-    protected String delete() {
+    public String delete() {
         return "DELETE FROM users WHERE id = ?;";
     }
 
