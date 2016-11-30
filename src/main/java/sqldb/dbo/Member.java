@@ -51,7 +51,7 @@ public class Member extends DatabaseObject {
     public void fillStatement(DatabaseAction action, PreparedStatement statement) throws SQLException {
         switch (action) {
             case SHOW:
-            case DELETE: statement.setInt(1, number);
+            case DELETE: statement.setInt(1, number); break;
             case CREATE:
             case UPDATE:
                 statement.setInt(1, number);
@@ -61,6 +61,7 @@ public class Member extends DatabaseObject {
                 statement.setString(5, location.city);
                 statement.setString(6, location.state);
                 statement.setString(7, location.zipcode);
+                break;
         }
     }
 }
