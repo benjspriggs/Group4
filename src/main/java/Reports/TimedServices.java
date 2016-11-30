@@ -11,7 +11,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 //import java.sql.Timestamp;
 
-
 import static java.util.Calendar.DAY_OF_WEEK;
 
 /**
