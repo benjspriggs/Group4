@@ -7,26 +7,22 @@ import Reports.SummaryInfo;
 
 import java.sql.*;
 import java.util.ArrayList;
-
 //import java.util.ArrayList;
 
 public class ChocanConnection {
     private Connection conn;
-
     public ChocanConnection() {
-
-
         try {
             // get a connection to database
 
-           Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/chocan_server", "root", "root");
-            this.conn = conn;
+           conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/chocan_server", "root", "root");
+
            Statement myStmt = conn.createStatement();
 
            ResultSet myRs = myStmt.executeQuery("SELECT * from member_info");
 
            while (myRs.next()){
-              // System.out.println(myRs.getString("last"))
+              System.out.println(myRs.getString("last"));
            }
 
 
@@ -39,10 +35,9 @@ public class ChocanConnection {
     }
 
 
-/*
     private Connection getConnection() throws Exception {
         try {
-         /*   String driver = "org.apache.derby.jdbc.ClientDriver";
+            String driver = "org.apache.derby.jdbc.ClientDriver";
             String url = "jdbc:derby://localhost:1527/testdb";
             String username = "test";
             String password = "password1";
@@ -106,227 +101,33 @@ public class ChocanConnection {
             // idk
         }
     }
-}
 
-*/
-
-
-    //method written by Michael Cohoe
-    //returns the memberinfo for a specific member
-    //(CURRENTLY NOT TESTED)
-    public MemberInfo obtainMemberInfo(int id) {
-        try {
-            PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
-                    "member_info where member_info.number = " + id);
-
-            ResultSet result = statement.executeQuery();
-            if (result.next()) {
-
-                String name = result.getString("name");
-                String address = result.getString("street_address");
-                String city = result.getString("city");
-                String state = result.getString("state");
-                String zip = result.getString("zipcode");
-                MemberInfo info = new MemberInfo(name, address, city, state, zip);
-                return info;
-            }
-            else{
-                return null;
-            }
-
-        } catch (SQLException e) {
-            System.out.println("SQL problem in obtainMemberInfo");
-        }
-        return null;
-    }
-
-    //method written by Michael Cohoe
-    //returns all serviceinfo for a specific member
-    //(CURRENTLY NOT TESTED)
-    public ArrayList<ServiceInfo> obtainMemServiceInfo(int id){
-        try {
-            PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
-                    "services_lookup join service on service_code = service.code join " +
-                    "performed_services_info on id = service_id join providers on " +
-                    "providers.number = provider_info.number where (select max(timestamp) " +
-                    "from report_dates) < performed_services_info.timestamp and " +
-                    "member_number = " + id);
-
-            ResultSet result = statement.executeQuery();
-            ArrayList<ServiceInfo> array = new ArrayList<>();
-            while(result.next()) {
-
-                String date = result.getString("date_service");
-                String prov_name = result.getString("providers.name");
-                String service = result.getString("service.name");
-
-                ServiceInfo info = new ServiceInfo(date, prov_name, service);
-                array.add(info);
-            }
-            return array;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    //method written by Michael Cohoe
-    //returns providerinfo for a specific provider
-    //(CURRENTLY NOT TESTED)
-    public ProviderInfo obtainProviderInfo(int id) {
-        try {
-            PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
-                    "provider_info join providers on provider_info.number = providers.number where " +
-                    "provider_info.number = " + id);
-
-            ResultSet result = statement.executeQuery();
-            if (result.next()) {
-
-                String name = result.getString("name");
-                String address = result.getString("street_address");
-                String city = result.getString("city");
-                String state = result.getString("state");
-                String zip = result.getString("zipcode");
-                ProviderInfo info = new ProviderInfo(name, address, city, state, zip);
-                return info;
-            }
-            else{
-                return null;
-            }
-
-        } catch (SQLException e) {
-            System.out.println("SQL problem in obtainProviderInfo");
-        }
-        return null;
-    }
-
-    //method written by Michael Cohoe
-    //returns all serviceinfo for a specific provider
-    //(CURRENTLY NOT TESTED)
-    public ArrayList<ServiceInfo> obtainProvServiceInfo(int id){
-        try {
-            PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
-                    "services_lookup join service on service_code = service.code join " +
-                    "performed_services_info on id = service_id join providers on " +
-                    "providers.number = provider_info.number join member_info on " +
-                    "member_number = member_info.number where (select max(timestamp) " +
-                    "from report_dates) < performed_services_info.timestamp and " +
-                    "provider_number = " + id);
-
-            ResultSet result = statement.executeQuery();
-            ArrayList<ServiceInfo> array = new ArrayList<>();
-            while(result.next()) {
-
-                String date = result.getString("date_service");
-                String timestamp = result.getString("timestamp");
-                String prov_name = result.getString("providers.name");
-                String service = result.getString("service.name");
-                String mem_name = result.getString("member_info.name");
-                int serve_id = result.getInt("service_id");
-                int mem_id = result.getInt("member_number");
-                double fee = result.getDouble("fee");
-
-                ServiceInfo info = new ServiceInfo(date, timestamp, prov_name, service, mem_name,
-                        serve_id, mem_id, fee);
-                array.add(info);
-            }
-            return array;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    //method written by Michael Cohoe
-    //returns an array of all provider names, their consultants, and each provider's total fee
-    //(CURRENTLY NOT TESTED)
-    public ArrayList<SummaryInfo> obtainSummaryInfo() {
-        try {
-            PreparedStatement statement = conn.prepareStatement("SELECT providers.name, " +
-                    "count(*) as consult_num, sum(service.fee) as total_fee FROM services_lookup " +
-                    "join service on service_code = service.code join performed_services_info on " +
-                    "id = service_id join providers on provider_number " +
-                    "= providers.number where (select max(timestamp) from report_dates) " +
-                    "< performed_services_info.timestamp group by providers.name");
-
-            ResultSet result = statement.executeQuery();
-            ArrayList<SummaryInfo> array = new ArrayList<>();
-            while(result.next()) {
-
-                String name = result.getString("providers.name");
-                int consults = result.getInt("consult_num");
-                double fee = result.getDouble("total_fee");
-
-
-                SummaryInfo info = new SummaryInfo(name, consults, fee);
-                array.add(info);
-            }
-            return array;
-
-
-        } catch (SQLException e) {
-            System.out.println("SQL problem in obtainSummaryInfo");
-        }
-        return null;
-    }
-
-    //method written by Michael Cohoe
-    //returns an array of all member ids
-    //(CURRENTLY NOT TESTED)
     public ArrayList<Integer> obtainMemberIDs() {
-        try {
-            PreparedStatement statement = conn.prepareStatement("SELECT * from members");
-
-            ResultSet result = statement.executeQuery();
-            ArrayList<Integer> array = new ArrayList<>();
-
-            while(result.next()) {
-                array.add(result.getInt("number"));
-            }
-            return array;
-
-        } catch (SQLException e) {
-            System.out.println("SQL problem in obtainMemberID");
-        }
         return null;
     }
 
-    //method written by Michael Cohoe
-    //returns an array of all provider ids
-    //(CURRENTLY NOT TESTED)
     public ArrayList<Integer> obtainProviderIDs() {
-        try {
-            PreparedStatement statement = conn.prepareStatement("SELECT * from providers");
-
-            ResultSet result = statement.executeQuery();
-            ArrayList<Integer> array = new ArrayList<>();
-
-            while(result.next()) {
-                array.add(result.getInt("number"));
-            }
-            return array;
-
-        } catch (SQLException e) {
-            System.out.println("SQL problem in obtainProviderIDs");
-        }
         return null;
     }
 
-    //method written by Michael Cohoe
-    //Adds a new timestamp to the file_write_dates table
-    //(CURRENTLY NOT TESTED)
-    public void addFileWriteDate(Timestamp to_add){
-        try {
-            PreparedStatement statement = conn.prepareStatement("INSERT INTO report_dates " +
-                    "(timestamp) VALUES (?)");
-            statement.setTimestamp(1, to_add);
-            statement.executeUpdate();
+    public MemberInfo obtainMemberInfo(int id) {
+        return null;
+    }
 
-        } catch (SQLException e) {
-            System.out.println("SQL problem in addFileWriteDate");
-        }
+    public ArrayList<ServiceInfo> obtainMemServiceInfo(int id) {
+        return null;
+    }
 
+    public ProviderInfo obtainProviderInfo(int id) {
+        return null;
+    }
+
+    public ArrayList<ServiceInfo> obtainProvServiceInfo(int id) {
+        return null;
+    }
+
+    public ArrayList<SummaryInfo> obtainSummaryInfo() {
+        return null;
     }
 }
+
