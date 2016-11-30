@@ -2,7 +2,7 @@
  * Created by root on 11/28/16.
  */
 
-import java.io.*;
+import java.io.FileReader;
 import java.util.Scanner;
 
 public class Utilities {
