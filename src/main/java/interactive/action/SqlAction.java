@@ -10,7 +10,7 @@ import java.sql.SQLException;
 /**
  * Created by bspriggs on 11/29/2016.
  */
-abstract public class SqlAction<V extends DatabaseObject> implements ReturnableAction<ResultSet> {
+public class SqlAction<V extends DatabaseObject> implements ReturnableAction<ResultSet> {
     protected Connection connection;
     protected V value;
     protected PreparedStatement statement;
@@ -22,8 +22,6 @@ abstract public class SqlAction<V extends DatabaseObject> implements ReturnableA
         this.value = value;
         this.action = action;
     }
-
-    abstract protected void setStatement(PreparedStatement s) throws SQLException;
 
     @Override
     public void execute(){
