@@ -8,9 +8,9 @@ import java.sql.SQLException;
  * Created by bspriggs on 11/29/2016.
  */
 public class CreateUserAction extends SqlAction {
-    private PreparedStatement createUserStatement;
+    protected PreparedStatement createUserStatement;
     private String username;
-    private final static String createUserString = "INSERT INTO users (USERNAME) VALUES ( ? );";
+    protected final static String createUserString = "INSERT INTO users (USERNAME) VALUES ( ? );";
 
     protected CreateUserAction(Connection c) {
         super(c);

@@ -1,6 +1,7 @@
 package interactive.action;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -16,6 +17,22 @@ public class CreateMultipleUsersAction extends CreateUserAction {
 
     @Override
     public void execute(){
-
+        try {
+            connection.setAutoCommit(false);
+            for (String user : usernames) {
+                createUserStatement.setString(1, user);
+                createUserStatement.execute();
+            }
+            connection.commit();
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            try {
+                createUserStatement.close();
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
