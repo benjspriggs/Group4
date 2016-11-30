@@ -16,7 +16,7 @@ public class SqlAction<V extends DatabaseObject> implements ReturnableAction<Res
     private PreparedStatement statement;
     private final DatabaseObject.DatabaseAction action;
 
-    protected SqlAction(Connection c, V value, DatabaseObject.DatabaseAction action)
+    public SqlAction(Connection c, V value, DatabaseObject.DatabaseAction action)
     {
         connection = c;
         this.value = value;
