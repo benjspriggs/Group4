@@ -21,10 +21,10 @@ abstract public class DatabaseObject {
     PreparedStatement prepareStatement(DatabaseAction action, Connection conn) throws SQLException {
         PreparedStatement p = null;
         switch (action){
-            case CREATE: p = conn.prepareStatement(create());
-            case SHOW: p = conn.prepareStatement(show());
-            case UPDATE: p = conn.prepareStatement(update());
-            case DELETE: p = conn.prepareStatement(delete());
+            case CREATE: p = conn.prepareStatement(create()); break;
+            case SHOW: p = conn.prepareStatement(show()); break;
+            case UPDATE: p = conn.prepareStatement(update()); break;
+            case DELETE: p = conn.prepareStatement(delete()); break;
         }
         return p;
     }
