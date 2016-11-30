@@ -23,4 +23,46 @@ abstract public class SqlAction implements Action {
             return null;
         }
     }
+
+    abstract protected void setStatement(PreparedStatement s);
+    abstract protected void setStatements(PreparedStatement s);
+
+    protected void executeSingleStatement(PreparedStatement s){
+        try {
+            connection.setAutoCommit(false);
+            setStatement(s);
+            s.execute();
+        } catch (SQLException e){
+            System.err.println("An error occurred preparing the statement");
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.commit();
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    protected void executeBatchStatement(PreparedStatement s, int count){
+        try {
+            connection.setAutoCommit(false);
+            for (int i = 0; i < count; ++i){
+                setStatement(s);
+                s.execute();
+            }
+
+        } catch (SQLException e){
+            System.err.println("An error occurred preparing the statement");
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.commit();
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
