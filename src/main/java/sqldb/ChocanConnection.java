@@ -148,10 +148,6 @@ public class ChocanConnection {
     public ArrayList<SummaryInfo> obtainSummaryInfo() {
         return null;
     }
-
-    public void addFileWriteDate(Timestamp time) {
-
-    }
 }
 
 <<<<<<< HEAD
