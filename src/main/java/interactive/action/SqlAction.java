@@ -11,9 +11,9 @@ import java.sql.SQLException;
  * Created by bspriggs on 11/29/2016.
  */
 public class SqlAction<V extends DatabaseObject> implements ReturnableAction<ResultSet> {
-    protected Connection connection;
-    protected V value;
-    protected PreparedStatement statement;
+    private Connection connection;
+    private V value;
+    private PreparedStatement statement;
     private final DatabaseObject.DatabaseAction action;
 
     protected SqlAction(Connection c, V value, DatabaseObject.DatabaseAction action)
@@ -21,6 +21,7 @@ public class SqlAction<V extends DatabaseObject> implements ReturnableAction<Res
         connection = c;
         this.value = value;
         this.action = action;
+        statement = null;
     }
 
     @Override
@@ -32,7 +33,8 @@ public class SqlAction<V extends DatabaseObject> implements ReturnableAction<Res
     public ResultSet executeAndReturn(){
         ResultSet r = null;
         try {
-            this.statement = value.prepareStatement(action, connection);
+            if (statement == null)
+                this.statement = value.prepareStatement(action, connection);
             connection.setAutoCommit(false);
             value.fillStatement(action, statement);
             statement.executeQuery();

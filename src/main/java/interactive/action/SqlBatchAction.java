@@ -12,9 +12,9 @@ import java.util.List;
  * Created by bspriggs on 11/29/2016.
  */
 public class SqlBatchAction<V extends DatabaseObject> implements ReturnableAction<ResultSet> {
-    protected Connection connection;
-    protected List<V> items;
-    protected PreparedStatement preparedStatement;
+    private Connection connection;
+    private List<V> items;
+    private PreparedStatement preparedStatement;
     private final DatabaseObject.DatabaseAction action;
 
     protected SqlBatchAction(Connection c, List<V> items, DatabaseObject.DatabaseAction action) {
@@ -35,7 +35,8 @@ public class SqlBatchAction<V extends DatabaseObject> implements ReturnableActio
             return null;
         ResultSet r = null;
         try {
-            preparedStatement = items.get(0).prepareStatement(action, connection);
+            if (preparedStatement == null)
+                preparedStatement = items.get(0).prepareStatement(action, connection);
             connection.setAutoCommit(false);
             for (V item : items) {
                 item.fillStatement(action, preparedStatement);
