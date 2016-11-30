@@ -33,6 +33,11 @@ abstract public class SqlAction<V> implements ReturnableAction<ResultSet> {
     abstract protected void setStatement(PreparedStatement s) throws SQLException;
 
     @Override
+    public void execute(){
+        executeAndReturn();
+    }
+
+    @Override
     public ResultSet executeAndReturn(){
         ResultSet r = null;
         try {
