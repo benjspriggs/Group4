@@ -8,7 +8,7 @@ import java.sql.SQLException;
  * Created by bspriggs on 11/29/2016.
  */
 abstract public class DatabaseObject {
-    enum DatabaseAction{
+    public enum DatabaseAction{
         CREATE, SHOW,
         UPDATE, DELETE
     }

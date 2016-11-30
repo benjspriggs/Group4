@@ -1,35 +1,28 @@
 package interactive.action;
 
+import sqldb.dbo.DatabaseObject;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by bspriggs on 11/29/2016.
  */
-abstract public class SqlBatchAction<V> implements ReturnableAction<ResultSet> {
+public class SqlBatchAction<V extends DatabaseObject> implements ReturnableAction<ResultSet> {
     protected Connection connection;
-    protected HashMap<Integer, V> map;
+    protected List<V> items;
     protected PreparedStatement preparedStatement;
+    private final DatabaseObject.DatabaseAction action;
 
-    protected SqlBatchAction(Connection c, final String statement, HashMap<Integer, V> map) {
+    protected SqlBatchAction(Connection c, List<V> items, DatabaseObject.DatabaseAction action) {
         connection = c;
-        this.map = map;
-        preparedStatement = prepareStatement(statement);
-    }
-
-    abstract protected void setStatements(final Integer index) throws SQLException;
-
-    protected PreparedStatement prepareStatement(final String s) {
-        try {
-            return connection.prepareStatement(s);
-        } catch (SQLException e) {
-            System.err.println("An error occurred preparing the statement in SqlAction");
-            e.printStackTrace();
-            return null;
-        }
+        this.items = items;
+        this.action = action;
+        preparedStatement = null;
     }
 
     @Override
@@ -39,11 +32,14 @@ abstract public class SqlBatchAction<V> implements ReturnableAction<ResultSet> {
 
     @Override
     public ResultSet executeAndReturn() {
+        if (items.isEmpty())
+            return null;
         ResultSet r = null;
         try {
+            preparedStatement = items.get(0).prepareStatement(action, connection);
             connection.setAutoCommit(false);
-            for (Integer i = 0; i < map.size(); ++i) {
-                setStatements(i);
+            for (V item : items) {
+                item.fillStatement(action, preparedStatement);
                 preparedStatement.executeQuery();
             }
             r = preparedStatement.getResultSet();

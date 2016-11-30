@@ -19,8 +19,4 @@ public class CreateMultipleUsersAction extends SqlBatchAction<String> {
         preparedStatement.setString(index, this.map.get(index));
     }
 
-    @Override
-    public boolean isPrepared() {
-        return true;
-    }
 }

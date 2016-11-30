@@ -14,22 +14,13 @@ abstract public class SqlAction<V extends DatabaseObject> implements ReturnableA
     protected Connection connection;
     protected V value;
     protected PreparedStatement statement;
+    private final DatabaseObject.DatabaseAction action;
 
-    protected SqlAction(Connection c, V value, final String statementString)
+    protected SqlAction(Connection c, V value, DatabaseObject.DatabaseAction action)
     {
         connection = c;
         this.value = value;
-        this.statement = prepareStatement(statementString);
-    }
-
-    protected PreparedStatement prepareStatement(final String s){
-        try {
-            return connection.prepareStatement(s);
-        } catch (SQLException e) {
-            System.err.println("An error occurred preparing the statement in SqlAction");
-            e.printStackTrace();
-            return null;
-        }
+        this.action = action;
     }
 
     abstract protected void setStatement(PreparedStatement s) throws SQLException;
@@ -43,6 +34,7 @@ abstract public class SqlAction<V extends DatabaseObject> implements ReturnableA
     public ResultSet executeAndReturn(){
         ResultSet r = null;
         try {
+            this.statement = value.prepareStatement(action, connection);
             connection.setAutoCommit(false);
             setStatement(statement);
             statement.executeQuery();

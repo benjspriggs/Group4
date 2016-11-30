@@ -16,10 +16,6 @@ public class CreateUserAction extends SqlAction<String> {
         super(c, createUserString, "INSERT INTO users (USERNAME) VALUES ( ? );");
     }
 
-    public boolean isPrepared() {
-        return true;
-    }
-
     @Override
     protected void setStatement(PreparedStatement s) throws SQLException {
         s.setString(1, super.value);
