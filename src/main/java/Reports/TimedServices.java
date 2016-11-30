@@ -2,16 +2,16 @@ package Reports;
 
 import sqldb.ChocanConnection;
 
-import java.security.Timestamp;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-//import java.sql.Timestamp;
 
 import static java.util.Calendar.DAY_OF_WEEK;
+
+//import java.sql.Timestamp;
 
 /**
  * Created by The Borg on 11/25/2016.
