@@ -19,17 +19,18 @@ public class Provider extends DatabaseObject {
 
     @Override
     protected String create() {
-        return null;
+        return "CALL create_providers(?, ?, ?, ?, ?, ?);";
     }
 
     @Override
     protected String show() {
-        return null;
+        return "SELECT * FROM provider_view WHERE number = ?";
     }
 
+    // TODO: Make a procedure that does this
     @Override
     protected String update() {
-        return null;
+        return "CALL update_provider(?);";
     }
 
     @Override
