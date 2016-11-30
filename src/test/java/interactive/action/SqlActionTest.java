@@ -1,7 +1,7 @@
 package interactive.action;
 
 import com.mockrunner.jdbc.BasicJDBCTestCaseAdapter;
-import com.mockrunner.jdbc.StatementResultSetHandler;
+import com.mockrunner.jdbc.PreparedStatementResultSetHandler;
 import com.mockrunner.mock.jdbc.MockConnection;
 import com.mockrunner.mock.jdbc.MockResultSet;
 import org.junit.After;
@@ -22,12 +22,14 @@ public class SqlActionTest extends BasicJDBCTestCaseAdapter {
 
     }
 
-    private void prepareEmptyResultSet(){
+    private void prepareSingleUserResultSet(){
         MockConnection connection = getJDBCMockObjectFactory().getMockConnection();
-        StatementResultSetHandler statementHandler =
-                connection.getStatementResultSetHandler();
+        PreparedStatementResultSetHandler statementHandler =
+                connection.getPreparedStatementResultSetHandler();
         MockResultSet resultSet = statementHandler.createResultSet();
-        statementHandler.prepareGlobalResultSet(resultSet);
+        resultSet.addColumn("id", new Object[] { "0"});
+        resultSet.addColumn("username", new Object[] { "username"});
+        statementHandler.prepareResultSet("insert into", resultSet);
         mockConnection = connection;
     }
 
@@ -37,17 +39,15 @@ public class SqlActionTest extends BasicJDBCTestCaseAdapter {
     }
 
     @Test
-    public void executeShowNonexistentUser() throws Exception {
-        prepareEmptyResultSet();
+    public void executeShowUser() throws Exception {
+        prepareSingleUserResultSet();
         SqlAction<User> showUserAction = new SqlAction<>(
                 mockConnection,
                 new User(0, "username"),
                 DatabaseObject.DatabaseAction.CREATE
                 );
         showUserAction.execute();
-        mockConnection.close();
-        verifyCommitted();
-        verifyNotRolledBack();
+        verifySQLStatementExecuted("insert into");
     }
 
     @Test
