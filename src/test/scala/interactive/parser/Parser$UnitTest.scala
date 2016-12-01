@@ -25,10 +25,6 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
         doesParseToA(word + " another word", Help(Some("another word")), p)
       }
     }
-
-    "_help" should "not parse tokens with missing whitespace" in {
-      forAll(f.helpRequests) { word: String => doesNotParseToA(word + "asdfad", Help(Some("asdfad")), parser._help) }
-    }
   }
 
   behavior of "_stop"
