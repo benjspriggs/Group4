@@ -4,6 +4,8 @@ import interactive.Statements._
 import interactive.Term._
 import interactive.fixtures.InteractiveModeParserFixtures
 
+import scala.collection.mutable.ArrayBuffer
+
 /**
   * Created by bspriggs on 11/13/2016.
   */
@@ -272,24 +274,29 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
 
   {
     val p = parser._statements
+    val expected = ArrayBuffer(
+      Help(Some("create")), Mono((Request("create"), Obj(Type.One("user"), Seq(f.parsedJson()))))
+    ) // "help create; create user $f.validJson; quit;"
 
     "_statements" should "parse multiple expressions" in {
-      val expected = Seq(
-        Help(Some("create")), Mono((Request("create"), Obj(Type.One("user"), Seq(f.parsedJson()))))
-      )
-      assertResult(expected)(p.parse("help create; create user " + f.validJson + "; stop;"))
+      forAll(f.stopRequests) {
+        stop: String =>
+          doesParseToA("help create; create user " + f.validJson + s"; $stop;", expected, p)
+      }
     }
 
     "_statements" should "not parse after a Stop expression" in {
-
+      forAll(f.stopRequests) {
+        stop: String =>
+          doesNotParseToA(s"help create; $stop; create user " + f.validJson + s"; $stop;", expected, p)
+      }
     }
 
     "_statements" should "not parse multiple expressions delimited by a comma" in {
-
-    }
-
-    "_statements" should "parse multiple expressions delimited by a semicolon" in {
-
+      forAll(f.stopRequests) {
+        stop: String =>
+          doesNotParseToA("help create, create user " + f.validJson + s", $stop,", expected, p)
+      }
     }
   }
 
