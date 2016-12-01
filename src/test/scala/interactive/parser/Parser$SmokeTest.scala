@@ -77,6 +77,6 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
   }
 
   it must "handle multiple statements" in {
-    val p = Parser.expressions
+    val p = Parser._statements
   }
 }

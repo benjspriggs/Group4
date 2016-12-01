@@ -289,7 +289,10 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
     val p = parser._statements
 
     "_statements" should "parse multiple expressions" in {
-
+      val expected = Seq(
+        Help(Some("create")), Mono((Request("create"), Obj(Type.One("user"), Seq(f.parsedJson()))))
+      )
+      assertResult(expected)(p.parse("help create; create user " + f.validJson + "; stop;"))
     }
 
     "_statements" should "not parse after a Stop expression" in {
