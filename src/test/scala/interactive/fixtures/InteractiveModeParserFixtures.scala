@@ -15,7 +15,7 @@ trait InteractiveModeParserFixtures extends InteractiveModeFixtures {
   def doesParseToA[P](it: String,
                       expected: P,
                       _parser: all.Parser[Any]
-                      = parser.expression ) = {
+                      = parser.expression ): Unit = {
     try {
       val Parsed.Success(actual, _) = _parser.parse(it)
       assertResult(expected.getClass, "Expected: " + expected.getClass.toString)(actual.getClass)
@@ -28,7 +28,7 @@ trait InteractiveModeParserFixtures extends InteractiveModeFixtures {
   def doesNotParseToA[P](it: String,
                          expected: P,
                          _parser: all.Parser[Any]
-                         = parser.expression ) = {
+                         = parser.expression ): Unit = {
     try {
       val Parsed.Success(actual, _) = _parser.parse(it)
       assert(actual.getClass != expected.getClass,
