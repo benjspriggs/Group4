@@ -10,13 +10,14 @@ import interactive.Term._
 import interactive.{Statements, Term}
 
 object Parser {
-  lazy val endingSemicolon = P( ";" ~ whitespace.? ~ End)
+  lazy val delim: Char = ';'
+  lazy val finalDelim = P( delim.toString ~ whitespace.? ~ End)
 
   lazy val whitespace = P( CharsWhile(" \r\n\t".contains(_: Char)) ).opaque("")
 
   lazy val _stop = P(  "quit" | "bye" | "exit" )
     .map(_ => Statements.Stop)
-  lazy val _help = P( ("help" | "?") ~/ (whitespace ~ AnyChar.rep.!).? )
+  lazy val _help = P( ("help" | "?") ~/ (whitespace ~ CharsWhile(_ != delim).!).? )
     .map(Statements.Help)
   lazy val _request = P( ("create" | "show" | "update" | "delete" | "write").! )
     .map(Term.Request)
@@ -79,11 +80,11 @@ object Parser {
       | _request_object
       | _sql_literal )
 
-  lazy val _non_terminating_statement = P( ( _help | _request_object | _sql_literal ) ~ whitespace.? ~ ";" )
+  lazy val _non_terminating_statement = P( (_help | _request_object | _sql_literal) ~/ whitespace.? ~/ delim.toString )
   lazy val non_terminating_statement =
-    P( ( _help | _request_object | _sql_literal ) ~ whitespace.? ~ ";" )
+    P( ( _help | _request_object | _sql_literal ) ~ whitespace.? ~ delim.toString )
       .opaque("<non-terminating statement>")
-  lazy val _statements = P( ( _non_terminating_statement ~ whitespace.?).rep(0) ~_stop ~ endingSemicolon )
+  lazy val _statements = P( ( _non_terminating_statement ~/ whitespace.?).rep(0) ~_stop ~/ finalDelim )
     .map(_._1)
-  lazy val statements = P( ( non_terminating_statement ~ whitespace.?).rep(0) ~stop ~ endingSemicolon )
+  lazy val statements = P( ( non_terminating_statement ~/ whitespace.?).rep(0) ~ stop ~/ finalDelim )
 }

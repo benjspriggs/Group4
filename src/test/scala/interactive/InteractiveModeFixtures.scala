@@ -78,8 +78,8 @@ trait InteractiveModeFixtures extends FlatSpec with TableDrivenPropertyChecks{
                 val statements = Table(
                         "statement",
                         "help users;",
-                        "create user { }",
-                        "update member" + validJson
+                        "create user { };",
+                        "update member" + validJson + ";"
                 )
         }
         val f=fixture

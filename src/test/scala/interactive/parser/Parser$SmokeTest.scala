@@ -4,6 +4,8 @@ import interactive.Statements._
 import interactive.Term._
 import interactive.fixtures.InteractiveModeParserFixtures
 
+import scala.collection.mutable.ArrayBuffer
+
 /**
   * Created by bspriggs on 11/13/2016.
   */
@@ -80,7 +82,8 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
     val p = Parser._statements
     forAll(f.statements) {
       statement: String => forAll(f.stopRequests) {
-        stop: String => doesParseToA(s"$statement $stop;", Seq(Parser.non_terminating_statement.parse(statement)), p)
+        stop: String => doesParseToA(s"$statement $stop;",
+          ArrayBuffer(Parser.non_terminating_statement.parse(statement)), p)
       }
     }
   }
