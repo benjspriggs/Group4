@@ -182,7 +182,7 @@ public class Reports {
                     service.getTimestamp() + "\n\t" + "Member Name: " + service.getMem_name() +
                     "\n\t" + "Member Number: " + Integer.toString(service.getMem_id()) + "\n\t" +
                     "Service Code: " + Integer.toString(service.getService_id()) + "\n\t" +
-                    "Fee: " + Double.toString(service.getFee()) + "\n\n";
+                    "Fee: $" + Double.toString(service.getFee()) + "\n\n";
             service_num += 1;
             total_consult +=1;
             total_fee += service.getFee();
@@ -223,7 +223,7 @@ public class Reports {
                 report += "Provider " + Integer.toString(total_prov) + "\n\t" + "Provider Name: " +
                         summary.getProv_name() + "\n\t" + "Number of consultants for provider: " +
                         Integer.toString(summary.getConsult_num()) + "\n\t" +
-                        "Total fee for provider: " + Double.toString(summary.getTotal_fee()) + "\n\n";
+                        "Total fee for provider: $" + Double.toString(summary.getTotal_fee()) + "\n\n";
                 total_consult += summary.getConsult_num();
                  week_fee += summary.getTotal_fee();
             }
@@ -235,7 +235,7 @@ public class Reports {
         //add totals
         report += "Total amount of providers who provided a service: " +
                 Integer.toString(total_prov) + '\n' + "Total amount of consultants: " +
-                Integer.toString(total_consult) + '\n' + "Total fee for the week: " +
+                Integer.toString(total_consult) + '\n' + "Total fee for the week: $" +
                 Double.toString(week_fee) + '\n';
 
 
