@@ -5,16 +5,17 @@ package interactive.parser
   * Created by bspriggs on 11/12/2016.
   */
 import fastparse.all._
-import interactive.Tokens
+import interactive.Statements.SQL
+import interactive.{Statements, Tokens}
 
 object Parser {
 
   lazy val whitespace = P( CharsWhile(" \r\n\t".contains(_: Char)) ).opaque("")
 
   lazy val _stop = P( ( "quit" | "bye" | "exit") ~/ End | End  )
-    .map(_ => Tokens.Stop)
+    .map(_ => Statements.Stop)
   lazy val _help = P( ("help" | "?") ~/ (whitespace ~ AnyChar.rep.!).? ~/ End )
-    .map(Tokens.Help)
+    .map(Statements.Help)
   lazy val _request = P( ("create" | "show" | "update" | "delete" | "write").! )
     .map(Tokens.Request)
 
@@ -46,7 +47,7 @@ object Parser {
       ~/ whitespace
       ~/ AnyChar.rep(1).!
       ~/ End)
-      .map(Tokens.SQL)
+      .map(SQL)
 
   lazy val stop           = _stop          .opaque("<stop>")
   lazy val help           = _help          .opaque("<help>")
