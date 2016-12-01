@@ -50,7 +50,7 @@ public class TimedServices {
         timeOfDayCal.set(Calendar.SECOND, 0);
         timeOfDayCal.set(Calendar.MILLISECOND, 0);
 
-        long howLong = (timeOfDayCal.getTimeInMillis()-System.currentTimeMillis());;
+        long howLong = (timeOfDayCal.getTimeInMillis()-System.currentTimeMillis());
 
         timeOfDayAdjustmentScheduler.schedule(new Runnable() {
             public void run() {
