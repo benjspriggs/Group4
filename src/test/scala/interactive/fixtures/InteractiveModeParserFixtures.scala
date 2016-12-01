@@ -4,6 +4,7 @@ import fastparse.all
 import fastparse.core.Parsed
 import interactive.Term.Payload
 import interactive.parser.{JsonParser, Parser}
+import org.scalacheck.Gen
 import org.scalatest.FlatSpec
 import org.scalatest.prop.TableDrivenPropertyChecks
 
@@ -76,6 +77,8 @@ trait InteractiveModeParserFixtures extends FlatSpec with TableDrivenPropertyChe
     }
 
     val literal_sql = """CREATE TABLE bobby (name VARCHAR(40))"""
+
+    val statements = for { statement <- Gen.pick(2, helpRequests) } yield s"$statement;"
   }
   val f = fixture
 

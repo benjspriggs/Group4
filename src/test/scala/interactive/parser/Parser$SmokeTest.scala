@@ -75,4 +75,10 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
         }
     }
   }
+
+  it must "handle multiple statements" in {
+    forAll (f.statements) {
+      statement: String => doesParseToA(statement, Parser.statements)
+    }
+  }
 }
