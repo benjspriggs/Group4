@@ -2,7 +2,7 @@ package interactive.fixtures
 
 import fastparse.all
 import fastparse.core.Parsed
-import interactive.Tokens.Payload
+import interactive.Term.Payload
 import interactive.parser.{JsonParser, Parser}
 import org.scalatest.FlatSpec
 import org.scalatest.prop.TableDrivenPropertyChecks

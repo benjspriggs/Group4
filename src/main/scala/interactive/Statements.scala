@@ -1,6 +1,6 @@
 package interactive
 
-import interactive.Tokens.{Obj, Request, SuperObj}
+import interactive.Term.{Obj, Request, SuperObj}
 
 /**
   * Created by bspriggs on 11/30/2016.

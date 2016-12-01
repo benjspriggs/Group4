@@ -1,6 +1,6 @@
 package interactive.parser
 
-import interactive.Tokens._
+import interactive.Term._
 import interactive.fixtures.InteractiveModeParserFixtures
 
 import scala.collection.mutable.ArrayBuffer

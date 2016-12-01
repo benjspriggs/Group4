@@ -7,7 +7,7 @@ import interactive.parser.JsonParser
   *
   * Interactive Mode AST Tokens
   */
-object Tokens {
+object Term {
   /**
     * A JSON object with a clarifying type.
     * e.g. user { "name": "Barack Obama" }

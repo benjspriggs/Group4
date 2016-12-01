@@ -6,7 +6,7 @@ package interactive.parser
   */
 import fastparse.all._
 import interactive.Statements.SQL
-import interactive.{Statements, Tokens}
+import interactive.{Statements, Term}
 
 object Parser {
 
@@ -17,28 +17,28 @@ object Parser {
   lazy val _help = P( ("help" | "?") ~/ (whitespace ~ AnyChar.rep.!).? ~/ End )
     .map(Statements.Help)
   lazy val _request = P( ("create" | "show" | "update" | "delete" | "write").! )
-    .map(Tokens.Request)
+    .map(Term.Request)
 
   lazy val `type`      = P( ("user" | "member" | "provider" | "service" ).! )
   lazy val _singleType = P( `type` ~/ !"s" ~ (whitespace ~ "report".!).? ).map({
-    case (t, Some(r)) => Tokens.Type.One(s"$t $r")
-    case (t, None) => Tokens.Type.One(t)})
+    case (t, Some(r)) => Term.Type.One(s"$t $r")
+    case (t, None) => Term.Type.One(t)})
 
   lazy val _manyType   = P( `type` ~ "s" ~ (whitespace ~ "reports".!).? ).map({
-    case (t, Some(r)) => Tokens.Type.Many(s"$t $r")
-    case (t, None) => Tokens.Type.Many(t)})
+    case (t, Some(r)) => Term.Type.Many(s"$t $r")
+    case (t, None) => Term.Type.Many(t)})
 
   lazy val _payload = JsonParser.jsonExpr // courtesy of Li Haoyi
 
   lazy val `_object` =
     P( (_singleType ~/ whitespace ~/ _payload).rep(1) )
-    .map(Tokens.Obj(_:_*))
+    .map(Term.Obj(_:_*))
   lazy val _superobject =
     P( "all"
       ~/ whitespace
       ~ _manyType
       ~/ (whitespace ~ _payload ).? ~/ End
-      | _manyType ~/ whitespace ~ _payload.? ~/ End ).map(Tokens.SuperObj)
+      | _manyType ~/ whitespace ~ _payload.? ~/ End ).map(Term.SuperObj)
 
   lazy val _request_object = P( _request ~/ whitespace ~/ ( _superobject | `object`.rep(1)))
 
