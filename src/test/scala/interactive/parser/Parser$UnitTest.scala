@@ -1,6 +1,7 @@
 package interactive.parser
 
-import interactive.Tokens._
+import interactive.Statements._
+import interactive.Term._
 import interactive.fixtures.InteractiveModeParserFixtures
 
 import scala.collection.mutable.ArrayBuffer
@@ -26,10 +27,6 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
         doesParseToA(word + " another word", Help(Some("another word")), p)
       }
     }
-
-    "_help" should "not parse tokens with missing whitespace" in {
-      forAll(f.helpRequests) { word: String => doesNotParseToA(word + "asdfad", Help(Some("asdfad")), parser._help) }
-    }
   }
 
   behavior of "_stop"
@@ -39,10 +36,6 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
 
     "_stop" should "parse a stop interactive.token" in {
       forAll(f.stopRequests) { word: String => doesParseToA(word, Stop, p) }
-    }
-
-    "_stop" should "not parse if there's something after the stop interactive.token" in {
-      forAll(f.stopRequests) { word: String => doesNotParseToA(word + "asdfa", Stop, parser._stop) }
     }
   }
 
@@ -57,7 +50,7 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
     }
 
     "_request" should "not parse a non-request interactive.token" in {
-      forAll(f.typeSingle) { word: String => doesNotParseToA(word + "n", Request(word), p) }
+      forAll(f.typeSingle) { word: String => doesNotParseToA("n" + word, Request(word), p) }
     }
   }
 
@@ -112,22 +105,22 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
     "_object" should "parse a single type and JSON object" in {
       forAll(f.typeSingle) {
         word: String => doesParseToA(word + f.validJson,
-          Obj((Type.One(word), f.parsedJson())), p)
+          Obj((Type.One(word), Seq(f.parsedJson()))), p)
           doesParseToA(word + " report " + f.validJson,
-            Obj((Type.One(s"$word report"), f.parsedJson())), p)
+            Obj((Type.One(s"$word report"), Seq(f.parsedJson()))), p)
       }
     }
 
     "_object" should "not parse a JSON object without a type" in {
-      doesNotParseToA(f.validJson, Obj((Type.One("type"), f.parsedJson())), p)
+      doesNotParseToA(f.validJson, Obj((Type.One("type"), Seq(f.parsedJson()))), p)
     }
 
     "_object" should "not parse a type without a JSON object" in {
       forAll(f.typeSingle) {
-        word: String => doesNotParseToA(word, Obj((Type.One(word), f.parsedJson("{}"))), p)
+        word: String => doesNotParseToA(word, Obj((Type.One(word), Seq(f.parsedJson("{}")))), p)
       }
       forAll(f.typeMany) {
-        word: String => doesNotParseToA(word, Obj((Type.One(word), f.parsedJson("{}"))), p)
+        word: String => doesNotParseToA(word, Obj((Type.One(word), Seq(f.parsedJson("{}")))), p)
       }
     }
   }
@@ -160,13 +153,6 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
     "_superobject" should "parse a plural type and single JSON object" in {
       forAll(f.typeMany) {
         word: String => doesParseToA(word + f.validJson, SuperObj((Type.Many(word), f.optionJson())), p)
-      }
-    }
-
-    "_superobject" should "not parse a plural type and multiple JSON objects" in {
-      forAll(f.typeMany) {
-        word: String => doesNotParseToA(word + f.validJson + f.validJson,
-          SuperObj(Type.Many(word), f.optionJson()), p)
       }
     }
 
@@ -204,79 +190,112 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
   }
 
 
-  behavior of "_expr"
+  behavior of "_non_terminating_statement"
 
   {
-    val p = parser._expression
+    val p = parser._non_terminating_statement
 
-    "_expr" should "parse a stop request" in {
+    "_non_terminating_statement" should "not parse a stop request" in {
       forAll(f.stopRequests) {
-        word: String => doesParseToA(word, Stop, p)
+        word: String => doesNotParseToA(s"$word;", Stop, p)
       }
     }
 
-    "_expr" should "parse a help request with any known keyword" in {
+    "_non_terminating_statement" should "parse a help request with any known keyword" in {
       forAll(f.helpRequests) { help: String =>
         forAll(f.requests) { word: String =>
-          doesParseToA(help + " " + word, Help(Some(word)), p)
+          doesParseToA(s"$help $word;", Help(Some(word)), p)
         }
         forAll(f.typeSingle) { word: String =>
-          doesParseToA(help + " " + word, Help(Some(word)), p)
+          doesParseToA(s"$help $word;", Help(Some(word)), p)
         }
         forAll(f.typeMany) { word: String =>
-          doesParseToA(help + " " + word, Help(Some(word)), p)
+          doesParseToA(s"$help $word;", Help(Some(word)), p)
         }
         forAll(f.stopRequests) { word: String =>
-          doesParseToA(help + " " + word, Help(Some(word)), p)
+          doesParseToA(s"$help $word;", Help(Some(word)), p)
         }
-        doesParseToA(help + " any", Help(Some("any")), p)
+        doesParseToA(s"$help any;", Help(Some("any")), p)
       }
     }
 
-    "_expr" should "parse a request with a singular object" in {
+    "_non_terminating_statement" should "parse a request with a singular object" in {
       forAll(f.requests) { word: String =>
         forAll(f.typeSingle) { `type`: String =>
-          doesParseToA(word + " " + `type` + f.validJson,
-            (Request(word), Obj((Type.One(`type`), f.parsedJson()))), p)
+          doesParseToA(word + " " + `type` + f.validJson + ";",
+            Mono((Request(word), Obj((Type.One(`type`), Seq(f.parsedJson()))))), p
+          )
         }
       }
     }
 
-    "_expr" should "parse a request with a singular implied type and multiple objects" in {
+    "_non_terminating_statement" should "parse a request with a singular implied type and multiple objects" in {
       forAll(f.requests) { word: String =>
         forAll(f.typeSingle) { `type`: String =>
-          def o = Obj((Type.One(`type`), f.parsedJson()))
-          doesParseToA(word + " " + `type` + f.validJson + f.validJson + f.validJson,
-            (Request(word), ArrayBuffer(o, o, o)),
-            p)
+          doesParseToA(word + " " + `type` + f.validJson + f.validJson + f.validJson + ";",
+            Mono((Request(word), Obj((Type.One(`type`), Seq(f.parsedJson(), f.parsedJson(), f.parsedJson()))))), p
+          )
         }
       }
     }
 
-    "_expr" should "parse a request with a plural type and singular object" in {
+    "_non_terminating_statement" should "parse a request with a plural type and singular object" in {
       forAll(f.requests) { word: String =>
         forAll(f.typeMany) { `type`: String =>
-          doesParseToA(word + " " + `type` + f.validJson,
-            (Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p)
+          doesParseToA(word + " " + `type` + f.validJson + ";",
+            Poly(Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p
+          )
         }
       }
     }
 
-    "_expr" should "parse a generic request with a singular object" in {
+    "_non_terminating_statement" should "parse a generic request with a singular object" in {
       forAll(f.requests) { word: String =>
         forAll(f.typeMany) { `type`: String =>
-          doesParseToA(word + " all " + `type` + f.validJson,
-            (Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p)
+          doesParseToA(word + " all " + `type` + f.validJson + ";",
+            Poly(Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p
+          )
         }
       }
     }
 
-    "_expr" should "not parse a generic request with multiple objects" in {
+    "_non_terminating_statement" should "not parse a generic request with multiple objects" in {
       forAll(f.requests) { word: String =>
         forAll(f.typeMany) { `type`: String =>
-          doesNotParseToA(word + " all " + `type` + f.validJson + f.validJson + f.validJson,
-            (Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p)
+          doesNotParseToA(word + " all " + `type` + f.validJson + f.validJson + f.validJson + ";",
+            Poly(Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p
+          )
         }
+      }
+    }
+  }
+
+  behavior of "_statements"
+
+  {
+    val p = parser._statements
+    val expected = ArrayBuffer(
+      Help(Some("create")), Mono((Request("create"), Obj(Type.One("user"), Seq(f.parsedJson()))))
+    ) // "help create; create user $f.validJson; quit;"
+
+    "_statements" should "parse multiple expressions" in {
+      forAll(f.stopRequests) {
+        stop: String =>
+          doesParseToA("help create; create user " + f.validJson + s"; $stop;", expected, p)
+      }
+    }
+
+    "_statements" should "not parse after a Stop expression" in {
+      forAll(f.stopRequests) {
+        stop: String =>
+          doesNotParseToA(s"help create; $stop; create user " + f.validJson + s"; $stop;", expected, p)
+      }
+    }
+
+    "_statements" should "not parse multiple expressions delimited by a comma" in {
+      forAll(f.stopRequests) {
+        stop: String =>
+          doesNotParseToA("help create, create user " + f.validJson + s", $stop,", expected, p)
       }
     }
   }

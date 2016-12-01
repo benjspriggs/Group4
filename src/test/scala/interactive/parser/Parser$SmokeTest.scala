@@ -1,13 +1,16 @@
 package interactive.parser
 
+import interactive.Statements._
+import interactive.Term._
 import interactive.fixtures.InteractiveModeParserFixtures
+
+import scala.collection.mutable.ArrayBuffer
 
 /**
   * Created by bspriggs on 11/13/2016.
   */
 
 class Parser$SmokeTest extends InteractiveModeParserFixtures {
-  import interactive.Tokens._
 
   behavior of "Parser"
 
@@ -19,7 +22,7 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
     forAll(f.helpRequests) { word: String =>
       doesParseToA(word, Help(None))
       forAll(f.typeSingle) { `type`: String =>
-        doesParseToA(word ++ " " ++ `type`, Help(Some(`type`)))
+        doesParseToA(word + " " + `type`, Help(Some(`type`)))
       }
     }
   }
@@ -28,14 +31,14 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
     forAll(f.requests) { request: String =>
       forAll(f.typeMany) {
         `type`: String => doesParseToA(
-          request ++ " " ++ `type` ++ " " ++ f.validJson,
-          (Request(request), SuperObj((Type.Many(`type`), f.optionJson())))
+          request + " " + `type` + " " + f.validJson,
+          Poly((Request(request), SuperObj((Type.Many(`type`), f.optionJson()))))
         )
       }
       forAll(f.typeMany) {
         `type`: String => doesParseToA(
-          request ++ " all " ++ `type`,
-          (Request(request), SuperObj((Type.Many(`type`), f.optionJson(""))))
+          request + " all " + `type`,
+          Poly((Request(request), SuperObj((Type.Many(`type`), f.optionJson("")))))
         )
       }
     }
@@ -45,30 +48,42 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
     forAll(f.requests) { request: String =>
       forAll(f.typeSingle) {
         `type`: String => doesParseToA(
-          request ++ " " ++ `type` ++ " " ++ f.validJson,
-          (Request(request), Obj)
+          request + " " + `type` + " " + f.validJson,
+          Mono((Request(request), Obj(Type.One(`type`), Seq(f.parsedJson()))))
         )
       }
     }
   }
 
   it must "handle SQL literals" in {
-    doesParseToA("SQL " ++ f.literal_sql, SQL(f.literal_sql))
+    doesParseToA("SQL " + f.literal_sql, SQL(f.literal_sql))
   }
 
   it must "handle reports" in {
     forAll(f.requests) {
       request: String =>
-      forAll(f.typeSingle) {
-        t: String => doesParseToA(s"$request $t report" ++ f.validJson,
-          (Request(request), Obj((Type.One(t), f.parsedJson()))))
-      }
-      forAll(f.typeMany) {
-        t: String =>
-          doesParseToA(s"$request $t reports" ++ f.validJson,
-          (Request(request), SuperObj((Type.Many(t), f.optionJson()))))
-          doesParseToA(s"$request all $t reports",
-            (Request(request), SuperObj((Type.Many(t), f.optionJson()))))
+        forAll(f.typeSingle) {
+          t: String => doesParseToA(s"$request $t report" + f.validJson,
+            Mono(Request(request), Obj((Type.One(t), Seq(f.parsedJson()))))
+          )
+        }
+        forAll(f.typeMany) {
+          t: String =>
+            doesParseToA(s"$request $t reports" + f.validJson,
+              Poly((Request(request), SuperObj((Type.Many(t), f.optionJson())))))
+            doesParseToA(s"$request all $t reports",
+              Poly((Request(request), SuperObj((Type.Many(t), f.optionJson()))))
+            )
+        }
+    }
+  }
+
+  it must "handle multiple statements" in {
+    val p = Parser._statements
+    forAll(f.statements) {
+      statement: String => forAll(f.stopRequests) {
+        stop: String => doesParseToA(s"$statement $stop;",
+          ArrayBuffer(Parser.non_terminating_statement.parse(statement)), p)
       }
     }
   }
