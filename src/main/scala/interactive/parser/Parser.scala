@@ -5,49 +5,61 @@ package interactive.parser
   * Created by bspriggs on 11/12/2016.
   */
 import fastparse.all._
-import interactive.Tokens
+import interactive.Statements.{Mono, Poly, SQL}
+import interactive.Term._
+import interactive.{Statements, Term}
 
 object Parser {
-  lazy val semiEnd = P( ";" ~ whitespace.? ~ End )
 
-  lazy val whitespace = P( CharsWhile(" \r\n\t".contains(_: Char)) ).opaque("<whitespace>")
+  lazy val whitespace = P( CharsWhile(" \r\n\t".contains(_: Char)) ).opaque("")
 
-  lazy val _stop = P( ( "quit" | "bye" | "exit") ~/ semiEnd | semiEnd  )
-    .map(_ => Tokens.Stop)
-  lazy val _help = P( ("help" | "?") ~/ (whitespace ~ CharsWhile(_ != ';').!) .? ~/ semiEnd )
-    .map(Tokens.Help)
+  lazy val _stop = P( ( "quit" | "bye" | "exit") ~/ End | End  )
+    .map(_ => Statements.Stop)
+  lazy val _help = P( ("help" | "?") ~/ (whitespace ~ AnyChar.rep.!).? ~/ End )
+    .map(Statements.Help)
   lazy val _request = P( ("create" | "show" | "update" | "delete" | "write").! )
-    .map(Tokens.Request)
+    .map(Term.Request)
 
   lazy val `type`      = P( ("user" | "member" | "provider" | "service" ).! )
   lazy val _singleType = P( `type` ~/ !"s" ~ (whitespace ~ "report".!).? ).map({
-    case (t, Some(r)) => Tokens.Type.One(s"$t $r")
-    case (t, None) => Tokens.Type.One(t)})
+    case (t, Some(r)) => Term.Type.One(s"$t $r")
+    case (t, None) => Term.Type.One(t)})
 
   lazy val _manyType   = P( `type` ~ "s" ~ (whitespace ~ "reports".!).? ).map({
-    case (t, Some(r)) => Tokens.Type.Many(s"$t $r")
-    case (t, None) => Tokens.Type.Many(t)})
+    case (t, Some(r)) => Term.Type.Many(s"$t $r")
+    case (t, None) => Term.Type.Many(t)})
 
   lazy val _payload = JsonParser.jsonExpr // courtesy of Li Haoyi
 
   lazy val `_object` =
-    P( (_singleType ~/ whitespace ~/ _payload).rep(1) )
-    .map(Tokens.Obj(_:_*))
+    P( _singleType ~/ whitespace ~/ _payload.rep(1) ).map(Term.Obj)
   lazy val _superobject =
     P( "all"
       ~/ whitespace
       ~ _manyType
-      ~/ (whitespace ~ _payload ).? ~/ semiEnd
-      | _manyType ~/ whitespace ~ _payload.? ~/ semiEnd ).map(Tokens.SuperObj)
+      ~/ (whitespace ~ _payload ).? ~/ End
+      | _manyType ~/ whitespace ~ _payload.? ~/ End ).map(Term.SuperObj)
 
-  lazy val _request_object = P( _request ~/ whitespace ~/ ( _superobject | `object`.rep(1)))
+  lazy val _request_object = P( _request ~/ whitespace ~/ ( _superobject | `object` ))
+    .map(statementsMap)
+
+  def statementsMap(parsed_tuple: (Request, Equals)) =
+  {
+    parsed_tuple._2 match {
+      case t: Equals => t match {
+        case t: SuperObj => Poly(parsed_tuple._1, t)
+        case t: Obj => Mono(parsed_tuple._1, t)
+      }
+    }
+  }
+
 
   lazy val _sql_literal =
     P( "SQL"
       ~/ whitespace
       ~/ AnyChar.rep(1).!
-      ~/ semiEnd)
-      .map(Tokens.SQL)
+      ~/ End)
+      .map(SQL)
 
   lazy val stop           = _stop          .opaque("<stop>")
   lazy val help           = _help          .opaque("<help>")
@@ -57,13 +69,13 @@ object Parser {
   lazy val sql_literal    = _sql_literal   .opaque("<SQL query>")
   lazy val request_object = _request_object.opaque("<request> with <object> or <objects>")
 
-  lazy val expression = P( (stop
+  lazy val expression = P( stop
     | help
     | request_object
-    | sql_literal) ~ whitespace ~ ";" )
+    | sql_literal )
 
-  lazy val _expression = P( (_stop
+  lazy val _expression = P( _stop
       | _help
       | _request_object
-      | _sql_literal) ~ whitespace ~ ";" )
+      | _sql_literal )
 }
