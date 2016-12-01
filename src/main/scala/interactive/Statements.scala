@@ -26,7 +26,7 @@ object Statements {
     * that are each unique.
     * @param value A sequence of tuples with the request and object(s)
     */
-  case class Mono(value: (Request, Seq[Obj])) extends AnyVal
+  case class Mono(value: (Request, Obj)) extends AnyVal
 
   /**
     * Literal SQL, when the grammar just isn't cutting it.

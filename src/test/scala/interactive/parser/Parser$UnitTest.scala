@@ -236,7 +236,7 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       forAll(f.requests) { word: String =>
         forAll(f.typeSingle) { `type`: String =>
           doesParseToA(word + " " + `type` + f.validJson,
-            Mono((Request(word), Seq(Obj((Type.One(`type`), f.parsedJson()))))), p
+            Mono((Request(word), Obj((Type.One(`type`), f.parsedJson())))), p
           )
         }
       }
@@ -245,9 +245,9 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
     "_expr" should "parse a request with a singular implied type and multiple objects" in {
       forAll(f.requests) { word: String =>
         forAll(f.typeSingle) { `type`: String =>
-          def o = Obj((Type.One(`type`), f.parsedJson()))
+          def t = (Type.One(`type`), f.parsedJson())
           doesParseToA(word + " " + `type` + f.validJson + f.validJson + f.validJson,
-            Mono((Request(word), Seq(o, o, o))), p
+            Mono((Request(word), Obj(t, t, t))), p
           )
         }
       }

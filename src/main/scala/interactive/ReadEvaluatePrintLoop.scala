@@ -17,17 +17,17 @@ class ReadEvaluatePrintLoop {
 
   def parseInput(s: String) = parser.parse(s)
 
-  def continue(t: Parsed[Product with Serializable, Char, String]): Boolean = t match {
-    case s: Parsed.Success[Product with Serializable, Char, String] => s match {
+  def continue(t: Parsed[Any, Char, String]): Boolean = t match {
+    case s: Parsed.Success[Any, Char, String] => s match {
       case Parsed.Success(Stop, _) => false
       case _ => true
     }
     case _ => true
   }
 
-  def helpMessage(t: Parsed[Product with Serializable, Char, String]) = t match {
+  def helpMessage(t: Parsed[Any, Char, String]) = t match {
     case f: Failure[Char, String] => "Error, unrecognized token at: " + f.msg
-    case s: Success[Product with Serializable, Char, String] => "Success! " + s
+    case s: Success[Any, Char, String] => "Success! " + s
   }
 
   def start(input: InputStream, output: OutputStream) = {
@@ -38,6 +38,6 @@ class ReadEvaluatePrintLoop {
       .takeWhile(_ != null)
       .map(parser.parse(_))
       .takeWhile(continue)
-      .foreach((s: Parsed[Product with Serializable, Char, String]) => { writer write helpMessage(s); writer flush();})
+      .foreach((s: Parsed[Any, Char, String]) => { writer write helpMessage(s); writer flush();})
   }
 }

@@ -5,7 +5,8 @@ package interactive.parser
   * Created by bspriggs on 11/12/2016.
   */
 import fastparse.all._
-import interactive.Statements.SQL
+import interactive.Statements.{Mono, Poly, SQL}
+import interactive.Term.{Obj, Request, SuperObj}
 import interactive.{Statements, Term}
 
 object Parser {
@@ -41,6 +42,17 @@ object Parser {
       | _manyType ~/ whitespace ~ _payload.? ~/ End ).map(Term.SuperObj)
 
   lazy val _request_object = P( _request ~/ whitespace ~/ ( _superobject | `object`.rep(1)))
+    .map(statementsMap)
+
+  def statementsMap(parsed_tuple: (Request, Equals)) =
+  {
+    parsed_tuple match {
+      case p: (Request, SuperObj) => Poly(p)
+      case m: (Request, Seq[Obj]) => Mono(m)
+      case _ => Unit
+    }
+  }
+
 
   lazy val _sql_literal =
     P( "SQL"
