@@ -79,6 +79,11 @@ object Parser {
       | _request_object
       | _sql_literal )
 
-  lazy val _statement = P( ( _help | _request_object | _sql_literal ) ~ whitespace.? ~ ";" )
-  lazy val _statements = P( (_statement ~ whitespace.?).rep(0) ~_stop ~ endingSemicolon )
+  lazy val _non_terminating_statement = P( ( _help | _request_object | _sql_literal ) ~ whitespace.? ~ ";" )
+  lazy val non_terminating_statement =
+    P( ( _help | _request_object | _sql_literal ) ~ whitespace.? ~ ";" )
+      .opaque("<non-terminating statement>")
+  lazy val _statements = P( ( _non_terminating_statement ~ whitespace.?).rep(0) ~_stop ~ endingSemicolon )
+    .map(_._1)
+  lazy val statements = P( ( non_terminating_statement ~ whitespace.?).rep(0) ~stop ~ endingSemicolon )
 }
