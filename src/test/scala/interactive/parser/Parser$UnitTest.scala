@@ -111,22 +111,22 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
     "_object" should "parse a single type and JSON object" in {
       forAll(f.typeSingle) {
         word: String => doesParseToA(word + f.validJson,
-          Obj((Type.One(word), f.parsedJson())), p)
+          Obj((Type.One(word), Seq(f.parsedJson()))), p)
           doesParseToA(word + " report " + f.validJson,
-            Obj((Type.One(s"$word report"), f.parsedJson())), p)
+            Obj((Type.One(s"$word report"), Seq(f.parsedJson()))), p)
       }
     }
 
     "_object" should "not parse a JSON object without a type" in {
-      doesNotParseToA(f.validJson, Obj((Type.One("type"), f.parsedJson())), p)
+      doesNotParseToA(f.validJson, Obj((Type.One("type"), Seq(f.parsedJson()))), p)
     }
 
     "_object" should "not parse a type without a JSON object" in {
       forAll(f.typeSingle) {
-        word: String => doesNotParseToA(word, Obj((Type.One(word), f.parsedJson("{}"))), p)
+        word: String => doesNotParseToA(word, Obj((Type.One(word), Seq(f.parsedJson("{}")))), p)
       }
       forAll(f.typeMany) {
-        word: String => doesNotParseToA(word, Obj((Type.One(word), f.parsedJson("{}"))), p)
+        word: String => doesNotParseToA(word, Obj((Type.One(word), Seq(f.parsedJson("{}")))), p)
       }
     }
   }
@@ -236,7 +236,7 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       forAll(f.requests) { word: String =>
         forAll(f.typeSingle) { `type`: String =>
           doesParseToA(word + " " + `type` + f.validJson,
-            Mono((Request(word), Obj((Type.One(`type`), f.parsedJson())))), p
+            Mono((Request(word), Obj((Type.One(`type`), Seq(f.parsedJson()))))), p
           )
         }
       }
@@ -245,9 +245,8 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
     "_expr" should "parse a request with a singular implied type and multiple objects" in {
       forAll(f.requests) { word: String =>
         forAll(f.typeSingle) { `type`: String =>
-          def t = (Type.One(`type`), f.parsedJson())
           doesParseToA(word + " " + `type` + f.validJson + f.validJson + f.validJson,
-            Mono((Request(word), Obj(t, t, t))), p
+            Mono((Request(word), Obj((Type.One(`type`), Seq(f.parsedJson(), f.parsedJson(), f.parsedJson()))))), p
           )
         }
       }
