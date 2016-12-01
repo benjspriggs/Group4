@@ -45,10 +45,11 @@ object Parser {
 
   def statementsMap(parsed_tuple: (Request, Equals)) =
   {
-    parsed_tuple match {
-      case m: (Request, Obj) => Mono(m)
-      case p: (Request, SuperObj) => Poly(p)
-      case _ => Unit
+    parsed_tuple._2 match {
+      case t: Equals => t match {
+        case t: SuperObj => Poly(parsed_tuple._1, t)
+        case t: Obj => Mono(parsed_tuple._1, t)
+      }
     }
   }
 
