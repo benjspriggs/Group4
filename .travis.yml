@@ -4,7 +4,6 @@ jdk:
   - oraclejdk8
 before_install:
   - chmod +x gradlew
-install:
-  - ./gradlew assemble
-  - ./gradlew check
-  - ./gradlew build
+install: echo "skip 'gradle-assemble' step"
+script:
+  - ./gradlew build --continue
