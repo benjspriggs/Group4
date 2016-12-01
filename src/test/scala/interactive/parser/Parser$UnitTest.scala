@@ -35,10 +35,6 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
     "_stop" should "parse a stop interactive.token" in {
       forAll(f.stopRequests) { word: String => doesParseToA(word, Stop, p) }
     }
-
-    "_stop" should "not parse if there's something after the stop interactive.token" in {
-      forAll(f.stopRequests) { word: String => doesNotParseToA(word + "asdfa", Stop, parser._stop) }
-    }
   }
 
 
