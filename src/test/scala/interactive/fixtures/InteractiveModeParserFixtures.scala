@@ -2,82 +2,15 @@ package interactive.fixtures
 
 import fastparse.all
 import fastparse.core.Parsed
-import interactive.Term.Payload
-import interactive.parser.{JsonParser, Parser}
-import org.scalatest.FlatSpec
-import org.scalatest.prop.TableDrivenPropertyChecks
+import interactive.InteractiveModeFixtures
+import interactive.parser.Parser
 
 /**
   * Created by bspriggs on 11/13/2016.
   */
-trait InteractiveModeParserFixtures extends FlatSpec with TableDrivenPropertyChecks {
+trait InteractiveModeParserFixtures extends InteractiveModeFixtures {
 
   val parser = Parser
-
-  def fixture = new {
-    val helpRequests = Table( "word",
-      "help",
-      "?"
-    )
-
-    val requests = Table(
-      "name",
-      "create",
-      "show",
-      "update",
-      "delete",
-      "write"
-    )
-
-    val typeSingle = Table(
-      "type",
-      "user",
-      "member",
-      "provider",
-      "service"
-    )
-
-    val typeMany = Table(
-      "types",
-      "users",
-      "members",
-      "providers",
-      "services"
-    )
-
-    val stopRequests = Table( "word",
-      "quit",
-      "bye",
-      "exit",
-      ""
-    )
-
-    val validJson = """
-                      |{
-                      | "name": "Kate Abernathy",
-                      | "age": 23,
-                      | "member_number": 4
-                      | }
-                    """.stripMargin
-
-    def optionJson(s: String = validJson): Option[Payload] = JsonParser.jsonExpr.parse(s) match {
-      case o: Parsed.Success[_,_,_] => o match {
-        case Parsed.Success(opt:Payload, _) => Some(opt)
-        case _ => None
-      }
-      case _ => None
-    }
-
-    def parsedJson(s: String = validJson): Payload = {
-      optionJson(s) match {
-        case Some(parsed) => parsed
-        case None => parsedJson("{}")
-      }
-    }
-
-    val literal_sql = """CREATE TABLE bobby (name VARCHAR(40))"""
-  }
-  val f = fixture
 
   def doesParseToA[P](it: String,
                       expected: P,
