@@ -1,9 +1,8 @@
 package interactive.parser
 
+import interactive.Statements._
 import interactive.Term._
 import interactive.fixtures.InteractiveModeParserFixtures
-
-import scala.collection.mutable.ArrayBuffer
 
 /**
   * Created by bspriggs on 11/13/2016.
@@ -237,7 +236,8 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       forAll(f.requests) { word: String =>
         forAll(f.typeSingle) { `type`: String =>
           doesParseToA(word + " " + `type` + f.validJson,
-            (Request(word), Obj((Type.One(`type`), f.parsedJson()))), p)
+            Mono((Request(word), Seq(Obj((Type.One(`type`), f.parsedJson()))))), p
+          )
         }
       }
     }
@@ -247,8 +247,8 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
         forAll(f.typeSingle) { `type`: String =>
           def o = Obj((Type.One(`type`), f.parsedJson()))
           doesParseToA(word + " " + `type` + f.validJson + f.validJson + f.validJson,
-            (Request(word), ArrayBuffer(o, o, o)),
-            p)
+            Mono((Request(word), Seq(o, o, o))), p
+          )
         }
       }
     }
@@ -257,7 +257,8 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       forAll(f.requests) { word: String =>
         forAll(f.typeMany) { `type`: String =>
           doesParseToA(word + " " + `type` + f.validJson,
-            (Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p)
+            Poly(Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p
+          )
         }
       }
     }
@@ -266,7 +267,8 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       forAll(f.requests) { word: String =>
         forAll(f.typeMany) { `type`: String =>
           doesParseToA(word + " all " + `type` + f.validJson,
-            (Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p)
+            Poly(Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p
+          )
         }
       }
     }
@@ -275,7 +277,8 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       forAll(f.requests) { word: String =>
         forAll(f.typeMany) { `type`: String =>
           doesNotParseToA(word + " all " + `type` + f.validJson + f.validJson + f.validJson,
-            (Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p)
+            Poly(Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p
+          )
         }
       }
     }

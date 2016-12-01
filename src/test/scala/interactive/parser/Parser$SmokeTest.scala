@@ -47,7 +47,7 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
       forAll(f.typeSingle) {
         `type`: String => doesParseToA(
           request ++ " " ++ `type` ++ " " ++ f.validJson,
-          Mono(Seq((Request(request), Obj)))
+          Mono((Request(request), Seq(Obj((Type.One(`type`), f.parsedJson())))))
         )
       }
     }
@@ -62,7 +62,7 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
       request: String =>
         forAll(f.typeSingle) {
           t: String => doesParseToA(s"$request $t report" ++ f.validJson,
-            Mono(Seq((Request(request), Obj((Type.One(t), f.parsedJson())))))
+            Mono(Request(request), Seq(Obj((Type.One(t), f.parsedJson()))))
           )
         }
         forAll(f.typeMany) {

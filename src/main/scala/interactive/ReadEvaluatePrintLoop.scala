@@ -4,6 +4,7 @@ import java.io._
 
 import fastparse.core.Parsed
 import fastparse.core.Parsed.{Failure, Success}
+import interactive.Statements.Stop
 import interactive.parser.Parser
 
 import scala.Serializable
