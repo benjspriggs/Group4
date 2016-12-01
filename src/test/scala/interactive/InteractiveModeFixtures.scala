@@ -1,8 +1,8 @@
 package interactive
 
-import com.mysql.cj.x.json.JsonParser
 import fastparse.core.Parsed
 import interactive.Term.Payload
+import interactive.parser.JsonParser
 import org.scalatest.FlatSpec
 import org.scalatest.prop.TableDrivenPropertyChecks
 ;
