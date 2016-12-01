@@ -283,24 +283,24 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
     }
   }
 
-  behavior of "_expressions"
+  behavior of "_statements"
 
   {
-    val p = parser._expressions
+    val p = parser._statements
 
-    "_expressions" should "parse multiple expressions" in {
-
-    }
-
-    "_expressions" should "not parse after a Stop expression" in {
+    "_statements" should "parse multiple expressions" in {
 
     }
 
-    "_expressions" should "not parse multiple expressions delimited by a comma" in {
+    "_statements" should "not parse after a Stop expression" in {
 
     }
 
-    "_expressions" should "parse multiple expressions delimited by a semicolon" in {
+    "_statements" should "not parse multiple expressions delimited by a comma" in {
+
+    }
+
+    "_statements" should "parse multiple expressions delimited by a semicolon" in {
 
     }
   }
