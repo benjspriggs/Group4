@@ -1,8 +1,7 @@
 package interactive
 
-import interactive.Term._
 import interactive.Statements._
-import org.scalatest.FlatSpec
+import interactive.Term._
 
 /**
   * Created by bspriggs on 11/30/2016.
