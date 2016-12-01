@@ -7,6 +7,8 @@ import java.util.ArrayList;
 /**
  * Created by The Borg on 11/25/2016.
  * aka Cameron
+ * EDITIED TO COMPILE
+ * TODO: MAKE SURE TO REMOVE REFERENCS TO UNIMPLEMENTED METHODS IN CHOCANCONNECTION
  */
 
 public class Reports {
