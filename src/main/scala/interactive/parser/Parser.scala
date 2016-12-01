@@ -6,7 +6,7 @@ package interactive.parser
   */
 import fastparse.all._
 import interactive.Statements.{Mono, Poly, SQL}
-import interactive.Term.{Obj, Request, SuperObj}
+import interactive.Term._
 import interactive.{Statements, Term}
 
 object Parser {
@@ -32,8 +32,7 @@ object Parser {
   lazy val _payload = JsonParser.jsonExpr // courtesy of Li Haoyi
 
   lazy val `_object` =
-    P( (_singleType ~/ whitespace ~/ _payload).rep(1) )
-    .map(Term.Obj(_:_*))
+    P( _singleType ~/ whitespace ~/ _payload.rep(1) ).map(Term.Obj)
   lazy val _superobject =
     P( "all"
       ~/ whitespace
@@ -41,14 +40,14 @@ object Parser {
       ~/ (whitespace ~ _payload ).? ~/ End
       | _manyType ~/ whitespace ~ _payload.? ~/ End ).map(Term.SuperObj)
 
-  lazy val _request_object = P( _request ~/ whitespace ~/ ( _superobject | `object`.rep(1)))
+  lazy val _request_object = P( _request ~/ whitespace ~/ ( _superobject | `object` ))
     .map(statementsMap)
 
   def statementsMap(parsed_tuple: (Request, Equals)) =
   {
     parsed_tuple match {
-      case p: (Request, SuperObj) => Poly(p)
       case m: (Request, Obj) => Mono(m)
+      case p: (Request, SuperObj) => Poly(p)
       case _ => Unit
     }
   }

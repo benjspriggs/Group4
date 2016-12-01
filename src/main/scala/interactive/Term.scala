@@ -13,7 +13,7 @@ object Term {
     * e.g. user { "name": "Barack Obama" }
     * @param value A list of type and Payload tuple pairs
     */
-  case class Obj(value: (Type.One, Payload)*) extends AnyVal
+  case class Obj(value: (Type.One, Seq[Payload])) extends AnyVal
 
   /**
     * A JSON object with a pluralizing type.
