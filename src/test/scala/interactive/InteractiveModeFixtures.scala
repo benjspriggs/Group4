@@ -45,8 +45,7 @@ trait InteractiveModeFixtures extends FlatSpec with TableDrivenPropertyChecks{
                 val stopRequests=Table("word",
                         "quit",
                         "bye",
-                        "exit",
-                        ""
+                        "exit"
                 )
 
                 val validJson="""
