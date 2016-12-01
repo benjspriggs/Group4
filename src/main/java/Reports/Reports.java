@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 
 public class Reports {
-    ChocanConnection conn;
+    private ChocanConnection conn;
 
 
     public Reports(ChocanConnection conn) {
@@ -19,7 +19,6 @@ public class Reports {
 
     //Prints a single member's report to the screen. Requires the id of the member
     //whose reports is to be viewed.
-    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public void PrintMemberReport(int memberID)
     {
         String to_print = WriteMemberReport(memberID);
@@ -33,7 +32,6 @@ public class Reports {
 
     //Prints a single provider's report to the screen. Requires the id of the provider
     //whose reports is to be viewed.
-    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public void PrintProviderReport(int providerID)
     {
         String to_print = WriteProviderReport(providerID);
@@ -47,23 +45,24 @@ public class Reports {
 
     //Creates all member reports. Method prints out all member reports if the manager variable is
     //set to true. Otherwise it writes the reports to disk
-    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public void MemberSummaryReports(boolean isManager)
     {
         ArrayList<Integer> all_ids = conn.obtainMemberIDs();
-        if (isManager == true && (all_ids == null || all_ids.size() == 0)){
+        if (isManager && (all_ids == null || all_ids.size() == 0)){
             System.out.println("There are no member reports currently registered.");
         }
 
-        for(Integer id : all_ids) {
-            if(isManager == true){
-                PrintMemberReport(id);
-            }
-            else {
-                WriteToDisk disk_writer = new WriteToDisk();
-                String to_write = WriteMemberReport(id);
-                if (to_write != null) {
-                    disk_writer.WriteOutMember(to_write, id);
+        if(all_ids != null) {
+
+            for (Integer id : all_ids) {
+                if (isManager) {
+                    PrintMemberReport(id);
+                } else {
+                    WriteToDisk disk_writer = new WriteToDisk();
+                    String to_write = WriteMemberReport(id);
+                    if (to_write != null) {
+                        disk_writer.WriteOutMember(to_write, id);
+                    }
                 }
             }
         }
@@ -71,23 +70,24 @@ public class Reports {
 
     //Creates all summary reports. Method prints out all summary reports if the manager variable is
     //set to true. Otherwise it writes the reports to disk
-    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public void ProviderSummaryReports(boolean isManager)
     {
         ArrayList<Integer> all_ids = conn.obtainProviderIDs();
-        if (isManager == true && (all_ids == null || all_ids.size() == 0)){
+        if (isManager && (all_ids == null || all_ids.size() == 0)){
             System.out.println("There are no provider reports currently registered.");
         }
 
-        for(Integer id : all_ids) {
-            if(isManager == true){
-                PrintProviderReport(id);
-            }
-            else{
-                WriteToDisk disk_writer = new WriteToDisk();
-                String to_write = WriteProviderReport(id);
-                if (to_write != null) {
-                    disk_writer.WriteOutProviders(to_write, id);
+        if(all_ids != null) {
+
+            for (Integer id : all_ids) {
+                if (isManager) {
+                    PrintProviderReport(id);
+                } else {
+                    WriteToDisk disk_writer = new WriteToDisk();
+                    String to_write = WriteProviderReport(id);
+                    if (to_write != null) {
+                        disk_writer.WriteOutProviders(to_write, id);
+                    }
                 }
             }
         }
@@ -95,7 +95,6 @@ public class Reports {
 
     //Creates the summary report. Method prints out the summary report if the manager variable is
     //set to true. Otherwise it writes the reports to disk
-    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public void SummarizeReports(boolean isManager)
     {
         if (isManager){
@@ -108,8 +107,12 @@ public class Reports {
     }
 
     //Takes in a member ID and returns their report as a string
-    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public String WriteMemberReport(int id){
+
+
+        if (conn == null){
+            return null;
+        }
 
         //obtain member info
         MemberInfo mem_info =  conn.obtainMemberInfo(id);
@@ -144,8 +147,11 @@ public class Reports {
     }
 
     //Takes in a provider ID and returns their report as a string
-    //CURRENTLY NOT FULLY TESTED (I does works with an empty database though)
     public String WriteProviderReport (int id){
+
+        if (conn == null){
+            return null;
+        }
 
         //obtain provider info
         ProviderInfo prov_info =  conn.obtainProviderInfo(id);
@@ -193,8 +199,7 @@ public class Reports {
         return report;
     }
 
-    //Returns a summary report as a string
-    //CURRENTLY NOT TESTED
+    //Returns a summary report as a stringe
     public String WriteSummaryReport (){
 
         int total_prov = 0;
@@ -202,23 +207,35 @@ public class Reports {
         double week_fee = 0.0;
         String report = "";
 
+        if (conn == null){
+            return null;
+        }
+
         ArrayList<SummaryInfo> summaries = conn.obtainSummaryInfo();
 
         //add services to report
-        for(SummaryInfo summary : summaries) {
-            total_prov += 1;
-            report += "Provider " + Integer.toString(total_prov) + "\n\t" + "Provider Name: " +
-                    summary.getProv_name() + "\n\t" + "Number of consultants for provider: " +
-                    Integer.toString(summary.getConsult_num()) + "\n\t" +
-                    "Total fee for provider: " + Double.toString(summary.getTotal_fee()) + "\n\n";
-            total_consult += summary.getConsult_num();
-            week_fee += summary.getTotal_fee();
+        if (summaries != null) {
+
+            for (SummaryInfo summary : summaries) {
+                total_prov += 1;
+                report += "Provider " + Integer.toString(total_prov) + "\n\t" + "Provider Name: " +
+                        summary.getProv_name() + "\n\t" + "Number of consultants for provider: " +
+                        Integer.toString(summary.getConsult_num()) + "\n\t" +
+                        "Total fee for provider: " + Double.toString(summary.getTotal_fee()) + "\n\n";
+                total_consult += summary.getConsult_num();
+                 week_fee += summary.getTotal_fee();
+            }
         }
 
+
+        week_fee = Math.round(week_fee * 100.0)  / 100.0;
+
         //add totals
-        report += "Total amount of providers: " + Integer.toString(total_prov) + '\n' +
-                "Total amount of consultants: " + Integer.toString(total_consult) + '\n' +
-                "Total fee for the week: " + Double.toString(week_fee) + '\n';
+        report += "Total amount of providers who provided a service: " +
+                Integer.toString(total_prov) + '\n' + "Total amount of consultants: " +
+                Integer.toString(total_consult) + '\n' + "Total fee for the week: " +
+                Double.toString(week_fee) + '\n';
+
 
         return report;
     }

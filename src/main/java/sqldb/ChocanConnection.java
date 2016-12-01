@@ -17,7 +17,7 @@ public class ChocanConnection {
         try {
             // get a connection to database
 
-           conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/chocan_server", "root", "root");
+           conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/chocan_server", "test", "password");
            Statement myStmt = conn.createStatement();
 
            ResultSet myRs = myStmt.executeQuery("SELECT * from member_info");
@@ -102,13 +102,17 @@ public class ChocanConnection {
         }
     }
 
-  //method written by Michael Cohoe
-    //returns the memberinfo for a specific member
-    //(CURRENTLY NOT TESTED)
+    //returns the memberinfo for a specific member (Written by Michael Cohoe)
     public MemberInfo obtainMemberInfo(int id) {
         try {
+            if (conn == null){
+                System.out.println("Connection has not been properly established");
+                return null;
+            }
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
-                    "member_info where member_info.number = " + id);
+                    "member_info join locations_lookup on MEMBER_NUMBER = NUMBER join " +
+                    "locations on locations_lookup.ID = locations.ID where " +
+                    "member_info.number = " + id);
 
             ResultSet result = statement.executeQuery();
             if (result.next()) {
@@ -126,22 +130,26 @@ public class ChocanConnection {
             }
 
         } catch (SQLException e) {
-            System.out.println("SQL problem in obtainMemberInfo");
+            e.printStackTrace();
         }
         return null;
     }
 
-    //method written by Michael Cohoe
-    //returns all serviceinfo for a specific member
-    //(CURRENTLY NOT TESTED)
+    //returns all serviceinfo for a specific member (Written by Michael Cohoe)
     public ArrayList<ServiceInfo> obtainMemServiceInfo(int id){
         try {
+            if (conn == null){
+                System.out.println("Connection has not been properly established");
+                return null;
+            }
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
-                    "services_lookup join service on service_code = service.code join " +
-                    "performed_services_info on id = service_id join providers on " +
-                    "providers.number = provider_info.number where (select max(timestamp) " +
-                    "from report_dates) < performed_services_info.timestamp and " +
-                    "member_number = " + id);
+                    "performed_services join services_lookup on performed_services.SERVICE_ID = " +
+                    "services_lookup.ID join service_info on " +
+                    "service_info.SERVICE_CODE = services_lookup.SERVICE_CODE join " +
+                    "providers on providers.NUMBER = services_lookup.PROVIDER_NUMBER join " +
+                    "members on members.NUMBER = services_lookup.MEMBER_NUMBER where " +
+                    "((select max(timestamp) from report_dates) < performed_services.timestamp " +
+                    "or not exists (select * from report_dates))and members.NUMBER = " + id);
 
             ResultSet result = statement.executeQuery();
             ArrayList<ServiceInfo> array = new ArrayList<>();
@@ -149,11 +157,12 @@ public class ChocanConnection {
 
                 String date = result.getString("date_service");
                 String prov_name = result.getString("providers.name");
-                String service = result.getString("service.name");
+                String service = result.getString("service_info.name");
 
                 ServiceInfo info = new ServiceInfo(date, prov_name, service);
                 array.add(info);
             }
+
             return array;
 
         } catch (SQLException e) {
@@ -162,14 +171,17 @@ public class ChocanConnection {
         return null;
     }
 
-    //method written by Michael Cohoe
-    //returns providerinfo for a specific provider
-    //(CURRENTLY NOT TESTED)
+    //returns providerinfo for a specific provider (written by Michael Cohoe)
     public ProviderInfo obtainProviderInfo(int id) {
         try {
+            if (conn == null){
+                System.out.println("Connection has not been properly established");
+                return null;
+            }
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
-                    "provider_info join providers on provider_info.number = providers.number where " +
-                    "provider_info.number = " + id);
+                    "providers join locations_lookup on providers.NUMBER = PROVIDER_NUMBER " +
+                    "join locations on locations_lookup.location_id = locations.ID where " +
+                    "providers.NUMBER = " + id);
 
             ResultSet result = statement.executeQuery();
             if (result.next()) {
@@ -192,18 +204,23 @@ public class ChocanConnection {
         return null;
     }
 
-    //method written by Michael Cohoe
-    //returns all serviceinfo for a specific provider
-    //(CURRENTLY NOT TESTED)
+    //returns all serviceinfo for a specific provider (written by Michael Cohoe)
     public ArrayList<ServiceInfo> obtainProvServiceInfo(int id){
         try {
+            if (conn == null){
+                System.out.println("Connection has not been properly established");
+                return null;
+            }
+
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
-                    "services_lookup join service on service_code = service.code join " +
-                    "performed_services_info on id = service_id join providers on " +
-                    "providers.number = provider_info.number join member_info on " +
-                    "member_number = member_info.number where (select max(timestamp) " +
-                    "from report_dates) < performed_services_info.timestamp and " +
-                    "provider_number = " + id);
+                    "performed_services join services_lookup on performed_services.SERVICE_ID = " +
+                    "services_lookup.ID join service_info on " +
+                    "service_info.SERVICE_CODE = services_lookup.SERVICE_CODE join " +
+                    "providers on providers.NUMBER = services_lookup.PROVIDER_NUMBER join " +
+                    "members on members.NUMBER = services_lookup.MEMBER_NUMBER join " +
+                    "member_info on members.NUMBER = member_info.NUMBER where " +
+                    "((select max(timestamp) from report_dates) < performed_services.timestamp " +
+                    "or not exists (select * from report_dates))and providers.NUMBER = " + id);
 
             ResultSet result = statement.executeQuery();
             ArrayList<ServiceInfo> array = new ArrayList<>();
@@ -212,7 +229,7 @@ public class ChocanConnection {
                 String date = result.getString("date_service");
                 String timestamp = result.getString("timestamp");
                 String prov_name = result.getString("providers.name");
-                String service = result.getString("service.name");
+                String service = result.getString("service_info.name");
                 String mem_name = result.getString("member_info.name");
                 int serve_id = result.getInt("service_id");
                 int mem_id = result.getInt("member_number");
@@ -230,20 +247,26 @@ public class ChocanConnection {
         return null;
     }
 
-    //method written by Michael Cohoe
     //returns an array of all provider names, their consultants, and each provider's total fee
-    //(CURRENTLY NOT TESTED)
+    //(written by Michael Cohoe)
     public ArrayList<SummaryInfo> obtainSummaryInfo() {
         try {
+            if (conn == null){
+                System.out.println("Connection has not been properly established");
+                return null;
+            }
             PreparedStatement statement = conn.prepareStatement("SELECT providers.name, " +
-                    "count(*) as consult_num, sum(service.fee) as total_fee FROM services_lookup " +
-                    "join service on service_code = service.code join performed_services_info on " +
-                    "id = service_id join providers on provider_number " +
-                    "= providers.number where (select max(timestamp) from report_dates) " +
-                    "< performed_services_info.timestamp group by providers.name");
+                    "count(*) as consult_num, sum(service_info.fee) as total_fee FROM " +
+                    "services_lookup join performed_services on services_lookup.ID = " +
+                    "performed_services.SERVICE_ID join service_info on service_info.SERVICE_CODE " +
+                    "= services_lookup.SERVICE_CODE join providers on " +
+                    "services_lookup.PROVIDER_NUMBER = providers.NUMBER where ((select max(timestamp) " +
+                    "from report_dates) < performed_services.timestamp or  not exists " +
+                    "(select * from report_dates)) group by providers.name");
 
             ResultSet result = statement.executeQuery();
             ArrayList<SummaryInfo> array = new ArrayList<>();
+
             while(result.next()) {
 
                 String name = result.getString("providers.name");
@@ -263,11 +286,13 @@ public class ChocanConnection {
         return null;
     }
 
-    //method written by Michael Cohoe
-    //returns an array of all member ids
-    //(CURRENTLY NOT TESTED)
+    //returns an array of all member ids (written by Michael Cohoe)
     public ArrayList<Integer> obtainMemberIDs() {
         try {
+            if (conn == null){
+                System.out.println("Connection has not been properly established");
+                return null;
+            }
             PreparedStatement statement = conn.prepareStatement("SELECT * from members");
 
             ResultSet result = statement.executeQuery();
@@ -284,11 +309,13 @@ public class ChocanConnection {
         return null;
     }
 
-    //method written by Michael Cohoe
-    //returns an array of all provider ids
-    //(CURRENTLY NOT TESTED)
+    //returns an array of all provider ids (written by Michael Cohoe)
     public ArrayList<Integer> obtainProviderIDs() {
         try {
+            if (conn == null){
+                System.out.println("Connection has not been properly established");
+                return null;
+            }
             PreparedStatement statement = conn.prepareStatement("SELECT * from providers");
 
             ResultSet result = statement.executeQuery();
@@ -305,11 +332,13 @@ public class ChocanConnection {
         return null;
     }
 
-    //method written by Michael Cohoe
-    //Adds a new timestamp to the file_write_dates table
-    //(CURRENTLY NOT TESTED)
+    //Adds a new timestamp to the file_write_dates table (written by Michael Cohoe)
     public void addFileWriteDate(Timestamp to_add){
         try {
+            if (conn == null){
+                System.out.println("Connection has not been properly established");
+                return;
+            }
             PreparedStatement statement = conn.prepareStatement("INSERT INTO report_dates " +
                     "(timestamp) VALUES (?)");
             statement.setTimestamp(1, to_add);
