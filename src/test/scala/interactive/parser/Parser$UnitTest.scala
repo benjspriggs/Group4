@@ -54,22 +54,22 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
     }
   }
 
-  // behavior of "payload"
+  // behavior of "_payload"
   // should be a JSON object, tested in JsonParser$UnitTest
 
-  behavior of "singleType"
+  behavior of "_singleType"
 
   {
-    val p = parser.singleType
+    val p = parser._singleType
 
-    "singleType" should "parse a singular type" in {
+    "_singleType" should "parse a singular type" in {
       forAll(f.typeSingle) {
         word: String => doesParseToA(word, Type.One(word), p)
           doesParseToA(s"$word report", Type.One(s"$word report"), p)
       }
     }
 
-    "singleType" should "not parse a plural type" in {
+    "_singleType" should "not parse a plural type" in {
       forAll(f.typeMany) {
         word: String => doesNotParseToA(word, Type.One(word), p)
           doesNotParseToA(s"$word report", Type.One(s"$word report"), p)
@@ -77,19 +77,19 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
     }
   }
 
-  behavior of "manyType"
+  behavior of "_manyType"
 
   {
-    val p = parser.manyType
+    val p = parser._manyType
 
-    "manyType" should "parse a plural type" in {
+    "_manyType" should "parse a plural type" in {
       forAll(f.typeMany) {
         word: String => doesParseToA(word, Type.Many(word), p)
           doesParseToA(s"$word reports", Type.Many(s"$word reports"), p)
       }
     }
 
-    "manyType" should "not parse a singular type" in {
+    "_manyType" should "not parse a singular type" in {
       forAll(f.typeSingle) {
         word: String => doesNotParseToA(word, Type.Many(word), p)
           doesNotParseToA(s"$word reports", Type.Many(s"$word reports"), p)
@@ -275,7 +275,7 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
   {
     val p = parser.statements
     val expected = ArrayBuffer(
-      Help(Some("create")), Mono((Request("create"), Obj(Type.One("user"), Seq(f.parsedJson()))))
+      Help(Some("create")), Mono((Request("create"), Obj(Type.One("user"), ArrayBuffer(f.parsedJson()))))
     ) // "help create; create user $f.validJson; quit;"
 
     "statements" should "parse multiple expressions" in {
