@@ -48,7 +48,7 @@ object Parser {
   {
     parsed_tuple match {
       case p: (Request, SuperObj) => Poly(p)
-      case m: (Request, Seq[Obj]) => Mono(m)
+      case m: (Request, Obj) => Mono(m)
       case _ => Unit
     }
   }
