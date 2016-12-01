@@ -48,7 +48,7 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
     }
 
     "_request" should "not parse a non-request interactive.token" in {
-      forAll(f.typeSingle) { word: String => doesNotParseToA(word + "n", Request(word), p) }
+      forAll(f.typeSingle) { word: String => doesNotParseToA("n" + word, Request(word), p) }
     }
   }
 
@@ -151,13 +151,6 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
     "_superobject" should "parse a plural type and single JSON object" in {
       forAll(f.typeMany) {
         word: String => doesParseToA(word + f.validJson, SuperObj((Type.Many(word), f.optionJson())), p)
-      }
-    }
-
-    "_superobject" should "not parse a plural type and multiple JSON objects" in {
-      forAll(f.typeMany) {
-        word: String => doesNotParseToA(word + f.validJson + f.validJson,
-          SuperObj(Type.Many(word), f.optionJson()), p)
       }
     }
 
