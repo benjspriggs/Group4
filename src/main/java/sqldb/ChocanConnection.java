@@ -1,21 +1,29 @@
 package sqldb;
 
+import Reports.MemberInfo;
+import Reports.ProviderInfo;
+import Reports.ServiceInfo;
+import Reports.SummaryInfo;
+
 import java.sql.*;
+import java.util.ArrayList;
 //import java.util.ArrayList;
 
 public class ChocanConnection {
+    private Connection conn;
     public ChocanConnection() {
+
+
         try {
             // get a connection to database
 
-           Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/chocan_server", "root", "root");
-
+           conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/chocan_server", "test", "password");
            Statement myStmt = conn.createStatement();
 
            ResultSet myRs = myStmt.executeQuery("SELECT * from member_info");
 
            while (myRs.next()){
-              // System.out.println(myRs.getString("last"))
+              System.out.println(myRs.getString("last"));
            }
 
 
@@ -26,11 +34,10 @@ public class ChocanConnection {
             // whatever
         }
     }
-}
-/*
+
     private Connection getConnection() throws Exception {
         try {
-         /*   String driver = "org.apache.derby.jdbc.ClientDriver";
+            String driver = "org.apache.derby.jdbc.ClientDriver";
             String url = "jdbc:derby://localhost:1527/testdb";
             String username = "test";
             String password = "password1";
@@ -94,6 +101,252 @@ public class ChocanConnection {
             // idk
         }
     }
-}
 
-*/
+    //returns the memberinfo for a specific member (Written by Michael Cohoe)
+    public MemberInfo obtainMemberInfo(int id) {
+        try {
+            if (conn == null){
+                System.out.println("Connection has not been properly established");
+                return null;
+            }
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
+                    "member_info join locations_lookup on MEMBER_NUMBER = NUMBER join " +
+                    "locations on locations_lookup.ID = locations.ID where " +
+                    "member_info.number = " + id);
+
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+
+                String name = result.getString("name");
+                String address = result.getString("street_address");
+                String city = result.getString("city");
+                String state = result.getString("state");
+                String zip = result.getString("zipcode");
+                MemberInfo info = new MemberInfo(name, address, city, state, zip);
+                return info;
+            }
+            else{
+                return null;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    //returns all serviceinfo for a specific member (Written by Michael Cohoe)
+    public ArrayList<ServiceInfo> obtainMemServiceInfo(int id){
+        try {
+            if (conn == null){
+                System.out.println("Connection has not been properly established");
+                return null;
+            }
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
+                    "performed_services join services_lookup on performed_services.SERVICE_ID = " +
+                    "services_lookup.ID join service_info on " +
+                    "service_info.SERVICE_CODE = services_lookup.SERVICE_CODE join " +
+                    "providers on providers.NUMBER = services_lookup.PROVIDER_NUMBER join " +
+                    "members on members.NUMBER = services_lookup.MEMBER_NUMBER where " +
+                    "((select max(timestamp) from report_dates) < performed_services.timestamp " +
+                    "or not exists (select * from report_dates))and members.NUMBER = " + id);
+
+            ResultSet result = statement.executeQuery();
+            ArrayList<ServiceInfo> array = new ArrayList<>();
+            while(result.next()) {
+
+                String date = result.getString("date_service");
+                String prov_name = result.getString("providers.name");
+                String service = result.getString("service_info.name");
+
+                ServiceInfo info = new ServiceInfo(date, prov_name, service);
+                array.add(info);
+            }
+
+            return array;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    //returns providerinfo for a specific provider (written by Michael Cohoe)
+    public ProviderInfo obtainProviderInfo(int id) {
+        try {
+            if (conn == null){
+                System.out.println("Connection has not been properly established");
+                return null;
+            }
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
+                    "providers join locations_lookup on providers.NUMBER = PROVIDER_NUMBER " +
+                    "join locations on locations_lookup.location_id = locations.ID where " +
+                    "providers.NUMBER = " + id);
+
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+
+                String name = result.getString("name");
+                String address = result.getString("street_address");
+                String city = result.getString("city");
+                String state = result.getString("state");
+                String zip = result.getString("zipcode");
+                ProviderInfo info = new ProviderInfo(name, address, city, state, zip);
+                return info;
+            }
+            else{
+                return null;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("SQL problem in obtainProviderInfo");
+        }
+        return null;
+    }
+
+    //returns all serviceinfo for a specific provider (written by Michael Cohoe)
+    public ArrayList<ServiceInfo> obtainProvServiceInfo(int id){
+        try {
+            if (conn == null){
+                System.out.println("Connection has not been properly established");
+                return null;
+            }
+
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
+                    "performed_services join services_lookup on performed_services.SERVICE_ID = " +
+                    "services_lookup.ID join service_info on " +
+                    "service_info.SERVICE_CODE = services_lookup.SERVICE_CODE join " +
+                    "providers on providers.NUMBER = services_lookup.PROVIDER_NUMBER join " +
+                    "members on members.NUMBER = services_lookup.MEMBER_NUMBER join " +
+                    "member_info on members.NUMBER = member_info.NUMBER where " +
+                    "((select max(timestamp) from report_dates) < performed_services.timestamp " +
+                    "or not exists (select * from report_dates))and providers.NUMBER = " + id);
+
+            ResultSet result = statement.executeQuery();
+            ArrayList<ServiceInfo> array = new ArrayList<>();
+            while(result.next()) {
+
+                String date = result.getString("date_service");
+                String timestamp = result.getString("timestamp");
+                String prov_name = result.getString("providers.name");
+                String service = result.getString("service_info.name");
+                String mem_name = result.getString("member_info.name");
+                int serve_id = result.getInt("service_id");
+                int mem_id = result.getInt("member_number");
+                double fee = result.getDouble("fee");
+
+                ServiceInfo info = new ServiceInfo(date, timestamp, prov_name, service, mem_name,
+                        serve_id, mem_id, fee);
+                array.add(info);
+            }
+            return array;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    //returns an array of all provider names, their consultants, and each provider's total fee
+    //(written by Michael Cohoe)
+    public ArrayList<SummaryInfo> obtainSummaryInfo() {
+        try {
+            if (conn == null){
+                System.out.println("Connection has not been properly established");
+                return null;
+            }
+            PreparedStatement statement = conn.prepareStatement("SELECT providers.name, " +
+                    "count(*) as consult_num, sum(service_info.fee) as total_fee FROM " +
+                    "services_lookup join performed_services on services_lookup.ID = " +
+                    "performed_services.SERVICE_ID join service_info on service_info.SERVICE_CODE " +
+                    "= services_lookup.SERVICE_CODE join providers on " +
+                    "services_lookup.PROVIDER_NUMBER = providers.NUMBER where ((select max(timestamp) " +
+                    "from report_dates) < performed_services.timestamp or  not exists " +
+                    "(select * from report_dates)) group by providers.name");
+
+            ResultSet result = statement.executeQuery();
+            ArrayList<SummaryInfo> array = new ArrayList<>();
+
+            while(result.next()) {
+
+                String name = result.getString("providers.name");
+                int consults = result.getInt("consult_num");
+                double fee = result.getDouble("total_fee");
+
+
+                SummaryInfo info = new SummaryInfo(name, consults, fee);
+                array.add(info);
+            }
+            return array;
+
+
+        } catch (SQLException e) {
+            System.out.println("SQL problem in obtainSummaryInfo");
+        }
+        return null;
+    }
+
+    //returns an array of all member ids (written by Michael Cohoe)
+    public ArrayList<Integer> obtainMemberIDs() {
+        try {
+            if (conn == null){
+                System.out.println("Connection has not been properly established");
+                return null;
+            }
+            PreparedStatement statement = conn.prepareStatement("SELECT * from members");
+
+            ResultSet result = statement.executeQuery();
+            ArrayList<Integer> array = new ArrayList<>();
+
+            while(result.next()) {
+                array.add(result.getInt("number"));
+            }
+            return array;
+
+        } catch (SQLException e) {
+            System.out.println("SQL problem in obtainMemberID");
+        }
+        return null;
+    }
+
+    //returns an array of all provider ids (written by Michael Cohoe)
+    public ArrayList<Integer> obtainProviderIDs() {
+        try {
+            if (conn == null){
+                System.out.println("Connection has not been properly established");
+                return null;
+            }
+            PreparedStatement statement = conn.prepareStatement("SELECT * from providers");
+
+            ResultSet result = statement.executeQuery();
+            ArrayList<Integer> array = new ArrayList<>();
+
+            while(result.next()) {
+                array.add(result.getInt("number"));
+            }
+            return array;
+
+        } catch (SQLException e) {
+            System.out.println("SQL problem in obtainProviderIDs");
+        }
+        return null;
+    }
+
+    //Adds a new timestamp to the file_write_dates table (written by Michael Cohoe)
+    public void addFileWriteDate(Timestamp to_add){
+        try {
+            if (conn == null){
+                System.out.println("Connection has not been properly established");
+                return;
+            }
+            PreparedStatement statement = conn.prepareStatement("INSERT INTO report_dates " +
+                    "(timestamp) VALUES (?)");
+            statement.setTimestamp(1, to_add);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("SQL problem in addFileWriteDate");
+        }
+
+    }
+}

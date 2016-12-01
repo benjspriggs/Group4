@@ -9,8 +9,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-
 import static java.util.Calendar.DAY_OF_WEEK;
+
+//import java.sql.Timestamp;
 
 /**
  * Created by The Borg on 11/25/2016.
@@ -29,7 +30,8 @@ public class TimedServices {
     
     public void callWeeklySummary()
     {
-
+        java.sql.Timestamp time = new java.sql.Timestamp(System.currentTimeMillis());
+        conn.addFileWriteDate(time);
         Reports all_reports = new Reports(conn);
         all_reports.MemberSummaryReports(false);
         all_reports.ProviderSummaryReports(false);
@@ -48,7 +50,7 @@ public class TimedServices {
         timeOfDayCal.set(Calendar.SECOND, 0);
         timeOfDayCal.set(Calendar.MILLISECOND, 0);
 
-        long howLong = (timeOfDayCal.getTimeInMillis()-System.currentTimeMillis());;
+        long howLong = (timeOfDayCal.getTimeInMillis()-System.currentTimeMillis());
 
         timeOfDayAdjustmentScheduler.schedule(new Runnable() {
             public void run() {

@@ -1,10 +1,4 @@
-import Reports.TimedServices;
-import com.sun.org.apache.xpath.internal.SourceTree;
 import sqldb.ChocanConnection;
-import sqldb.schemas.ChocanSchema;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
 
 /**
  * Created by bspriggs on 11/10/2016.
@@ -14,8 +8,9 @@ public class Main {
 
         ChocanConnection obj = new ChocanConnection();
         System.out.println("Hello world!");
-
+        /*
         Reports T = new Reports();
+
         WriteToDisk m_report = new WriteToDisk();
 
         m_report.WriteOutMember(T.WriteMemberReport(123456789),123456789);
@@ -28,7 +23,7 @@ public class Main {
 
 
         obj.getProviderReport();
-
+        */
     }
 
 
