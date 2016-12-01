@@ -1,9 +1,8 @@
 package interactive.parser
 
-import interactive.Tokens._
+import interactive.Statements._
+import interactive.Term._
 import interactive.fixtures.InteractiveModeParserFixtures
-
-import scala.collection.mutable.ArrayBuffer
 
 /**
   * Created by bspriggs on 11/13/2016.
@@ -112,22 +111,22 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
     "_object" should "parse a single type and JSON object" in {
       forAll(f.typeSingle) {
         word: String => doesParseToA(word + f.validJson,
-          Obj((Type.One(word), f.parsedJson())), p)
+          Obj((Type.One(word), Seq(f.parsedJson()))), p)
           doesParseToA(word + " report " + f.validJson,
-            Obj((Type.One(s"$word report"), f.parsedJson())), p)
+            Obj((Type.One(s"$word report"), Seq(f.parsedJson()))), p)
       }
     }
 
     "_object" should "not parse a JSON object without a type" in {
-      doesNotParseToA(f.validJson, Obj((Type.One("type"), f.parsedJson())), p)
+      doesNotParseToA(f.validJson, Obj((Type.One("type"), Seq(f.parsedJson()))), p)
     }
 
     "_object" should "not parse a type without a JSON object" in {
       forAll(f.typeSingle) {
-        word: String => doesNotParseToA(word, Obj((Type.One(word), f.parsedJson("{}"))), p)
+        word: String => doesNotParseToA(word, Obj((Type.One(word), Seq(f.parsedJson("{}")))), p)
       }
       forAll(f.typeMany) {
-        word: String => doesNotParseToA(word, Obj((Type.One(word), f.parsedJson("{}"))), p)
+        word: String => doesNotParseToA(word, Obj((Type.One(word), Seq(f.parsedJson("{}")))), p)
       }
     }
   }
@@ -237,7 +236,8 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       forAll(f.requests) { word: String =>
         forAll(f.typeSingle) { `type`: String =>
           doesParseToA(word + " " + `type` + f.validJson,
-            (Request(word), Obj((Type.One(`type`), f.parsedJson()))), p)
+            Mono((Request(word), Obj((Type.One(`type`), Seq(f.parsedJson()))))), p
+          )
         }
       }
     }
@@ -245,10 +245,9 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
     "_expr" should "parse a request with a singular implied type and multiple objects" in {
       forAll(f.requests) { word: String =>
         forAll(f.typeSingle) { `type`: String =>
-          def o = Obj((Type.One(`type`), f.parsedJson()))
           doesParseToA(word + " " + `type` + f.validJson + f.validJson + f.validJson,
-            (Request(word), ArrayBuffer(o, o, o)),
-            p)
+            Mono((Request(word), Obj((Type.One(`type`), Seq(f.parsedJson(), f.parsedJson(), f.parsedJson()))))), p
+          )
         }
       }
     }
@@ -257,7 +256,8 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       forAll(f.requests) { word: String =>
         forAll(f.typeMany) { `type`: String =>
           doesParseToA(word + " " + `type` + f.validJson,
-            (Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p)
+            Poly(Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p
+          )
         }
       }
     }
@@ -266,7 +266,8 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       forAll(f.requests) { word: String =>
         forAll(f.typeMany) { `type`: String =>
           doesParseToA(word + " all " + `type` + f.validJson,
-            (Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p)
+            Poly(Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p
+          )
         }
       }
     }
@@ -275,7 +276,8 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       forAll(f.requests) { word: String =>
         forAll(f.typeMany) { `type`: String =>
           doesNotParseToA(word + " all " + `type` + f.validJson + f.validJson + f.validJson,
-            (Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p)
+            Poly(Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p
+          )
         }
       }
     }

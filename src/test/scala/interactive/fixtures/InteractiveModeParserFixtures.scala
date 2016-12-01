@@ -2,7 +2,7 @@ package interactive.fixtures
 
 import fastparse.all
 import fastparse.core.Parsed
-import interactive.Tokens.Payload
+import interactive.Term.Payload
 import interactive.parser.{JsonParser, Parser}
 import org.scalatest.FlatSpec
 import org.scalatest.prop.TableDrivenPropertyChecks
@@ -81,7 +81,7 @@ trait InteractiveModeParserFixtures extends FlatSpec with TableDrivenPropertyChe
 
   def doesParseToA[P](it: String,
                       expected: P,
-                      _parser: all.Parser[Product with Serializable]
+                      _parser: all.Parser[Any]
                       = parser.expression ) = {
     try {
       val Parsed.Success(actual, _) = _parser.parse(it)
@@ -94,7 +94,7 @@ trait InteractiveModeParserFixtures extends FlatSpec with TableDrivenPropertyChe
 
   def doesNotParseToA[P](it: String,
                          expected: P,
-                         _parser: all.Parser[Product with Serializable]
+                         _parser: all.Parser[Any]
                          = parser.expression ) = {
     try {
       val Parsed.Success(actual, _) = _parser.parse(it)
