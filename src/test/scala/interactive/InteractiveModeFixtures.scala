@@ -1,8 +1,10 @@
 package interactive
 
 import fastparse.core.Parsed
-import interactive.Term.Payload
+import interactive.Statements._
+import interactive.Term._
 import interactive.parser.JsonParser
+import org.scalacheck.Gen
 import org.scalatest.FlatSpec
 import org.scalatest.prop.TableDrivenPropertyChecks
 ;
@@ -48,7 +50,7 @@ trait InteractiveModeFixtures extends FlatSpec with TableDrivenPropertyChecks{
                         "exit"
                 )
 
-                val validJson="""
+                val validJson:String ="""
                                 |{
                                 |"name":"Kate Abernathy",
                                 |"age":23,
@@ -72,6 +74,13 @@ trait InteractiveModeFixtures extends FlatSpec with TableDrivenPropertyChecks{
                 }
 
                 val literal_sql="""CREATE TABLE bobby (name VARCHAR(40))"""
+
+                val statements = Table(
+                        "statement",
+                        "help users;",
+                        "create user { }",
+                        "update member" + validJson
+                )
         }
         val f=fixture
 }

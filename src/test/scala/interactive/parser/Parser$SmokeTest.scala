@@ -78,5 +78,10 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
 
   it must "handle multiple statements" in {
     val p = Parser._statements
+    forAll(f.statements) {
+      statement: String => forAll(f.stopRequests) {
+        stop: String => doesParseToA(s"$statement $stop;", Seq(Parser.non_terminating_statement.parse(statement)), p)
+      }
+    }
   }
 }
