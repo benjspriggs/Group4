@@ -203,18 +203,18 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
   }
 
 
-  behavior of "_expr"
+  behavior of "_expression"
 
   {
     val p = parser._expression
 
-    "_expr" should "parse a stop request" in {
+    "_expression" should "parse a stop request" in {
       forAll(f.stopRequests) {
         word: String => doesParseToA(word, Stop, p)
       }
     }
 
-    "_expr" should "parse a help request with any known keyword" in {
+    "_expression" should "parse a help request with any known keyword" in {
       forAll(f.helpRequests) { help: String =>
         forAll(f.requests) { word: String =>
           doesParseToA(help + " " + word, Help(Some(word)), p)
@@ -232,7 +232,7 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       }
     }
 
-    "_expr" should "parse a request with a singular object" in {
+    "_expression" should "parse a request with a singular object" in {
       forAll(f.requests) { word: String =>
         forAll(f.typeSingle) { `type`: String =>
           doesParseToA(word + " " + `type` + f.validJson,
@@ -242,7 +242,7 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       }
     }
 
-    "_expr" should "parse a request with a singular implied type and multiple objects" in {
+    "_expression" should "parse a request with a singular implied type and multiple objects" in {
       forAll(f.requests) { word: String =>
         forAll(f.typeSingle) { `type`: String =>
           doesParseToA(word + " " + `type` + f.validJson + f.validJson + f.validJson,
@@ -252,7 +252,7 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       }
     }
 
-    "_expr" should "parse a request with a plural type and singular object" in {
+    "_expression" should "parse a request with a plural type and singular object" in {
       forAll(f.requests) { word: String =>
         forAll(f.typeMany) { `type`: String =>
           doesParseToA(word + " " + `type` + f.validJson,
@@ -262,7 +262,7 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       }
     }
 
-    "_expr" should "parse a generic request with a singular object" in {
+    "_expression" should "parse a generic request with a singular object" in {
       forAll(f.requests) { word: String =>
         forAll(f.typeMany) { `type`: String =>
           doesParseToA(word + " all " + `type` + f.validJson,
@@ -272,7 +272,7 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       }
     }
 
-    "_expr" should "not parse a generic request with multiple objects" in {
+    "_expression" should "not parse a generic request with multiple objects" in {
       forAll(f.requests) { word: String =>
         forAll(f.typeMany) { `type`: String =>
           doesNotParseToA(word + " all " + `type` + f.validJson + f.validJson + f.validJson,
@@ -280,6 +280,31 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
           )
         }
       }
+    }
+  }
+
+  behavior of "_statements"
+
+  {
+    val p = parser._statements
+
+    "_statements" should "parse multiple expressions" in {
+      val expected = Seq(
+        Help(Some("create")), Mono((Request("create"), Obj(Type.One("user"), Seq(f.parsedJson()))))
+      )
+      assertResult(expected)(p.parse("help create; create user " + f.validJson + "; stop;"))
+    }
+
+    "_statements" should "not parse after a Stop expression" in {
+
+    }
+
+    "_statements" should "not parse multiple expressions delimited by a comma" in {
+
+    }
+
+    "_statements" should "parse multiple expressions delimited by a semicolon" in {
+
     }
   }
 
