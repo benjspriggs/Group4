@@ -78,4 +78,7 @@ object Parser {
       | _help
       | _request_object
       | _sql_literal )
+
+  lazy val _expressions = Unit
+  lazy val expressions = Unit
 }
