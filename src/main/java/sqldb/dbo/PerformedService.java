@@ -23,22 +23,28 @@ public class PerformedService extends DatabaseObject {
 
     @Override
     public String create() {
-        return null;
+        return "INSERT INTO performed_services (service_id, date_service, timestamp, comments)" +
+                "VALUES (?, ?, ?, ?);";
     }
 
     @Override
     public String show() {
-        return null;
+        return "SELECT FROM performed_services (service_id, date_service, timestamp, comments)" +
+                "VALUES (?, ?, ?, ?);";
     }
 
     @Override
     public String update() {
-        return null;
+        return "UPDATE performed_services SET" +
+                "date_service = ?," +
+                "timestamp = ?," +
+                "comments = ?" +
+                "WHERE service_id = ?;";
     }
 
     @Override
     public String delete() {
-        return null;
+        return "DELETE FROM performed_services WHERE service_id = ?;";
     }
 
     @Override
