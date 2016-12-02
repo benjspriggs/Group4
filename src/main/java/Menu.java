@@ -2,12 +2,22 @@
  * Created by root on 11/28/16.
  */
 
+
+import sqldb.ChocanConnection;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+
 //Search 'Wrapper goes here'
 
 public class Menu extends Utilities{
 
+    private ChocanConnection conn;
+
     //Empty Constructor
-    public Menu(){    }
+    public Menu(){
+        conn = new ChocanConnection();
+    }
 
 
     //Wrapper to call the correct menu type.  Takes an
@@ -29,8 +39,10 @@ public class Menu extends Utilities{
         int userInput;
 
         System.out.println("Welcome Healthcare Provider!!! Please choose from the following options =)");
-        System.out.println("Create New Appointment (1)");
-        System.out.println("View Service Directory (2)");
+        System.out.println("Create New Appointment                     (1)");
+        System.out.println("View Service Directory                     (2)");
+        System.out.println("Check if member id is valid                (3)");
+        System.out.println("Create Billing Report for service provided (4)");
         System.out.println("Option: ");
 
         while (!input.hasNextInt() ){
@@ -44,6 +56,10 @@ public class Menu extends Utilities{
             ; //Wrapper goes here
         else if(userInput == 2)
             ; //Wrapper goes here
+        else if(userInput == 3)
+            verifyMember();
+        else if(userInput == 4)
+            createBilling();
         else
         {
             System.out.println("Seriously choose a valid input");
@@ -53,29 +69,101 @@ public class Menu extends Utilities{
     }
 
 
-    private int addAppt()
+    private int verifyMember(){
+        boolean valid;
+        int id;
+        int userStat;
+
+        System.out.println("Please enter a valid member id number: ");
+
+        id = input.nextInt();
+        //validate the id num
+        //Returns ints
+        //-1 ---> DNE
+        //0  ---> Suspended
+        //1  ---> Active
+
+        int userStat = conn.checkMemberValid(id); //On a different branch currently but it DOES exist.
+        if(userStat == -1) {
+            System.out.println("INVALID NUMBER");
+            return -1;
+        }
+        else if(userStat == 0){
+            System.out.println("SUSPENDED");
+            return 0;
+        }
+        else if(userStat == 1){
+         System.out.println("VALIDATED");
+            return 1;
+        }
+        else
+            return 2;
+    }
+
+
+    /******
+     * STILL NEEDS TO SEND TO CREATE NEW BILLING
+     *****/
+    private int createBilling()
     {
         int id = 0;
         boolean valid = false;
         int todaysDate;
         int serviceIdInput;
+        int year;
+        int month;
+        int day;
+        int providerId;
+        int serviceCode;
+        String comments;
 
-        System.out.println("Please enter a valid id number: ");
+        //Verify.  if it's not valid gtfo
+        if(verifyMember() != 1){
+            System.out.println("The member is not valid for this!");
+            return 0;}
 
-        id = input.nextInt();
+        //Gather the info yo!!!
 
-        //validate the id num
+        //Get the current time stamp in a sql timestamp
+        java.sql.Timestamp current = new java.sql.Timestamp(System.currentTimeMillis());
+        //Date service was provided
+        System.out.print("Year: ");
+        year = input.nextInt();
+        System.out.println();
+        System.out.print("Month: ");
+        month = input.nextInt();
+        System.out.println();
+        System.out.print("Day: ");
+        day = input.nextInt();
+        System.out.println();
 
-        //If it's not valid return out
-        if(!valid)
-            return 0;
+        Date providedDate = new Date(year, month, day); //int year, int month, int day
+        System.out.print("");
 
-        //Gather the info yo
+        System.out.print("Please input provider number: ");
+        providerId = input.nextInt();
+        System.out.println();
+
+        //Already have the member ID
+
+        //Prompt for service code list
+
+        //Gets the service code
+        System.out.print("Please input the service code: ");
+        serviceCode = input.nextInt();
+        System.out.println();
+
+        //Get the comments from them
+        System.out.println("Comments: ");
+        comments = input.next();
 
 
+        //SEND TO CREATE NEW BILLING!!!
 
         return 1;
     }
+
+
 
 
 
