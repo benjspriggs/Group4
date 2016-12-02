@@ -12,11 +12,23 @@ import java.nio.charset.Charset;
  * Created by bspriggs on 11/29/2016.
  */
 public class WriteFileAction implements Action {
-    final private String body;
-    final private String path;
+    private String body;
+    private String path;
+
+    public WriteFileAction(String path) {
+        this.path = path;
+    }
 
     public WriteFileAction(String body, String path) {
         this.body = body;
+        this.path = path;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public void setPath(String path) {
         this.path = path;
     }
 
