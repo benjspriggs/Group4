@@ -470,4 +470,38 @@ public class ChocanConnection {
     }
 
 
+    //Create Member
+    public int callCreateMember(){
+        return 1;
+    }
+
+
+    //Edit memer
+    public int callEditMember(){
+        return 1;
+    }
+
+    //Delete member
+    public int callDeleteMember(){
+        return 1;
+    }
+
+    //Create Provider
+    public int callCreateProvider(){
+        return 1;
+    }
+
+    //Edit Provider
+    public int callEditProvider(){
+        return 1;
+    }
+
+    //Delete Provider
+    public int callDeleteProvider(){
+    return 1;
+}
+
+
+
+
 }
