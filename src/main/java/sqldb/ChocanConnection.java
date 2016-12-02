@@ -17,14 +17,14 @@ public class ChocanConnection {
         try {
             // get a connection to database
 
-           conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/chocan_server", "test", "password");
-           Statement myStmt = conn.createStatement();
+            conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/chocan_server", "test", "password");
+            Statement myStmt = conn.createStatement();
 
-           ResultSet myRs = myStmt.executeQuery("SELECT * from member_info");
+            ResultSet myRs = myStmt.executeQuery("SELECT * from member_info");
 
-           while (myRs.next()){
-              System.out.println(myRs.getString("last"));
-           }
+            while (myRs.next()){
+                System.out.println(myRs.getString("last"));
+            }
 
 
             // create statement
@@ -349,4 +349,168 @@ public class ChocanConnection {
         }
 
     }
+
+    public int checkMemberValid(int memberID)
+    {
+        try {
+            if (conn == null){
+                System.out.println("Connection has not been properly established");
+                return -1;
+            }
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM members " +
+                    "where NUMBER =" + memberID);
+            ResultSet result = statement.executeQuery();
+
+            if(result == null)
+            {
+                return -1;
+            }
+
+            if(result.getInt("service_id") == 1){
+                return 0;
+            }
+
+            return 1;
+
+        } catch (SQLException e) {
+            System.out.println("SQL problem in memberID");
+            return -1;
+        }
+    }
+
+    public ArrayList<ServiceInfo> obtainAllServices(){
+        try {
+            if (conn == null){
+                System.out.println("Connection has not been properly established");
+                return null;
+            }
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
+                    "service_info");
+
+            ResultSet result = statement.executeQuery();
+            ArrayList<ServiceInfo> array = new ArrayList<>();
+
+            while(result.next()) {
+
+                String name = result.getString("NAME");
+                int code = result.getInt("SERVICE_CODE");
+
+
+                ServiceInfo info = new ServiceInfo("", "", "", name, "",
+                        code, 0, 0.0);
+
+                array.add(info);
+            }
+            return array;
+
+        } catch (SQLException e) {
+            System.out.println("SQL problem in obtainProviderInfo");
+        }
+        return null;
+    }
+
+    public boolean checkServiceValid(int id)
+    {
+        try {
+            if (conn == null){
+                System.out.println("Connection has not been properly established");
+                return false;
+            }
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM service_info " +
+                    "where SERVICE_CODE =" + id);
+            ResultSet result = statement.executeQuery();
+
+            if(result == null)
+            {
+                return false;
+            }
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("SQL problem in checkProviderValid");
+            return false;
+        }
+    }
+    public boolean checkProviderValid(int id)
+    {
+        try {
+            if (conn == null){
+                System.out.println("Connection has not been properly established");
+                return false;
+            }
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM providers " +
+                    "where NUMBER =" + id);
+            ResultSet result = statement.executeQuery();
+
+            if(result == null)
+            {
+                return false;
+            }
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("SQL problem in checkProviderValid");
+            return false;
+        }
+    }
+
+    public int callToAdd(int id, int providerId, int serviceId, String comments, Date provided)
+    {
+        try {
+            PreparedStatement statement = conn.prepareStatement("CALL create_performed_service" +
+                    "( " + id + "," + providerId + "," + serviceId + "," + comments + "," + provided + ");");
+            statement.executeQuery();
+            return 1;
+        }catch(SQLException e) {
+            System.out.println("SQL problem");
+            return 0;
+        }
+    }
+
+
+    //Create Member
+    public int callCreateMember(String memberID, boolean suspend, String name, String address, String city, String state, String zip){
+        PreparedStatement statement conn.prepareStatement("CALL create_member(memberID, false, name, address, city, state, zip)");
+        statement.executeQuery();
+        return 1;
+    }
+
+
+    //Edit memer
+    public int callEditMember(int memberID, boolean suspend, String name, String address, String city, String state, String zip){
+
+        return 1;
+    }
+
+    //Delete member
+    public int callDeleteMember(int memberID){
+        PreparedStatement statement conn.prepareStatement("DELETE FROM members WHERE number = memberID");
+        statement.executeQuery();
+        return 1;
+    }
+
+    //Create Provider
+    public int callCreateProvider(int providerID, boolean suspend, String name, String address, String city, String state, String zip){
+        PreparedStatement statement conn.prepareStatement("CALL create_provider(providerID, false, name, address, city, state, zip)");
+        statement.executeQuery();
+        return 1;
+    }
+
+    //Edit Provider
+    public int callEditProvider(int memberID, boolean suspend, String name, String address, String city, String state, String zip){
+        return 1;
+    }
+
+    //Delete Provider
+    public int callDeleteProvider(int providerID){
+        PreparedStatement statement conn.prepareStatement("DELETE FROM providers WHERE number = providerID");
+        statement.executeQuery();
+        return 1;
+}
+
+
+
+
 }
