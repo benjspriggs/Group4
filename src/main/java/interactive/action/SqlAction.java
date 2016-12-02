@@ -10,13 +10,13 @@ import java.sql.SQLException;
 /**
  * Created by bspriggs on 11/29/2016.
  */
-public class SqlAction<V extends DatabaseObject> implements ReturnableAction<ResultSet> {
+public class SqlAction implements ReturnableAction<ResultSet> {
     private Connection connection;
-    private V value;
+    private DatabaseObject value;
     private PreparedStatement statement;
     private final DatabaseObject.DatabaseAction action;
 
-    public SqlAction(Connection c, V value, DatabaseObject.DatabaseAction action)
+    public SqlAction(Connection c, DatabaseObject value, DatabaseObject.DatabaseAction action)
     {
         connection = c;
         this.value = value;
