@@ -26,7 +26,7 @@ public class ReportsTest {
 
     @Test
     public void printProviderReport() throws Exception {
-        //r
+        reports.PrintProviderReport(5);
     }
 
     @Test

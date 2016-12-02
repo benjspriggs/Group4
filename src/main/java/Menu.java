@@ -8,6 +8,7 @@ import sqldb.ChocanConnection;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.HashMap;
 
 
@@ -20,7 +21,7 @@ public class Menu extends Utilities{
         Operator
     }
 
-    int ID = 100000000;
+
     private ChocanConnection conn;
     private Reports report;
 
@@ -46,30 +47,40 @@ public class Menu extends Utilities{
     public void providerMenu()
     {
         int userInput;
+        boolean cont = true;
         System.out.println("Please enter your ProviderID:");
         userInput = input.nextInt();
         if (conn.checkProviderValid(userInput)){
             System.out.println("Welcome Healthcare Provider!!! Please choose from the following options =)");
             HashMap<Integer, String> providerMenuOptions = fillProviderOptions();
             System.out.println("Option: ");
-
-            while (!input.hasNextInt() ){
+            while (cont ) {
+                System.out.println("Welcome Healthcare Provider!!! Please choose from the following options =)");
+                System.out.println("View Service Directory                     (1)");
+                System.out.println("Check if member id is valid                (2)");
+                System.out.println("Create new billing file                    (3)");
+                System.out.println("Quit                                       (4)");
                 System.out.println("Option: ");
-                input.next();
-            }
 
-            userInput = input.nextInt();
+                while (!input.hasNextInt()) {
+                    System.out.println("Option: ");
+                    input.next();
+                }
+
+                userInput = input.nextInt();
 
 
-            if(userInput == 1)
-                printAllServices();
-            else if(userInput == 2)
-                verifyMember();
-            else if(userInput == 3)
-                createBilling();
-            else {
-                System.out.println("Seriously choose a valid input");
-                providerMenu();
+                if (userInput == 1)
+                    printAllServices();
+                else if (userInput == 2)
+                    verifyMember();
+                else if (userInput == 3)
+                    createBilling();
+                else if (userInput == 4)
+                    cont = false;
+                else {
+                    System.out.println("Seriously choose a valid input");
+                }
             }
         }
 
@@ -190,7 +201,7 @@ public class Menu extends Utilities{
         {
             System.out.println("That is not a valid provider number.");
             System.out.print("Try again or quit? (yes/quit) ");
-            quit = input.next();
+            quit = input.nextLine();
             if(quit == "quit")
                 return 0;
             System.out.print("Please input provider number: ");
@@ -215,7 +226,7 @@ public class Menu extends Utilities{
         {
             System.out.println("That is not a valid service code.");
             System.out.print("Try again or quit? (yes/quit) ");
-            quit = input.next();
+            quit = input.nextLine();
             if(quit == "quit")
                 return 0;
             System.out.print("Please input the service code: ");
@@ -226,7 +237,7 @@ public class Menu extends Utilities{
 
         //Get the comments from them
         System.out.println("Comments: ");
-        comments = input.next();
+        comments = input.nextLine();
 
 
         //SEND TO CREATE NEW BILLING!!!
@@ -281,11 +292,19 @@ public class Menu extends Utilities{
         int userInput;
 
         System.out.println("Welcome ChocAn Operator!!! Please choose from the following options=D");
+        System.out.println("Create new membership                  (1)");
+        System.out.println("Edit existing membership               (2)");
+        System.out.println("Delete existing membership             (3)");
+        System.out.println("Create new provider                    (4)");
+        System.out.println("Edit provider information              (5)");
+        System.out.println("Delete provider                        (6)");
+        System.out.println("Quit                                   (7)");
         HashMap<Integer, String> operatorMenuOptions = fillOperatorOptions();
         displayOptions(operatorMenuOptions);
 
         userInput = input.nextInt();
-
+        input.nextLine();
+/*
         switch (displayOptions(operatorMenuOptions)) {
             case 1: createMember(); break;
             case 2: editMember(); break;
@@ -296,6 +315,25 @@ public class Menu extends Utilities{
             default:
                 System.out.println("Seriously choose a valid input");
                 operatorMenu(); break;
+                */
+        if(userInput == 1)
+            createMember();
+        else if(userInput == 2)
+            editMember();
+        else if(userInput == 3)
+            deleteMember();
+        else if(userInput == 4)
+            createProvider();
+        else if(userInput == 5)
+            editProvider();
+        else if (userInput == 6)
+            deleteProvider();
+        else if (userInput == 7)
+            return;
+        else
+        {
+            System.out.println("Seriously choose a valid input");
+            operatorMenu();
         }
     }
 
@@ -307,24 +345,27 @@ public class Menu extends Utilities{
         String zip;
         int memberID;
 
+
+
         System.out.println("Please enter the member's first and last name:");
-        name = input.next();
+        name = input.nextLine();
 
         System.out.println("Enter the member address:");
-        address = input.next();
+        address = input.nextLine();
 
         System.out.println("Enter the city:");
-        city = input.next();
+        city = input.nextLine();
 
         System.out.println("Enter the state abbreviation (for example Oregon is OR):");
-        state = input.next();
+        state = input.nextLine();
 
         System.out.println("Enter the zip code:");
-        zip = input.next();
+        zip = input.nextLine();
 
-        memberID = ID;
-        ++ID;
+        Random rand = new Random();
+        memberID = rand.nextInt(1000000000) + 100000000;
 
+        conn.callCreateMember(memberID, 0, name, address, city, state, zip);
         //conn.callCreateMember(memberID, false, name, address, city, state, zip);
     }
 
@@ -338,21 +379,24 @@ public class Menu extends Utilities{
 
         System.out.println("Please enter the member ID of the member you'd like to update:");
         memberID = input.nextInt();
+        input.nextLine();
 
         System.out.println("Please enter the member's first and last name:");
-        name = input.next();
+        name = input.nextLine();
 
         System.out.println("Enter the member address:");
-        address = input.next();
+        address = input.nextLine();
 
         System.out.println("Enter the city:");
-        city = input.next();
+        city = input.nextLine();
 
         System.out.println("Enter the state abbreviation (for example Oregon is OR):");
-        state = input.next();
+        state = input.nextLine();
 
         System.out.println("Enter the zip code:");
-        zip = input.next();
+        zip = input.nextLine();
+
+        conn.callEditMember(memberID, 0, name, address, city, state, zip);
 
 //
     }
@@ -374,24 +418,27 @@ public class Menu extends Utilities{
         int providerID;
 
         System.out.println("Please enter the provider's first and last name:");
-        name = input.next();
+        name = input.nextLine();
 
         System.out.println("Enter the provider address:");
-        address = input.next();
+        address = input.nextLine();
 
         System.out.println("Enter the city:");
-        city = input.next();
+        city = input.nextLine();
 
         System.out.println("Enter the state abbreviation (for example Oregon is OR):");
-        state = input.next();
+        state = input.nextLine();
 
         System.out.println("Enter the zip code:");
-        zip = input.next();
+        zip = input.nextLine();
+        Random rand = new Random();
+        providerID = rand.nextInt(1000000000) + 100000000;
 
-        providerID = ID;
-        ++ID;
+        //providerID = ID;
+        //++ID;
 
         //conn.callCreateProvider(providerID, false, name, address, city, state, zip);
+        conn.callCreateProvider(providerID, name, address, city, state, zip);
     }
 
     public void editProvider(){
@@ -406,26 +453,27 @@ public class Menu extends Utilities{
         memberID = input.nextInt();
 
         System.out.println("Please enter the provider's first and last name:");
-        name = input.next();
+        name = input.nextLine();
 
         System.out.println("Enter the member address:");
-        address = input.next();
+        address = input.nextLine();
 
         System.out.println("Enter the city:");
-        city = input.next();
+        city = input.nextLine();
 
         System.out.println("Enter the state abbreviation (for example Oregon is OR):");
-        state = input.next();
+        state = input.nextLine();
 
         System.out.println("Enter the zip code:");
-        zip = input.next();
+        zip = input.nextLine();
 
+        conn.callEditProvider(memberID, name, address, city, state, zip);
         //conn.callEditProvider(memberID, false, name, address, city, state, zip);
     }
 
     public void deleteProvider(){
         int providerID;
-        System.out.println("Please enter the provider ID for the ChocAn member you would like to delete:");
+        System.out.println("Please enter the provider ID for the health provider you would like to delete:");
         providerID = input.nextInt();
 
         //conn.callDeleteProvider(providerID);
@@ -433,8 +481,60 @@ public class Menu extends Utilities{
 
     public void managerMenu(){
         int identifier;
+        int userInput;
         HashMap<Integer, String> managerMenuOptions = fillManagerOptions();
         System.out.println("Welcome ChocAn Manager!!! Please choose from the following options=D");
+        System.out.println("Create new membership                  (1)");
+        System.out.println("Edit existing membership               (2)");
+        System.out.println("Delete existing membership             (3)");
+        System.out.println("Create new provider                    (4)");
+        System.out.println("Edit provider information              (5)");
+        System.out.println("Delete provider                        (6)");
+        System.out.println("View summary of all reports            (7)");
+        System.out.println("View single member report              (8)");
+        System.out.println("View single provider report            (9)");
+        System.out.println("View all member reports                (10)");
+        System.out.println("View all provider reports              (11)");
+        System.out.println("Quit                                   (12)");
+
+
+        userInput = input.nextInt();
+        input.nextLine();
+        if(userInput == 1)
+            createMember();
+        else if(userInput == 2)
+            editMember();
+        else if(userInput == 3)
+            deleteMember();
+        else if(userInput == 4)
+            createProvider();
+        else if(userInput == 5)
+            editProvider();
+        else if (userInput == 6)
+            deleteProvider();
+        else if (userInput == 7)
+            report.SummarizeReports(true);
+        else if (userInput == 8) {
+            System.out.println("Please enter the member ID:");
+            identifier = input.nextInt();
+            report.PrintMemberReport(identifier);
+        }
+        else if (userInput == 9) {
+            System.out.println("Please enter the provider ID:");
+            identifier = input.nextInt();
+            report.PrintProviderReport(identifier);
+        }
+        else if (userInput == 10)
+            report.MemberSummaryReports(true);
+        else if (userInput == 11)
+            report.ProviderSummaryReports(true);
+        else if (userInput == 12)
+            return;
+        else
+        {
+            System.out.println("Seriously choose a valid input");
+            operatorMenu();
+            /*
         switch (displayOptions(managerMenuOptions)) {
             case 1: createMember(); break;
             case 2: editMember(); break;
@@ -459,7 +559,7 @@ public class Menu extends Utilities{
             default:
                 System.out.println("Seriously choose a valid input");
                 operatorMenu();
-                break;
+                break;*/
         }
     }
 
