@@ -18,17 +18,17 @@ class Processor$SmokeTest extends InteractiveModeFixtures with MockitoSugar{
   val processor = new Processor()
   val connection: Connection = mock[Connection]
 
-  ignore must "handle requests to create a user" in {
+  it must "handle requests to create a user" in {
     val createUser = Mono((
       Request("create"),
       Obj((Type.One("user"), Seq(f.parsedJson("{ \"username\": \"test\" }")))))
     )
     val expectedSqlAction = new SqlAction[User](
       connection, new User(0, "test"), DatabaseAction.CREATE)
-    assertResult(processor.process(createUser))(Some(expectedSqlAction))
+    assertResult(Some(expectedSqlAction))(processor.process(createUser))
   }
 
-  ignore must "handle requests to create a member" in {
+  it must "handle requests to create a member" in {
     val createMember = Mono((
       Request("create"),
       Obj((Type.One("member"), Seq(
@@ -48,10 +48,10 @@ class Processor$SmokeTest extends InteractiveModeFixtures with MockitoSugar{
     val location = new Location(0, "street_address", "city", "state", "zipcode")
     val expectedSqlAction = new SqlAction[Member](
       connection, new Member(0, "name", false, location), DatabaseAction.CREATE)
-    assertResult(processor.process(createMember))(Some(expectedSqlAction))
+    assertResult(Some(expectedSqlAction))(processor.process(createMember))
   }
 
-  ignore must "handle requests to delete a provider" in {
+  it must "handle requests to delete a provider" in {
     val deleteProvider = Mono((
       Request("delete"),
       Obj((Type.One("provider"), Seq(
@@ -72,10 +72,10 @@ class Processor$SmokeTest extends InteractiveModeFixtures with MockitoSugar{
     val location = new Location(0, "street_address", "city", "state", "zipcode")
     val expectedSqlAction = new SqlAction[Provider](
       connection, new Provider(0, "name", location), DatabaseAction.CREATE)
-    assertResult(processor.process(deleteProvider))(Some(expectedSqlAction))
+    assertResult(Some(expectedSqlAction))(processor.process(deleteProvider))
   }
 
-  ignore must "handle requests to stop" in {
-    assertResult(processor.process(Stop))(None)
+  it must "handle requests to stop" in {
+    assertResult(None)(processor.process(Stop))
   }
 }

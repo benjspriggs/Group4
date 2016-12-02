@@ -5,48 +5,48 @@ package interactive.parser
   * Created by bspriggs on 11/12/2016.
   */
 import fastparse.all._
-import interactive.Statements.{Mono, Poly, SQL}
-import interactive.Term._
 import interactive.{Statements, Term}
+import interactive.Statements._
+import interactive.Term._
 
 object Parser {
   lazy val delim: Char = ';'
   lazy val finalDelim = P( delim.toString ~ whitespace.? ~ End)
 
-  lazy val whitespace = P( CharsWhile(" \r\n\t".contains(_: Char)) ).opaque("")
+  lazy val whitespace: P[Unit] = P( CharsWhile(" \r\n\t".contains(_: Char)) ).opaque("")
 
-  lazy val stop = P(  "quit" | "bye" | "exit" )
-    .map(_ => Statements.Stop).opaque("expected token <stop>")
-  lazy val help = P( ("help" | "?") ~/ (whitespace ~ CharsWhile(_ != delim).!).? )
+  lazy val stop: P[Stop.type] = P(  "quit" | "bye" | "exit" )
+    .map(_ => Stop).opaque("expected token <stop>")
+  lazy val help: P[Help] = P( ("help" | "?") ~/ (whitespace ~ CharsWhile(_ != delim).!).? )
     .map(Statements.Help).opaque("expected token <help>")
-  lazy val request = P( ("create" | "show" | "update" | "delete" | "write").! )
-    .map(Term.Request).opaque("expected token <request>")
+  lazy val request: P[Request] = P( ("create" | "show" | "update" | "delete" | "write").! )
+    .map(Request).opaque("expected token <request>")
 
-  lazy val `type`      = P( ("user" | "member" | "provider" | "service" ).! )
+  lazy val `type`: P[String]      = P( ("user" | "member" | "provider" | "service" ).! )
     .opaque("expected token <type>")
-  lazy val _singleType = P( `type` ~/ !"s" ~ (whitespace ~ "report".!).? ).map({
-    case (t, Some(r)) => Term.Type.One(s"$t $r")
-    case (t, None) => Term.Type.One(t)})
+  lazy val _singleType: P[Type.One] = P( `type` ~/ !"s" ~ (whitespace ~ "report".!).? ).map({
+    case (t, Some(r)) => Type.One(s"$t $r")
+    case (t, None) => Type.One(t)})
 
-  lazy val _manyType   = P( `type` ~ "s" ~ (whitespace ~ "reports".!).? ).map({
-    case (t, Some(r)) => Term.Type.Many(s"$t $r")
-    case (t, None) => Term.Type.Many(t)})
+  lazy val _manyType: P[Type.Many]   = P( `type` ~ "s" ~ (whitespace ~ "reports".!).? ).map({
+    case (t, Some(r)) => Type.Many(s"$t $r")
+    case (t, None) => Type.Many(t)})
 
-  lazy val _payload = JsonParser.jsonExpr // courtesy of Li Haoyi
+  lazy val _payload: P[Payload] = JsonParser.jsonExpr // courtesy of Li Haoyi
 
-  lazy val `object` =
-    P( _singleType ~/ whitespace ~/ _payload.rep(1) ).map(Term.Obj)
-  lazy val superobject =
+  lazy val `object`: P[Obj] =
+    P( _singleType ~/ whitespace ~/ _payload.rep(1) ).map(Obj)
+  lazy val superobject: P[SuperObj] =
     P( "all"
       ~/ whitespace
       ~ _manyType
       ~/ (whitespace ~ _payload ).?
-      | _manyType ~/ whitespace ~ _payload.? ).map(Term.SuperObj)
+      | _manyType ~/ whitespace ~ _payload.? ).map(SuperObj)
 
-  lazy val request_object = P( request ~/ whitespace ~/ ( superobject | `object` ))
+  lazy val request_object: P[Any] = P( request ~/ whitespace ~/ ( superobject | `object` ))
     .map(statementsMap).opaque("<request> with <object> or <objects>")
 
-  def statementsMap(parsed_tuple: (Request, Equals)) =
+  def statementsMap(parsed_tuple: (Request, Equals)): Unit =
   {
     parsed_tuple._2 match {
       case t: Equals => t match {
