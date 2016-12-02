@@ -3,10 +3,12 @@
  */
 
 
+import Reports.ServiceInfo;
 import sqldb.ChocanConnection;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 //Search 'Wrapper goes here'
 
@@ -164,6 +166,31 @@ public class Menu extends Utilities{
     }
 
 
+
+/*
+*  Print out all services
+*        ---->list of service codes that are mapped to a service name.
+*               -----> conn.obtainAllServices() returns array list of service info
+*                       ----->This is an array of objects service info
+*                       Loop thru the array to get the name and the code
+ */
+
+    private void printAllServices()
+    {
+        ArrayList<ServiceInfo> serviceCodes = conn.obtainAllServices();
+        String to_print = "";
+        for(ServiceInfo service : serviceCodes) {
+            to_print += "Service Name " + service.getService() + "\n\t" + "Service Date: " +
+                    service.getServe_date() + "\n\n";
+        }
+        if (to_print == ""){
+            System.out.println("The service directory is empty");
+        }
+        else {
+            System.out.println("The services are: \n");
+            System.out.println(to_print);
+        }
+    }
 
 
 
