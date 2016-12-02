@@ -11,13 +11,14 @@ import Reports.Reports;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 //Search 'Wrapper goes here'
 
 public class Menu extends Utilities{
 
-    int ID = 100000000;
+
     private ChocanConnection conn;
     private Reports report;
     //Empty Constructor
@@ -44,33 +45,37 @@ public class Menu extends Utilities{
     public void providerMenu()
     {
         int userInput;
+        boolean cont = true;
         System.out.println("Please enter your ProviderID:");
         userInput = input.nextInt();
         if (conn.checkProviderValid(userInput)){
-
-            System.out.println("Welcome Healthcare Provider!!! Please choose from the following options =)");
-            System.out.println("View Service Directory                     (1)");
-            System.out.println("Check if member id is valid                (2)");
-            System.out.println("Create Billing Report for service provided (3)");
-            System.out.println("Option: ");
-
-            while (!input.hasNextInt() ){
+            while (cont ) {
+                System.out.println("Welcome Healthcare Provider!!! Please choose from the following options =)");
+                System.out.println("View Service Directory                     (1)");
+                System.out.println("Check if member id is valid                (2)");
+                System.out.println("Create new billing file                    (3)");
+                System.out.println("Quit                                       (4)");
                 System.out.println("Option: ");
-                input.next();
-            }
 
-            userInput = input.nextInt();
+                while (!input.hasNextInt()) {
+                    System.out.println("Option: ");
+                    input.next();
+                }
+
+                userInput = input.nextInt();
 
 
-            if(userInput == 1)
-                printAllServices();
-            else if(userInput == 2)
-                verifyMember();
-            else if(userInput == 3)
-                createBilling();
-            else {
-                System.out.println("Seriously choose a valid input");
-                providerMenu();
+                if (userInput == 1)
+                    printAllServices();
+                else if (userInput == 2)
+                    verifyMember();
+                else if (userInput == 3)
+                    createBilling();
+                else if (userInput == 4)
+                    cont = false;
+                else {
+                    System.out.println("Seriously choose a valid input");
+                }
             }
     }
 
@@ -255,8 +260,9 @@ public class Menu extends Utilities{
         System.out.println("Create new provider                    (4)");
         System.out.println("Edit provider information              (5)");
         System.out.println("Delete provider                        (6)");
-
+        System.out.println("Quit                                   (7)");
         userInput = input.nextInt();
+        input.nextLine();
 
         if(userInput == 1)
             createMember();
@@ -270,6 +276,8 @@ public class Menu extends Utilities{
             editProvider();
         else if (userInput == 6)
             deleteProvider();
+        else if (userInput == 7)
+            return;
         else
         {
             System.out.println("Seriously choose a valid input");
@@ -285,6 +293,8 @@ public class Menu extends Utilities{
         String zip;
         int memberID;
 
+
+
         System.out.println("Please enter the member's first and last name:");
         name = input.nextLine();
 
@@ -300,10 +310,10 @@ public class Menu extends Utilities{
         System.out.println("Enter the zip code:");
         zip = input.nextLine();
 
-        memberID = ID;
-        ++ID;
+        Random rand = new Random();
+        memberID = rand.nextInt(1000000000) + 100000000;
 
-        conn.callCreateMember(memberID, false, name, address, city, state, zip);
+        conn.callCreateMember(memberID, 0, name, address, city, state, zip);
     }
 
     public void editMember(){
@@ -316,6 +326,7 @@ public class Menu extends Utilities{
 
         System.out.println("Please enter the member ID of the member you'd like to update:");
         memberID = input.nextInt();
+        input.nextLine();
 
         System.out.println("Please enter the member's first and last name:");
         name = input.nextLine();
@@ -332,7 +343,7 @@ public class Menu extends Utilities{
         System.out.println("Enter the zip code:");
         zip = input.nextLine();
 
-        conn.callEditMember(memberID, false, name, address, city, state, zip);
+        conn.callEditMember(memberID, 0, name, address, city, state, zip);
 
     }
 
@@ -366,11 +377,10 @@ public class Menu extends Utilities{
 
         System.out.println("Enter the zip code:");
         zip = input.nextLine();
+        Random rand = new Random();
+        providerID = rand.nextInt(1000000000) + 100000000;
 
-        providerID = ID;
-        ++ID;
-
-        conn.callCreateProvider(providerID, false, name, address, city, state, zip);
+        conn.callCreateProvider(providerID, name, address, city, state, zip);
     }
 
     public void editProvider(){
@@ -399,7 +409,7 @@ public class Menu extends Utilities{
         System.out.println("Enter the zip code:");
         zip = input.nextLine();
 
-        conn.callEditProvider(memberID, false, name, address, city, state, zip);
+        conn.callEditProvider(memberID, name, address, city, state, zip);
     }
 
     public void deleteProvider(){
@@ -425,10 +435,11 @@ public class Menu extends Utilities{
         System.out.println("View single provider report            (9)");
         System.out.println("View all member reports                (10)");
         System.out.println("View all provider reports              (11)");
+        System.out.println("Quit                                   (12)");
 
 
         userInput = input.nextInt();
-
+        input.nextLine();
         if(userInput == 1)
             createMember();
         else if(userInput == 2)
@@ -457,6 +468,8 @@ public class Menu extends Utilities{
             report.MemberSummaryReports(true);
         else if (userInput == 11)
             report.ProviderSummaryReports(true);
+        else if (userInput == 12)
+            return;
         else
         {
             System.out.println("Seriously choose a valid input");

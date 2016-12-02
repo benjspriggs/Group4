@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 public class ChocanConnection {
     private Connection conn;
+
     public ChocanConnection() {
 
 
@@ -20,9 +21,9 @@ public class ChocanConnection {
             conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/chocan_server", "test", "password");
             Statement myStmt = conn.createStatement();
 
-            ResultSet myRs = myStmt.executeQuery("SELECT * from member_info");
+            ResultSet myRs = myStmt.executeQuery("SELECT * FROM member_info");
 
-            while (myRs.next()){
+            while (myRs.next()) {
                 System.out.println(myRs.getString("last"));
             }
 
@@ -48,13 +49,11 @@ public class ChocanConnection {
             return conn;
 
 
-
         } catch (Exception e) {
             System.out.println("Not connected, exception thrown");
             e.printStackTrace();
             System.out.println(e.getMessage());
         }
-
 
 
         return null;
@@ -85,19 +84,19 @@ public class ChocanConnection {
         return null;
     }
 
-    private void generateData(){
+    private void generateData() {
         // make some data
         try {
-            String insertStatement ="INSERT INTO providers " +
+            String insertStatement = "INSERT INTO providers " +
                     "(number, name) VALUES" +
                     "(?, ?)";
             PreparedStatement insert = conn.prepareStatement(insertStatement);
-            for (int i = 0; i < 200; i++){
+            for (int i = 0; i < 200; i++) {
                 insert.setInt(1, i);
                 insert.setString(2, "aslfkjasldfkjasdlfkajsf0");
                 insert.executeUpdate();
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             // idk
         }
     }
@@ -105,7 +104,7 @@ public class ChocanConnection {
     //returns the memberinfo for a specific member (Written by Michael Cohoe)
     public MemberInfo obtainMemberInfo(int id) {
         try {
-            if (conn == null){
+            if (conn == null) {
                 System.out.println("Connection has not been properly established");
                 return null;
             }
@@ -124,8 +123,7 @@ public class ChocanConnection {
                 String zip = result.getString("zipcode");
                 MemberInfo info = new MemberInfo(name, address, city, state, zip);
                 return info;
-            }
-            else{
+            } else {
                 return null;
             }
 
@@ -136,9 +134,9 @@ public class ChocanConnection {
     }
 
     //returns all serviceinfo for a specific member (Written by Michael Cohoe)
-    public ArrayList<ServiceInfo> obtainMemServiceInfo(int id){
+    public ArrayList<ServiceInfo> obtainMemServiceInfo(int id) {
         try {
-            if (conn == null){
+            if (conn == null) {
                 System.out.println("Connection has not been properly established");
                 return null;
             }
@@ -153,7 +151,7 @@ public class ChocanConnection {
 
             ResultSet result = statement.executeQuery();
             ArrayList<ServiceInfo> array = new ArrayList<>();
-            while(result.next()) {
+            while (result.next()) {
 
                 String date = result.getString("date_service");
                 String prov_name = result.getString("providers.name");
@@ -174,7 +172,7 @@ public class ChocanConnection {
     //returns providerinfo for a specific provider (written by Michael Cohoe)
     public ProviderInfo obtainProviderInfo(int id) {
         try {
-            if (conn == null){
+            if (conn == null) {
                 System.out.println("Connection has not been properly established");
                 return null;
             }
@@ -193,8 +191,7 @@ public class ChocanConnection {
                 String zip = result.getString("zipcode");
                 ProviderInfo info = new ProviderInfo(name, address, city, state, zip);
                 return info;
-            }
-            else{
+            } else {
                 return null;
             }
 
@@ -205,9 +202,9 @@ public class ChocanConnection {
     }
 
     //returns all serviceinfo for a specific provider (written by Michael Cohoe)
-    public ArrayList<ServiceInfo> obtainProvServiceInfo(int id){
+    public ArrayList<ServiceInfo> obtainProvServiceInfo(int id) {
         try {
-            if (conn == null){
+            if (conn == null) {
                 System.out.println("Connection has not been properly established");
                 return null;
             }
@@ -224,7 +221,7 @@ public class ChocanConnection {
 
             ResultSet result = statement.executeQuery();
             ArrayList<ServiceInfo> array = new ArrayList<>();
-            while(result.next()) {
+            while (result.next()) {
 
                 String date = result.getString("date_service");
                 String timestamp = result.getString("timestamp");
@@ -251,23 +248,23 @@ public class ChocanConnection {
     //(written by Michael Cohoe)
     public ArrayList<SummaryInfo> obtainSummaryInfo() {
         try {
-            if (conn == null){
+            if (conn == null) {
                 System.out.println("Connection has not been properly established");
                 return null;
             }
             PreparedStatement statement = conn.prepareStatement("SELECT providers.name, " +
-                    "count(*) as consult_num, sum(service_info.fee) as total_fee FROM " +
-                    "services_lookup join performed_services on services_lookup.ID = " +
-                    "performed_services.SERVICE_ID join service_info on service_info.SERVICE_CODE " +
-                    "= services_lookup.SERVICE_CODE join providers on " +
-                    "services_lookup.PROVIDER_NUMBER = providers.NUMBER where ((select max(timestamp) " +
-                    "from report_dates) < performed_services.timestamp or  not exists " +
-                    "(select * from report_dates)) group by providers.name");
+                    "count(*) AS consult_num, sum(service_info.fee) AS total_fee FROM " +
+                    "services_lookup JOIN performed_services ON services_lookup.ID = " +
+                    "performed_services.SERVICE_ID JOIN service_info ON service_info.SERVICE_CODE " +
+                    "= services_lookup.SERVICE_CODE JOIN providers ON " +
+                    "services_lookup.PROVIDER_NUMBER = providers.NUMBER WHERE ((SELECT max(timestamp) " +
+                    "FROM report_dates) < performed_services.timestamp OR  NOT exists " +
+                    "(SELECT * FROM report_dates)) GROUP BY providers.name");
 
             ResultSet result = statement.executeQuery();
             ArrayList<SummaryInfo> array = new ArrayList<>();
 
-            while(result.next()) {
+            while (result.next()) {
 
                 String name = result.getString("providers.name");
                 int consults = result.getInt("consult_num");
@@ -289,16 +286,16 @@ public class ChocanConnection {
     //returns an array of all member ids (written by Michael Cohoe)
     public ArrayList<Integer> obtainMemberIDs() {
         try {
-            if (conn == null){
+            if (conn == null) {
                 System.out.println("Connection has not been properly established");
                 return null;
             }
-            PreparedStatement statement = conn.prepareStatement("SELECT * from members");
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM members");
 
             ResultSet result = statement.executeQuery();
             ArrayList<Integer> array = new ArrayList<>();
 
-            while(result.next()) {
+            while (result.next()) {
                 array.add(result.getInt("number"));
             }
             return array;
@@ -312,16 +309,16 @@ public class ChocanConnection {
     //returns an array of all provider ids (written by Michael Cohoe)
     public ArrayList<Integer> obtainProviderIDs() {
         try {
-            if (conn == null){
+            if (conn == null) {
                 System.out.println("Connection has not been properly established");
                 return null;
             }
-            PreparedStatement statement = conn.prepareStatement("SELECT * from providers");
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM providers");
 
             ResultSet result = statement.executeQuery();
             ArrayList<Integer> array = new ArrayList<>();
 
-            while(result.next()) {
+            while (result.next()) {
                 array.add(result.getInt("number"));
             }
             return array;
@@ -333,9 +330,9 @@ public class ChocanConnection {
     }
 
     //Adds a new timestamp to the file_write_dates table (written by Michael Cohoe)
-    public void addFileWriteDate(Timestamp to_add){
+    public void addFileWriteDate(Timestamp to_add) {
         try {
-            if (conn == null){
+            if (conn == null) {
                 System.out.println("Connection has not been properly established");
                 return;
             }
@@ -350,27 +347,26 @@ public class ChocanConnection {
 
     }
 
-    public int checkMemberValid(int memberID)
-    {
+    public int checkMemberValid(int memberID) {
         try {
-            if (conn == null){
+            if (conn == null) {
                 System.out.println("Connection has not been properly established");
                 return -1;
             }
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM members " +
-                    "where NUMBER =" + memberID);
+                    "where members.NUMBER =" + memberID);
             ResultSet result = statement.executeQuery();
 
-            if(result == null)
-            {
-                return -1;
+            if (result.next()){
+                if (result.getInt("IS_SUSPENDED") == 1) {
+                    return 0;
+                }
+                else return 1;
             }
 
-            if(result.getInt("service_id") == 1){
-                return 0;
-            }
 
-            return 1;
+
+            return -1;
 
         } catch (SQLException e) {
             System.out.println("SQL problem in memberID");
@@ -378,9 +374,9 @@ public class ChocanConnection {
         }
     }
 
-    public ArrayList<ServiceInfo> obtainAllServices(){
+    public ArrayList<ServiceInfo> obtainAllServices() {
         try {
-            if (conn == null){
+            if (conn == null) {
                 System.out.println("Connection has not been properly established");
                 return null;
             }
@@ -390,7 +386,7 @@ public class ChocanConnection {
             ResultSet result = statement.executeQuery();
             ArrayList<ServiceInfo> array = new ArrayList<>();
 
-            while(result.next()) {
+            while (result.next()) {
 
                 String name = result.getString("NAME");
                 int code = result.getInt("SERVICE_CODE");
@@ -409,29 +405,27 @@ public class ChocanConnection {
         return null;
     }
 
-    public boolean checkServiceValid(int id)
-    {
+    public boolean checkServiceValid(int id) {
         try {
-            if (conn == null){
+            if (conn == null) {
                 System.out.println("Connection has not been properly established");
                 return false;
             }
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM service_info " +
                     "where SERVICE_CODE =" + id);
             ResultSet result = statement.executeQuery();
-
-            if(result == null)
-            {
-                return false;
+            if (result.next()) {
+                return true;
             }
-
-            return true;
+            return false;
 
         } catch (SQLException e) {
             System.out.println("SQL problem in checkProviderValid");
             return false;
         }
     }
+
+
     public boolean checkProviderValid(int id)
     {
         try {
@@ -443,12 +437,10 @@ public class ChocanConnection {
                     "where NUMBER =" + id);
             ResultSet result = statement.executeQuery();
 
-            if(result == null)
-            {
-                return false;
+            if(result.next()){
+                return true;
             }
-
-            return true;
+            return false;
 
         } catch (SQLException e) {
             System.out.println("SQL problem in checkProviderValid");
@@ -461,7 +453,7 @@ public class ChocanConnection {
         try {
             PreparedStatement statement = conn.prepareStatement("CALL create_performed_service" +
                     "( " + id + "," + providerId + "," + serviceId + "," + comments + "," + provided + ");");
-            statement.executeQuery();
+            statement.executeUpdate();
             return 1;
         }catch(SQLException e) {
             System.out.println("SQL problem");
@@ -471,27 +463,44 @@ public class ChocanConnection {
 
 
     //Create Member
-    public int callCreateMember(int memberID, boolean suspend, String name, String address, String city, String state, String zip){
+    public int callCreateMember(int mem_id, int suspend, String name, String address, String city, String state, String zip){
 
         try {
             PreparedStatement statement =
-            conn.prepareStatement("CALL create_member" + "( " + memberID + "," + suspend +"," + name + "," + address + ","
-                    + city + "," + state + "," + zip + ")");
-            statement.executeQuery();
+                    conn.prepareStatement("CALL create_member(?,?,?,?,?,?,?)");
+            statement.setInt(1,mem_id);
+            statement.setInt(2,suspend);
+            statement.setString(3,name);
+            statement.setString(4,address);
+            statement.setString(5,city);
+            statement.setString(6,state);
+            statement.setString(7,zip);
+                    //    conn.prepareStatement("CALL create_member(" + mem_id + "," + suspend + "," + name + "," + address + ","
+          //          + city + "," + state + "," + zip + ");");
+            statement.executeUpdate();
+
         }catch(SQLException e){
-            System.out.println("SQL problem");
+            e.printStackTrace();
         }
         return 1;
     }
 
 
-    //Edit memer
-    public int callEditMember(int memberID, boolean suspend, String name, String address, String city, String state, String zip){
+    //Edit member
+    public int callEditMember(int memberID, int suspend, String name, String address, String city, String state, String zip){
         try{
-            PreparedStatement statement =
-            conn.prepareStatement("CALL update_member" + "( " + memberID + "," + suspend +"," + name + "," + address + ","
-                + city + "," + state + "," + zip + ")");
-            statement.executeQuery();
+            PreparedStatement statement = conn.prepareStatement("CALL update_member(?,?,?,?,?,?,?)");
+            statement.setInt(1,memberID);
+            statement.setInt(2,suspend);
+            statement.setString(3,name);
+            statement.setString(4,address);
+            statement.setString(5,city);
+            statement.setString(6,state);
+            statement.setString(7,zip);
+            //conn.prepareStatement("CALL" +
+                 //   " update_member" + "( " + memberID + "," + suspend +"," + name + "," + address + ","
+              //  + city + "," + state + "," + zip + ")");
+            statement.executeUpdate();
 
         }catch(SQLException e){
             System.out.println("SQL problem");
@@ -504,22 +513,31 @@ public class ChocanConnection {
     public int callDeleteMember(int memberID){
         try{
             PreparedStatement statement =
-                    conn.prepareStatement("DELETE FROM members  WHERE number = "+ memberID);
-            statement.executeQuery();
+                    conn.prepareStatement("DELETE FROM members WHERE number = " + memberID);
+            statement.executeUpdate();
+
         }catch(SQLException e){
-            System.out.println("SQL problem");
+            e.printStackTrace();
         }
 
         return 1;
     }
 
     //Create Provider
-    public int callCreateProvider(int providerID, boolean suspend, String name, String address, String city, String state, String zip) {
+    public int callCreateProvider(int providerID, String name, String address, String city, String state, String zip) {
         try {
             PreparedStatement statement =
-                    conn.prepareStatement("CALL create_provider" + "(" + providerID + "," + suspend+ "," + name + "," + address + "," + city + ","
-                            + state + "," + zip + ")");
-            statement.executeQuery();
+                    conn.prepareStatement("CALL create_provider(?,?,?,?,?,?,?)");
+            statement.setInt(1,providerID);
+            statement.setString(3,name);
+            statement.setString(4,address);
+            statement.setString(5,city);
+            statement.setString(6,state);
+            statement.setString(7,zip);
+                    //conn.prepareStatement
+                    // ("CALL create_provider" + "(" + providerID + "," + suspend+ "," + name + "," + address + "," + city + ","
+                         //   + state + "," + zip + ")");
+            statement.executeUpdate();
     }catch(SQLException e){
         System.out.println("SQL problem");
     }
@@ -528,12 +546,19 @@ public class ChocanConnection {
 
 
     //Edit Provider
-    public int callEditProvider(int memberID, boolean suspend, String name, String address, String city, String state, String zip){
+    public int callEditProvider(int providerID, String name, String address, String city, String state, String zip){
         try{
             PreparedStatement statement =
-                    conn.prepareStatement("CALL update_provider" + "( " + memberID + "," + suspend +"," + name + "," + address + ","
-                            + city + "," + state + "," + zip + ")");
-            statement.executeQuery();
+                    conn.prepareStatement("CALL update_provider(?,?,?,?,?,?,?)");
+            statement.setInt(1,providerID);
+            statement.setString(3,name);
+            statement.setString(4,address);
+            statement.setString(5,city);
+            statement.setString(6,state);
+            statement.setString(7,zip);
+                    //conn.prepareStatement("CALL update_provider" + "( " + memberID + "," + suspend +"," + name + "," + address + ","
+                        //    + city + "," + state + "," + zip + ")");
+            statement.executeUpdate();
 
         }catch(SQLException e){
             System.out.println("SQL problem");
@@ -546,15 +571,51 @@ public class ChocanConnection {
     //Delete Provider
     public int callDeleteProvider(int providerID){
         try {
-            PreparedStatement statement = conn.prepareStatement("DELETE FROM providers WHERE number = " +providerID);
-            statement.executeQuery();
+            PreparedStatement statement = conn.prepareStatement("DELETE FROM providers WHERE number = " + providerID);
+            statement.executeUpdate();
         }catch(SQLException e){
             System.out.println("SQL problem");
         }
         return 1;
 }
 
+    public int obtainMaxMemberId() {
+        try {
+            if (conn == null) {
+                System.out.println("Connection has not been properly established");
+                return 0;
+            }
 
+            PreparedStatement statement = conn.prepareStatement("SELECT max(members.NUMBER) AS num FROM " +
+                    "members");
+
+            ResultSet result = statement.executeQuery();
+            int numb = result.getInt("num") + 1;
+            return numb;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    public int obtainMaxProviderId() {
+        try {
+            if (conn == null) {
+                System.out.println("Connection has not been properly established");
+                return 0;
+            }
+
+            PreparedStatement statement = conn.prepareStatement("SELECT max(providers.NUMBER) as num FROM " +
+                    "providers");
+
+            ResultSet result = statement.executeQuery();
+            return result.getInt("num") + 1;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
 
 }
