@@ -2,7 +2,6 @@ package interactive
 
 import java.sql.Connection
 
-import interactive.Statements._
 import interactive.Term._
 import interactive.action.SqlAction
 import org.scalatest.mockito.MockitoSugar
@@ -21,7 +20,7 @@ class Processor$SmokeTest extends InteractiveModeFixtures with MockitoSugar{
   it must "handle requests to create a user" in {
     val createUser = Mono((
       Request("create"),
-      Obj((Type.One("user"), Seq(f.parsedJson("{ \"username\": \"test\" }")))))
+      Obj((One("user"), Seq(f.parsedJson("{ \"username\": \"test\" }")))))
     )
     val expectedSqlAction = new SqlAction[User](
       connection, new User(0, "test"), DatabaseAction.CREATE)
@@ -31,7 +30,7 @@ class Processor$SmokeTest extends InteractiveModeFixtures with MockitoSugar{
   it must "handle requests to create a member" in {
     val createMember = Mono((
       Request("create"),
-      Obj((Type.One("member"), Seq(
+      Obj((One("member"), Seq(
         f.parsedJson(
           """
             | {
@@ -54,7 +53,7 @@ class Processor$SmokeTest extends InteractiveModeFixtures with MockitoSugar{
   it must "handle requests to delete a provider" in {
     val deleteProvider = Mono((
       Request("delete"),
-      Obj((Type.One("provider"), Seq(
+      Obj((One("provider"), Seq(
         f.parsedJson(
           """
             | {

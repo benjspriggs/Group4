@@ -1,6 +1,6 @@
 package interactive.parser
 
-import interactive.Statements._
+import interactive._
 import interactive.Term._
 import interactive.fixtures.InteractiveModeParserFixtures
 
@@ -32,13 +32,13 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
       forAll(f.typeMany) {
         `type`: String => doesParseToA(
           request + " " + `type` + " " + f.validJson,
-          Poly((Request(request), SuperObj((Type.Many(`type`), f.optionJson()))))
+          Poly((Request(request), SuperObj((Many(`type`), f.optionJson()))))
         )
       }
       forAll(f.typeMany) {
         `type`: String => doesParseToA(
           request + " all " + `type`,
-          Poly((Request(request), SuperObj((Type.Many(`type`), f.optionJson("")))))
+          Poly((Request(request), SuperObj((Many(`type`), f.optionJson("")))))
         )
       }
     }
@@ -49,7 +49,7 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
       forAll(f.typeSingle) {
         `type`: String => doesParseToA(
           request + " " + `type` + " " + f.validJson,
-          Mono((Request(request), Obj(Type.One(`type`), Seq(f.parsedJson()))))
+          Mono((Request(request), Obj(One(`type`), Seq(f.parsedJson()))))
         )
       }
     }
@@ -64,15 +64,15 @@ class Parser$SmokeTest extends InteractiveModeParserFixtures {
       request: String =>
         forAll(f.typeSingle) {
           t: String => doesParseToA(s"$request $t report" + f.validJson,
-            Mono(Request(request), Obj((Type.One(t), Seq(f.parsedJson()))))
+            Mono(Request(request), Obj((One(t), Seq(f.parsedJson()))))
           )
         }
         forAll(f.typeMany) {
           t: String =>
             doesParseToA(s"$request $t reports" + f.validJson,
-              Poly((Request(request), SuperObj((Type.Many(t), f.optionJson())))))
+              Poly((Request(request), SuperObj((Many(t), f.optionJson())))))
             doesParseToA(s"$request all $t reports",
-              Poly((Request(request), SuperObj((Type.Many(t), f.optionJson()))))
+              Poly((Request(request), SuperObj((Many(t), f.optionJson()))))
             )
         }
     }

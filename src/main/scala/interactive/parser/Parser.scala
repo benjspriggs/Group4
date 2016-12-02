@@ -5,8 +5,8 @@ package interactive.parser
   * Created by bspriggs on 11/12/2016.
   */
 import fastparse.all._
-import interactive._
 import interactive.Term._
+import interactive._
 
 object Parser {
   lazy val delim: Char = ';'

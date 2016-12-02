@@ -1,10 +1,8 @@
 package interactive
 
 import fastparse.core.Parsed
-import interactive.Statements._
 import interactive.Term._
 import interactive.parser.JsonParser
-import org.scalacheck.Gen
 import org.scalatest.FlatSpec
 import org.scalatest.prop.TableDrivenPropertyChecks
 ;

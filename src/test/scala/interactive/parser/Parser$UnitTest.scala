@@ -1,7 +1,7 @@
 package interactive.parser
 
-import interactive.Statements._
 import interactive.Term._
+import interactive._
 import interactive.fixtures.InteractiveModeParserFixtures
 
 import scala.collection.mutable.ArrayBuffer
@@ -64,15 +64,15 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
 
     "_singleType" should "parse a singular type" in {
       forAll(f.typeSingle) {
-        word: String => doesParseToA(word, Type.One(word), p)
-          doesParseToA(s"$word report", Type.One(s"$word report"), p)
+        word: String => doesParseToA(word, One(word), p)
+          doesParseToA(s"$word report", One(s"$word report"), p)
       }
     }
 
     "_singleType" should "not parse a plural type" in {
       forAll(f.typeMany) {
-        word: String => doesNotParseToA(word, Type.One(word), p)
-          doesNotParseToA(s"$word report", Type.One(s"$word report"), p)
+        word: String => doesNotParseToA(word, One(word), p)
+          doesNotParseToA(s"$word report", One(s"$word report"), p)
       }
     }
   }
@@ -84,15 +84,15 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
 
     "_manyType" should "parse a plural type" in {
       forAll(f.typeMany) {
-        word: String => doesParseToA(word, Type.Many(word), p)
-          doesParseToA(s"$word reports", Type.Many(s"$word reports"), p)
+        word: String => doesParseToA(word, Many(word), p)
+          doesParseToA(s"$word reports", Many(s"$word reports"), p)
       }
     }
 
     "_manyType" should "not parse a singular type" in {
       forAll(f.typeSingle) {
-        word: String => doesNotParseToA(word, Type.Many(word), p)
-          doesNotParseToA(s"$word reports", Type.Many(s"$word reports"), p)
+        word: String => doesNotParseToA(word, Many(word), p)
+          doesNotParseToA(s"$word reports", Many(s"$word reports"), p)
       }
     }
   }
@@ -105,22 +105,22 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
     "object" should "parse a single type and JSON object" in {
       forAll(f.typeSingle) {
         word: String => doesParseToA(word + f.validJson,
-          Obj((Type.One(word), Seq(f.parsedJson()))), p)
+          Obj((One(word), Seq(f.parsedJson()))), p)
           doesParseToA(word + " report " + f.validJson,
-            Obj((Type.One(s"$word report"), Seq(f.parsedJson()))), p)
+            Obj((One(s"$word report"), Seq(f.parsedJson()))), p)
       }
     }
 
     "object" should "not parse a JSON object without a type" in {
-      doesNotParseToA(f.validJson, Obj((Type.One("type"), Seq(f.parsedJson()))), p)
+      doesNotParseToA(f.validJson, Obj((One("type"), Seq(f.parsedJson()))), p)
     }
 
     "object" should "not parse a type without a JSON object" in {
       forAll(f.typeSingle) {
-        word: String => doesNotParseToA(word, Obj((Type.One(word), Seq(f.parsedJson("{}")))), p)
+        word: String => doesNotParseToA(word, Obj((One(word), Seq(f.parsedJson("{}")))), p)
       }
       forAll(f.typeMany) {
-        word: String => doesNotParseToA(word, Obj((Type.One(word), Seq(f.parsedJson("{}")))), p)
+        word: String => doesNotParseToA(word, Obj((One(word), Seq(f.parsedJson("{}")))), p)
       }
     }
   }
@@ -132,33 +132,33 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
 
     "superobject" should "parse a plural type and a payload" in {
       forAll(f.typeMany) { word: String =>
-        doesParseToA(word + " " + f.validJson, SuperObj(Type.Many(word), f.optionJson()), p)
-        doesParseToA(word + " reports " + f.validJson, SuperObj(Type.Many(word + " reports"), f.optionJson()), p)
+        doesParseToA(word + " " + f.validJson, SuperObj(Many(word), f.optionJson()), p)
+        doesParseToA(word + " reports " + f.validJson, SuperObj(Many(word + " reports"), f.optionJson()), p)
       }
     }
 
     "superobject" should "parse a universal modifier with a type" in {
       forAll(f.typeMany) { word: String =>
-        doesParseToA("all " + word, SuperObj(Type.Many(word), None), p)
-        doesParseToA("all " + word + " reports", SuperObj(Type.Many(word + " reports"), None), p)
+        doesParseToA("all " + word, SuperObj(Many(word), None), p)
+        doesParseToA("all " + word + " reports", SuperObj(Many(word + " reports"), None), p)
       }
     }
 
     "superobject" should "parse a universal modifier with a type and clarifying JSON" in {
       forAll(f.typeMany) { word: String =>
-        doesParseToA("all " + word + " " + f.validJson, SuperObj(Type.Many(word), f.optionJson()), p)
+        doesParseToA("all " + word + " " + f.validJson, SuperObj(Many(word), f.optionJson()), p)
       }
     }
 
     "superobject" should "parse a plural type and single JSON object" in {
       forAll(f.typeMany) {
-        word: String => doesParseToA(word + f.validJson, SuperObj((Type.Many(word), f.optionJson())), p)
+        word: String => doesParseToA(word + f.validJson, SuperObj((Many(word), f.optionJson())), p)
       }
     }
 
 
     "superobject" should "not parse a universal modifier without a type" in {
-      doesNotParseToA("all " + f.validJson, SuperObj((Type.Many(""), f.optionJson())), p)
+      doesNotParseToA("all " + f.validJson, SuperObj((Many(""), f.optionJson())), p)
     }
   }
 
@@ -223,7 +223,7 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       forAll(f.requests) { word: String =>
         forAll(f.typeSingle) { `type`: String =>
           doesParseToA(word + " " + `type` + f.validJson + ";",
-            Mono((Request(word), Obj((Type.One(`type`), Seq(f.parsedJson()))))), p
+            Mono((Request(word), Obj((One(`type`), Seq(f.parsedJson()))))), p
           )
         }
       }
@@ -233,7 +233,7 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       forAll(f.requests) { word: String =>
         forAll(f.typeSingle) { `type`: String =>
           doesParseToA(word + " " + `type` + f.validJson + f.validJson + f.validJson + ";",
-            Mono((Request(word), Obj((Type.One(`type`), Seq(f.parsedJson(), f.parsedJson(), f.parsedJson()))))), p
+            Mono((Request(word), Obj((One(`type`), Seq(f.parsedJson(), f.parsedJson(), f.parsedJson()))))), p
           )
         }
       }
@@ -243,7 +243,7 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       forAll(f.requests) { word: String =>
         forAll(f.typeMany) { `type`: String =>
           doesParseToA(word + " " + `type` + f.validJson + ";",
-            Poly(Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p
+            Poly(Request(word), SuperObj((Many(`type`), f.optionJson()))), p
           )
         }
       }
@@ -253,7 +253,7 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       forAll(f.requests) { word: String =>
         forAll(f.typeMany) { `type`: String =>
           doesParseToA(word + " all " + `type` + f.validJson + ";",
-            Poly(Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p
+            Poly(Request(word), SuperObj((Many(`type`), f.optionJson()))), p
           )
         }
       }
@@ -263,7 +263,7 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
       forAll(f.requests) { word: String =>
         forAll(f.typeMany) { `type`: String =>
           doesNotParseToA(word + " all " + `type` + f.validJson + f.validJson + f.validJson + ";",
-            Poly(Request(word), SuperObj((Type.Many(`type`), f.optionJson()))), p
+            Poly(Request(word), SuperObj((Many(`type`), f.optionJson()))), p
           )
         }
       }
@@ -275,7 +275,7 @@ class Parser$UnitTest extends InteractiveModeParserFixtures {
   {
     val p = parser.statements
     val expected = ArrayBuffer(
-      Help(Some("create")), Mono((Request("create"), Obj(Type.One("user"), ArrayBuffer(f.parsedJson()))))
+      Help(Some("create")), Mono((Request("create"), Obj(One("user"), ArrayBuffer(f.parsedJson()))))
     ) // "help create; create user $f.validJson; quit;"
 
     "statements" should "parse multiple expressions" in {

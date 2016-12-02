@@ -1,9 +1,9 @@
 package sqldb.dbo;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.sql.Date;
 
 /**
  * Created by bspriggs on 12/1/2016.
