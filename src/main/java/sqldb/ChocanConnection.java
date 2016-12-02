@@ -469,5 +469,48 @@ public class ChocanConnection {
         }
     }
 
-    //Fuck Bull Shit...
+
+    //Create Member
+    public int callCreateMember(int memberID, boolean suspend, String name, String address, String city, String state, String zip){
+        PreparedStatement statement conn.prepareStatement("CALL create_member(memberID, false, name, address, city, state, zip)");
+        statement.executeQuery();
+        return 1;
+    }
+
+
+    //Edit memer
+    public int callEditMember(int memberID, boolean suspend, String name, String address, String city, String state, String zip){
+
+        return 1;
+    }
+
+    //Delete member
+    public int callDeleteMember(int memberID){
+        PreparedStatement statement conn.prepareStatement("DELETE FROM members WHERE number = memberID");
+        statement.executeQuery();
+        return 1;
+    }
+
+    //Create Provider
+    public int callCreateProvider(int providerID, boolean suspend, String name, String address, String city, String state, String zip){
+        PreparedStatement statement conn.prepareStatement("CALL create_provider(providerID, false, name, address, city, state, zip)");
+        statement.executeQuery();
+        return 1;
+    }
+
+    //Edit Provider
+    public int callEditProvider(int memberID, boolean suspend, String name, String address, String city, String state, String zip){
+        return 1;
+    }
+
+    //Delete Provider
+    public int callDeleteProvider(int providerID){
+        PreparedStatement statement conn.prepareStatement("DELETE FROM providers WHERE number = providerID");
+        statement.executeQuery();
+        return 1;
+}
+
+
+
+
 }
