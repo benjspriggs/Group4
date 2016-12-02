@@ -44,32 +44,35 @@ public class Menu extends Utilities{
     public void providerMenu()
     {
         int userInput;
-
-        System.out.println("Welcome Healthcare Provider!!! Please choose from the following options =)");
-        System.out.println("View Service Directory                     (1)");
-        System.out.println("Check if member id is valid                (2)");
-        System.out.println("Create Billing Report for service provided (3)");
-        System.out.println("Option: ");
-
-        while (!input.hasNextInt() ){
-            System.out.println("Option: ");
-            input.next();
-        }
-
+        System.out.println("Please enter your ProviderID:");
         userInput = input.nextInt();
+        if (conn.checkProviderValid(userInput)){
+
+            System.out.println("Welcome Healthcare Provider!!! Please choose from the following options =)");
+            System.out.println("View Service Directory                     (1)");
+            System.out.println("Check if member id is valid                (2)");
+            System.out.println("Create Billing Report for service provided (3)");
+            System.out.println("Option: ");
+
+            while (!input.hasNextInt() ){
+                System.out.println("Option: ");
+                input.next();
+            }
+
+            userInput = input.nextInt();
 
 
-        if(userInput == 1)
-            printAllServices();
-        else if(userInput == 2)
-            verifyMember();
-        else if(userInput == 3)
-            createBilling();
-        else
-        {
-            System.out.println("Seriously choose a valid input");
-            providerMenu();
-        }
+            if(userInput == 1)
+                printAllServices();
+            else if(userInput == 2)
+                verifyMember();
+            else if(userInput == 3)
+                createBilling();
+            else {
+                System.out.println("Seriously choose a valid input");
+                providerMenu();
+            }
+    }
 
     }
 

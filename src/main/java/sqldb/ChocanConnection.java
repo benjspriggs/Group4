@@ -469,5 +469,5 @@ public class ChocanConnection {
         }
     }
 
-    //Fuck Bull Shit...
+
 }
