@@ -2,14 +2,14 @@
  * Created by root on 11/28/16.
  */
 
-
 import Reports.ServiceInfo;
 import sqldb.ChocanConnection;
-import sun.util.resources.cldr.ar.CalendarData_ar_LB;
 
+import java.sql.Connection;
 import java.sql.Date;
-import java.sql.Timestamp;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
+
 
 //Search 'Wrapper goes here'
 
@@ -84,7 +84,7 @@ public class Menu extends Utilities{
         //0  ---> Suspended
         //1  ---> Active
 
-        int userStat = conn.checkMemberValid(id); //On a different branch currently but it DOES exist.
+        userStat = conn.checkMemberValid(id); //On a different branch currently but it DOES exist.
         if(userStat == -1) {
             System.out.println("INVALID NUMBER");
             return -1;
@@ -145,8 +145,19 @@ public class Menu extends Utilities{
         providerId = input.nextInt();
         System.out.println();
 
-        //Verify the Provider num
-
+        String quit;
+        //Verify the Provider num.  Offer to try again or quit out.
+        while(!conn.checkProviderValid(providerId))
+        {
+            System.out.println("That is not a valid provider number.");
+            System.out.print("Try again or quit? (yes/quit) ");
+            quit = input.next();
+            if(quit == "quit")
+                return 0;
+            System.out.print("Please input provider number: ");
+            providerId = input.nextInt();
+            System.out.println();
+        }
 
         //Prompt for service code list
         String yes;
@@ -161,6 +172,17 @@ public class Menu extends Utilities{
         System.out.println();
 
         //Verify code is valid
+        while(!conn.checkServiceValid(serviceCode))
+        {
+            System.out.println("That is not a valid service code.");
+            System.out.print("Try again or quit? (yes/quit) ");
+            quit = input.next();
+            if(quit == "quit")
+                return 0;
+            System.out.print("Please input the service code: ");
+            serviceCode = input.nextInt();
+            System.out.println();
+        }
 
 
         //Get the comments from them
@@ -169,8 +191,19 @@ public class Menu extends Utilities{
 
 
         //SEND TO CREATE NEW BILLING!!!
-        CALL create_performed_service(id, providerId, serviceCode, comments, providedDate);
 
+        //Wrapper in the conn piece.
+        conn.callToAdd(id, providerId,  serviceCode, comments, providedDate);
+
+
+/****
+        PreparedStatement statement = conn.prepareStatement("CALL create_performed_service(id, " +
+                "providerId, serviceCode, comments, providedDate");
+        statement.executeQuery();
+
+        statement conn.prepareStatement("")
+        CALL create_performed_service(id, providerId, serviceCode, comments, providedDate);
+********/
         return 1;
     }
 

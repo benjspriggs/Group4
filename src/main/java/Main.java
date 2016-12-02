@@ -8,6 +8,8 @@ public class Main {
 
         ChocanConnection obj = new ChocanConnection();
         System.out.println("Hello world!");
+        Menu menu = new Menu();
+
         /*
         Reports T = new Reports();
 

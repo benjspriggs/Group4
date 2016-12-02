@@ -455,4 +455,17 @@ public class ChocanConnection {
             return false;
         }
     }
+
+    public int callToAdd(int id, int providerId, int serviceId, String comments, Date provided)
+    {
+        try {
+            PreparedStatement statement = conn.prepareStatement("CALL create_performed_service" +
+                    "( " + id + "," + providerId + "," + serviceId + "," + comments + "," + provided + ");");
+            statement.executeQuery();
+            return 1;
+        }catch(SQLException e) {
+            System.out.println("SQL problem");
+            return 0;
+        }
+    }
 }
