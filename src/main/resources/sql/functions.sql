@@ -79,3 +79,29 @@ CREATE PROCEDURE `update_member` (
             WHERE MEMBER_NUMBER = `number` LIMIT 1);
 
   END$$
+
+
+DELIMITER $$
+CREATE PROCEDURE `update_provider` (
+  IN number INT(11),
+  IN `name` VARCHAR(140),
+  IN `street_address` VARCHAR(50),
+  IN `city` VARCHAR(50),
+  IN `state` VARCHAR(2),
+  IN `zipcode` VARCHAR(32)
+)
+  BEGIN
+    UPDATE providers SET
+      NAME = `name`
+    WHERE number = `number`;
+
+    UPDATE locations SET
+      STREET_ADDRESS = `street_address`,
+      CITY = `city`,
+      STATE = `state`,
+      ZIPCODE = `zipcode`
+    WHERE ID =
+          (SELECT location_id from locations_lookup
+          WHERE PROVIDER_NUMBER = `number` LIMIT 1);
+
+  END$$
