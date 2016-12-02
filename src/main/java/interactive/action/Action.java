@@ -5,4 +5,5 @@ package interactive.action;
  */
 public interface Action {
     void execute();
+    boolean isReady();
 }
