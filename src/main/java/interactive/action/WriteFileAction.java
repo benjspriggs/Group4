@@ -12,11 +12,11 @@ import java.nio.charset.Charset;
  * Created by bspriggs on 11/29/2016.
  */
 public class WriteFileAction implements Action {
-    final private String body;
+    private String body;
     private String path;
 
-    public WriteFileAction(String body) {
-        this.body = body;
+    public WriteFileAction(String path) {
+        this.path = path;
     }
 
     public WriteFileAction(String body, String path) {
@@ -24,13 +24,12 @@ public class WriteFileAction implements Action {
         this.path = path;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setBody(String body) {
+        this.body = body;
     }
 
-    @Override
-    public boolean isReady() {
-        return true;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public void writeLineToFile(String textLine) throws IOException {
