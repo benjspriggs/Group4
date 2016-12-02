@@ -2,15 +2,13 @@
  * Created by root on 11/28/16.
  */
 
+import Reports.Reports;
 import Reports.ServiceInfo;
 import sqldb.ChocanConnection;
 
-import java.sql.Connection;
-import sun.util.resources.cldr.ar.CalendarData_ar_LB;
-import Reports.Reports;
 import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 //Search 'Wrapper goes here'
@@ -47,11 +45,7 @@ public class Menu extends Utilities{
         System.out.println("Please enter your ProviderID:");
         userInput = input.nextInt();
         if (conn.checkProviderValid(userInput)){
-
-            System.out.println("Welcome Healthcare Provider!!! Please choose from the following options =)");
-            System.out.println("View Service Directory                     (1)");
-            System.out.println("Check if member id is valid                (2)");
-            System.out.println("Create Billing Report for service provided (3)");
+            HashMap<Integer, String> providerMenuOptions = fillProviderOptions();
             System.out.println("Option: ");
 
             while (!input.hasNextInt() ){
@@ -74,6 +68,18 @@ public class Menu extends Utilities{
             }
     }
 
+    }
+
+    private HashMap<Integer,String> fillProviderOptions() {
+        HashMap<Integer, String> h = new HashMap<>();
+        System.out.println("Welcome Healthcare Provider!!! Please choose from the following options =)");
+        System.out.println("View Service Directory                     (1)");
+        System.out.println("Check if member id is valid                (2)");
+        System.out.println("Create Billing Report for service provided (3)");
+        h.put(1, "View Service Directory");
+        h.put(2, "Check if member id is valid");
+        h.put(3, "Create Billing Report for service provided");
+        return h;
     }
 
 
