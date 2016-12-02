@@ -430,8 +430,8 @@ public class Menu extends Utilities{
         Random rand = new Random();
         providerID = rand.nextInt(1000000000) + 100000000;
 
-        providerID = ID;
-        ++ID;
+        //providerID = ID;
+        //++ID;
 
         //conn.callCreateProvider(providerID, false, name, address, city, state, zip);
         conn.callCreateProvider(providerID, name, address, city, state, zip);
@@ -477,6 +477,7 @@ public class Menu extends Utilities{
 
     public void managerMenu(){
         int identifier;
+        int userInput;
         HashMap<Integer, String> managerMenuOptions = fillManagerOptions();
         System.out.println("Welcome ChocAn Manager!!! Please choose from the following options=D");
         System.out.println("Create new membership                  (1)");
