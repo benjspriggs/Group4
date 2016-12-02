@@ -10,9 +10,6 @@ public class PerformedServiceTest extends DatabaseObjectTest {
     @Override
     protected DatabaseObject getImplementation() {
         return new PerformedService(0,
-                0,
-                0,
-                0,
                 new Date(),
                 new Timestamp(System.currentTimeMillis()),
                 "comments");

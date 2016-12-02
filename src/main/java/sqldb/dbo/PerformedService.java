@@ -10,24 +10,12 @@ import java.util.Date;
  */
 public class PerformedService extends DatabaseObject {
     private final int service_id;
-    private final int member_number;
-    private final int provider_number;
-    private final int service_code;
     private final Date date_service;
     private final Timestamp timestamp;
     private final String comments;
 
-    public PerformedService(int service_id,
-                            int member_number,
-                            int provider_number,
-                            int service_code,
-                            Date date_service,
-                            Timestamp timestamp,
-                            String comments) {
+    public PerformedService(int service_id, Date date_service, Timestamp timestamp, String comments) {
         this.service_id = service_id;
-        this.member_number = member_number;
-        this.provider_number = provider_number;
-        this.service_code = service_code;
         this.date_service = date_service;
         this.timestamp = timestamp;
         this.comments = comments;
