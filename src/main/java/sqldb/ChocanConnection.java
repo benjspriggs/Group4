@@ -468,4 +468,6 @@ public class ChocanConnection {
             return 0;
         }
     }
+
+    //Fuck Bull Shit...
 }
