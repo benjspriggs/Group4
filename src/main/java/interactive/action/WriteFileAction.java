@@ -11,11 +11,11 @@ import java.nio.charset.Charset;
 /**
  * Created by bspriggs on 11/29/2016.
  */
-public class FileAction implements Action {
+public class WriteFileAction implements Action {
     final private String body;
     final private String path;
 
-    public FileAction(String body, String path) {
+    public WriteFileAction(String body, String path) {
         this.body = body;
         this.path = path;
     }
