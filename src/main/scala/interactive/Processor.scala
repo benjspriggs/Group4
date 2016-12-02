@@ -28,12 +28,8 @@ class Processor {
       case Stop => None
       case Help(string) => None // TODO: Add 'display help' action
       case SQL(query) => None // TODO: Add generic execute SQL action
-      case Mono((request, objs)) => {
-        handleMonoRequest[R](request, objs)
-      }
-      case Poly((request, superobj)) => {
-        handlePolyRequest[R](request, superobj)
-      }
+      case Mono((request, objs)) => handleMonoRequest[R](request, objs)
+      case Poly((request, superobj)) => handlePolyRequest[R](request, superobj)
     }
 
   def loadClass(classname: String): Class[_] = {
