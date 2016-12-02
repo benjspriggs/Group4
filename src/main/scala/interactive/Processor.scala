@@ -2,6 +2,7 @@ package interactive
 
 import interactive.Term.{Obj, Request, SuperObj}
 import interactive.action._
+import interactive.parser.JsonParser.Js
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -36,5 +37,14 @@ class Processor {
     Class.forName("sqldb.dbo." + classname)
   }
 
+  def hasField(field: String, obj: Js.Val): Boolean = obj.value match {
+    case n: ArrayBuffer[(String, Js.Val)] =>
+      n.exists { tup: (String, Js.Val) => tup._1 == field }
+    case _ => false
+  }
+
+  def hasFields(fields: String, array: ArrayBuffer[(String, Js.Val)]): Boolean = {
+    false
+  }
 
 }
