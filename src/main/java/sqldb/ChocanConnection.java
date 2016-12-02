@@ -455,4 +455,24 @@ public class ChocanConnection {
             return false;
         }
     }
+    public String obtainSingleService(int id) {
+        try {
+            if (conn == null){
+                System.out.println("Connection has not been properly established");
+                return null;
+            }
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM service_info " +
+                    "where SERVICE_CODE =" + id);
+            ResultSet result = statement.executeQuery();
+            if (result.next()){
+                return result.getString("name");
+            }
+            else return null;
+
+
+        } catch (SQLException e) {
+            System.out.println("SQL problem in checkProviderValid");
+            return null;
+        }
+    }
 }
