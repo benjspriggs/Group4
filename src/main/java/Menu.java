@@ -21,7 +21,7 @@ public class Menu extends Utilities{
         else if(userType == 2)
             operatorMenu();
         else if(userType == 3)
-            accountingMenu();
+            managerMenu();
     }
 
     public void providerMenu()
@@ -52,6 +52,35 @@ public class Menu extends Utilities{
 
     }
 
+
+    private int addAppt()
+    {
+        int id = 0;
+        boolean valid = false;
+        int todaysDate;
+        int serviceIdInput;
+
+        System.out.println("Please enter a valid id number: ");
+
+        id = input.nextInt();
+
+        //validate the id num
+
+        //If it's not valid return out
+        if(!valid)
+            return 0;
+
+        //Gather the info yo
+
+
+
+        return 1;
+    }
+
+
+
+
+
     public void operatorMenu(){
         int userInput;
 
@@ -81,12 +110,16 @@ public class Menu extends Utilities{
         }
     }
 
-    public void accountingMenu(){
+
+    public void managerMenu(){
         int userInput;
 
         System.out.println("Welcome Accounting Personell!!! Please choose from the following options =)");
         System.out.println("Suspend current member          (1)");
         System.out.println("Record fees for current member  (2)");
+        System.out.println("View member summery reports      (3)");
+        System.out.println("View appointment summery reports ()");
+
 
         userInput = input.nextInt();
 
@@ -97,7 +130,7 @@ public class Menu extends Utilities{
         else
         {
             System.out.println("Seriously choose a valid input");
-            accountingMenu();
+            managerMenu();
         }
 
     }
