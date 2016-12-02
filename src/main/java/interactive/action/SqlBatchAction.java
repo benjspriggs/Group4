@@ -17,11 +17,27 @@ public class SqlBatchAction<V extends DatabaseObject> implements ReturnableActio
     private PreparedStatement preparedStatement;
     private final DatabaseObject.DatabaseAction action;
 
+    public SqlBatchAction(List<V> items, DatabaseObject.DatabaseAction action) {
+        connection = null;
+        preparedStatement = null;
+        this.items = items;
+        this.action = action;
+    }
+
     protected SqlBatchAction(Connection c, List<V> items, DatabaseObject.DatabaseAction action) {
         connection = c;
         this.items = items;
         this.action = action;
         preparedStatement = null;
+    }
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
+
+    @Override
+    public boolean isReady() {
+        return connection != null;
     }
 
     @Override
