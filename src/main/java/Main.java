@@ -11,16 +11,16 @@ public class Main extends Utilities{
         Menu menu = new Menu();
 
 
-        String userType;
-        System.out.print("Please enter if you are a provider, operator, manager: (enter 'quit' to exit)");
-        userType = input.next();
+        int userType;
+        System.out.print("Please enter if you are a provider(1), operator(2), manager(3), quit(4): ");
+        userType = input.nextInt();
 
-        while(userType != "quit") {
-            if ( userType == "provider" )
+        while(userType != 4) {
+            if (userType == 1)
                 menu.providerMenu();
-            else if ( userType == "operator" )
+            else if ( userType == 2)
                 menu.operatorMenu();
-            else if ( userType == "manager" )
+            else if ( userType == 3)
                 menu.managerMenu();
         }
 
