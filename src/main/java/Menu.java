@@ -41,10 +41,9 @@ public class Menu extends Utilities{
         int userInput;
 
         System.out.println("Welcome Healthcare Provider!!! Please choose from the following options =)");
-        System.out.println("Create New Appointment                     (1)");
-        System.out.println("View Service Directory                     (2)");
-        System.out.println("Check if member id is valid                (3)");
-        System.out.println("Create Billing Report for service provided (4)");
+        System.out.println("View Service Directory                     (1)");
+        System.out.println("Check if member id is valid                (2)");
+        System.out.println("Create Billing Report for service provided (3)");
         System.out.println("Option: ");
 
         while (!input.hasNextInt() ){
@@ -54,13 +53,12 @@ public class Menu extends Utilities{
 
         userInput = input.nextInt();
 
+
         if(userInput == 1)
-            ; //Wrapper goes here
+            printAllServices();
         else if(userInput == 2)
-            ; //Wrapper goes here
-        else if(userInput == 3)
             verifyMember();
-        else if(userInput == 4)
+        else if(userInput == 3)
             createBilling();
         else
         {
