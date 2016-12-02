@@ -15,6 +15,7 @@
     <orderEntry type="library" name="Gradle: com.lihaoyi:fastparse_2.12:0.4.2" level="project" />
     <orderEntry type="library" name="Gradle: com.intellij:annotations:12.0" level="project" />
     <orderEntry type="library" name="Gradle: mysql:mysql-connector-java:6.0.5" level="project" />
+    <orderEntry type="library" name="Gradle: commons-io:commons-io:2.5" level="project" />
     <orderEntry type="library" name="Gradle: junit:junit:4.11" level="project" />
     <orderEntry type="library" name="Gradle: org.easymock:easymock:3.4" level="project" />
     <orderEntry type="library" name="Gradle: org.mockito:mockito-core:2.2.27" level="project" />
