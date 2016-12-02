@@ -504,7 +504,7 @@ public class ChocanConnection {
     public int callDeleteMember(int memberID){
         try{
             PreparedStatement statement =
-                    conn.prepareStatement("DELETE FROM memers  WHERE number = "+ memberID;
+                    conn.prepareStatement("DELETE FROM memers  WHERE number = "+ memberID);
             statement.executeQuery();
         }catch(SQLException e){
             System.out.println("SQL problem");
@@ -527,10 +527,19 @@ public class ChocanConnection {
     }
 
 
-
-
     //Edit Provider
     public int callEditProvider(int memberID, boolean suspend, String name, String address, String city, String state, String zip){
+        try{
+            PreparedStatement statement =
+                    conn.prepareStatement("CALL update_provider" + "( " + memberID + "," + suspend +"," + name + "," + address + ","
+                            + city + "," + state + "," + zip + ")");
+            statement.executeQuery();
+
+        }catch(SQLException e){
+            System.out.println("SQL problem");
+
+        }
+
         return 1;
     }
 
