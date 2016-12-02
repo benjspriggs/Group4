@@ -16,19 +16,10 @@ public class SqlAction implements ReturnableAction<ResultSet> {
     private PreparedStatement statement;
     private final DatabaseObject.DatabaseAction action;
 
-    public SqlAction(Connection c, DatabaseObject value, DatabaseObject.DatabaseAction action)
-    public SqlAction(V value, DatabaseObject.DatabaseAction action) {
+    public SqlAction(Connection c, DatabaseObject value, DatabaseObject.DatabaseAction action) {
         connection = null;
         this.value = value;
         this.action = action;
-    }
-
-    public SqlAction(Connection c, V value, DatabaseObject.DatabaseAction action)
-    {
-        connection = c;
-        this.value = value;
-        this.action = action;
-        statement = null;
     }
 
     @Override
