@@ -13,9 +13,10 @@ class Processor {
   def process(trie: ArrayBuffer[_]) = Unit
 
   // Process a  statements to a SQL or File Action
-  def process[R, V](statements: Product with Serializable): Option[ReturnableAction[User]] =
-  {
-    Some(
+  def process[R, V](statement: Statement): Option[ReturnableAction[User]] =
+  statement match {
+    case Stop => None
+    case _ => Some(
       new SqlAction[User](null, null, null)
         .asInstanceOf[ReturnableAction[User]])
   }
