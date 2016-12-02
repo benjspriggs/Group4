@@ -1,6 +1,6 @@
 package interactive
 
-import interactive.action.{ReturnableAction, SqlAction}
+import interactive.action.{Action, ReturnableAction, SqlAction}
 import sqldb.dbo.User
 
 import scala.collection.mutable.ArrayBuffer
@@ -10,14 +10,23 @@ import scala.collection.mutable.ArrayBuffer
   */
 class Processor {
   // Process a sequence of statements to SQL or File Actions
-  def process(trie: ArrayBuffer[_]) = Unit
+  def process(statements: ArrayBuffer[_]) = Unit
 
   // Process a  statements to a SQL or File Action
-  def process[R, V](statement: Statement): Option[ReturnableAction[User]] =
+  def process[R](statement: Statement): Option[ReturnableAction[R]] =
   statement match {
     case Stop => None
-    case _ => Some(
-      new SqlAction[User](null, null, null)
-        .asInstanceOf[ReturnableAction[User]])
+    case Help(string) => None // TODO: Add 'display help' action
+    case SQL(query) => None // TODO: Add generic execute SQL action
+    case Mono((request, objs)) => {
+      None
+    }
+    case Poly((request, superobj)) => {
+      None
+    }
+  }
+
+  def loadClass(classname: String): Class[_] = {
+    Class.forName("sqldb.dbo." + classname)
   }
 }
