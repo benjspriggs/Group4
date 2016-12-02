@@ -504,7 +504,7 @@ public class ChocanConnection {
     public int callDeleteMember(int memberID){
         try{
             PreparedStatement statement =
-                    conn.prepareStatement("DELETE FROM memers  WHERE number = "+ memberID);
+                    conn.prepareStatement("DELETE FROM members  WHERE number = "+ memberID);
             statement.executeQuery();
         }catch(SQLException e){
             System.out.println("SQL problem");
