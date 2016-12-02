@@ -472,15 +472,31 @@ public class ChocanConnection {
 
     //Create Member
     public int callCreateMember(int memberID, boolean suspend, String name, String address, String city, String state, String zip){
-        PreparedStatement statement conn.prepareStatement("CALL create_member(memberID, false, name, address, city, state, zip)");
-        statement.executeQuery();
+
+        try {
+            PreparedStatement statement =
+            conn.prepareStatement("CALL create_member" + "( " + memberID + "," + suspend +"," + name + "," + address + ","
+                    + city + "," + state + "," + zip + ")");
+            statement.executeQuery();
+        }catch(SQLException e){
+            System.out.println("SQL problem");
+        }
         return 1;
     }
 
 
     //Edit memer
     public int callEditMember(int memberID, boolean suspend, String name, String address, String city, String state, String zip){
+        try{
+            PreparedStatement statement =
+            conn.prepareStatement("CALL update_member" + "( " + memberID + "," + suspend +"," + name + "," + address + ","
+                + city + "," + state + "," + zip + ")");
+            statement.executeQuery();
 
+        }catch(SQLException e){
+            System.out.println("SQL problem");
+
+        }
         return 1;
     }
 
