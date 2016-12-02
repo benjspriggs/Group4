@@ -31,7 +31,7 @@ public class WriteToDisk {
         WriteFile data = new WriteFile("MemberReports\\Member"+ Integer.toString(id) +
                 "Report" + today.toString() + ".txt");
          try {
-        data.writeToFile(to_write);
+        data.writeLineToFile(to_write);
 
          }
          catch (IOException e){
@@ -60,7 +60,7 @@ public class WriteToDisk {
                 "Report" + today.toString() + ".txt");
 
         try {
-            data.writeToFile(to_write);
+            data.writeLineToFile(to_write);
         }
         catch (IOException e){
             System.out.println("IOException caught");
@@ -85,7 +85,7 @@ public class WriteToDisk {
         LocalDate today = LocalDate.now( ZoneId.of("America/Los_Angeles"));
         WriteFile data = new WriteFile("SummaryReports\\Accounts Payable" + today.toString() + ".txt");
         try {
-            data.writeToFile(to_write);
+            data.writeLineToFile(to_write);
         }
         catch (IOException e){
             System.out.println("IOException caught");

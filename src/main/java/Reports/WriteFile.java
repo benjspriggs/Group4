@@ -15,10 +15,17 @@ public class WriteFile {
         path = file_path;
     }
 
-    public void writeToFile(String textLine) throws IOException {
+    public void writeLineToFile(String textLine) throws IOException {
         FileWriter write = new FileWriter(path, false);
         PrintWriter print_line = new PrintWriter(write);
         print_line.printf("%s" + "%n", textLine);
+        print_line.close();
+    }
+
+    public void writeToFile(String body) throws IOException {
+        FileWriter write = new FileWriter(path, false);
+        PrintWriter print_line = new PrintWriter(write);
+        print_line.println(body);
         print_line.close();
     }
 }
