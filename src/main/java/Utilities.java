@@ -15,7 +15,7 @@ protected static FileReader fileReader;
         input = new Scanner(System.in);
     }
 
-    public int displayMenu(HashMap<Integer, String> options) {
+    public int displayOptions(HashMap<Integer, String> options) {
         for (Map.Entry<Integer, String> entry : options.entrySet()) {
             System.out.println(entry.getValue() + "\t\t\t" + entry.getKey());
         }

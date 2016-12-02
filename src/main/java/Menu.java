@@ -45,6 +45,7 @@ public class Menu extends Utilities{
         System.out.println("Please enter your ProviderID:");
         userInput = input.nextInt();
         if (conn.checkProviderValid(userInput)){
+            System.out.println("Welcome Healthcare Provider!!! Please choose from the following options =)");
             HashMap<Integer, String> providerMenuOptions = fillProviderOptions();
             System.out.println("Option: ");
 
@@ -66,23 +67,44 @@ public class Menu extends Utilities{
                 System.out.println("Seriously choose a valid input");
                 providerMenu();
             }
-    }
+        }
 
     }
 
     private HashMap<Integer,String> fillProviderOptions() {
         HashMap<Integer, String> h = new HashMap<>();
-        System.out.println("Welcome Healthcare Provider!!! Please choose from the following options =)");
-        System.out.println("View Service Directory                     (1)");
-        System.out.println("Check if member id is valid                (2)");
-        System.out.println("Create Billing Report for service provided (3)");
         h.put(1, "View Service Directory");
         h.put(2, "Check if member id is valid");
         h.put(3, "Create Billing Report for service provided");
         return h;
     }
 
+    private HashMap<Integer,String> fillOperatorOptions() {
+        HashMap<Integer, String> h = new HashMap<>();
+        h.put(1, "Create new membership");
+        h.put(2, "Edit existing membership");
+        h.put(3, "Delete existing membership");
+        h.put(4, "Create new provider");
+        h.put(5, "Edit provider information");
+        h.put(6, "Delete provider");
+        return h;
+    }
 
+    private HashMap<Integer,String> fillManagerOptions() {
+        HashMap<Integer, String> h = new HashMap<>();
+        h.put(1, "Create new membership");
+        h.put(2, "Edit existing membership");
+        h.put(3, "Delete existing membership");
+        h.put(4, "Create new provider");
+        h.put(5, "Edit provider information");
+        h.put(6, "Delete provider");
+        h.put(7, "View summary of all reports");
+        h.put(8, "View single member report");
+        h.put(9, "View single provider report");
+        h.put(10, "View all member reports");
+        h.put(11, "View all provider reports");
+        return h;
+    }
     private int verifyMember(){
         boolean valid;
         int id;
@@ -107,7 +129,7 @@ public class Menu extends Utilities{
             return 0;
         }
         else if(userStat == 1){
-         System.out.println("VALIDATED");
+            System.out.println("VALIDATED");
             return 1;
         }
         else
@@ -210,13 +232,13 @@ public class Menu extends Utilities{
 
 
 /****
-        PreparedStatement statement = conn.prepareStatement("CALL create_performed_service(id, " +
-                "providerId, serviceCode, comments, providedDate");
-        statement.executeQuery();
+ PreparedStatement statement = conn.prepareStatement("CALL create_performed_service(id, " +
+ "providerId, serviceCode, comments, providedDate");
+ statement.executeQuery();
 
-        statement conn.prepareStatement("")
-        CALL create_performed_service(id, providerId, serviceCode, comments, providedDate);
-********/
+ statement conn.prepareStatement("")
+ CALL create_performed_service(id, providerId, serviceCode, comments, providedDate);
+ ********/
         return 1;
     }
 
@@ -255,31 +277,21 @@ public class Menu extends Utilities{
         int userInput;
 
         System.out.println("Welcome ChocAn Operator!!! Please choose from the following options=D");
-        System.out.println("Create new membership                  (1)");
-        System.out.println("Edit existing membership               (2)");
-        System.out.println("Delete existing membership             (3)");
-        System.out.println("Create new provider                    (4)");
-        System.out.println("Edit provider information              (5)");
-        System.out.println("Delete provider                        (6)");
+        HashMap<Integer, String> operatorMenuOptions = fillOperatorOptions();
+        displayOptions(operatorMenuOptions);
 
         userInput = input.nextInt();
 
-        if(userInput == 1)
-            createMember();
-        else if(userInput == 2)
-            editMember();
-        else if(userInput == 3)
-            deleteMember();
-        else if(userInput == 4)
-            createProvider();
-        else if(userInput == 5)
-            editProvider();
-        else if (userInput == 6)
-            deleteProvider();
-        else
-        {
-            System.out.println("Seriously choose a valid input");
-            operatorMenu();
+        switch (displayOptions(operatorMenuOptions)) {
+            case 1: createMember(); break;
+            case 2: editMember(); break;
+            case 3: deleteMember(); break;
+            case 4: createProvider(); break;
+            case 5: editProvider(); break;
+            case 6: deleteProvider(); break;
+            default:
+                System.out.println("Seriously choose a valid input");
+                operatorMenu(); break;
         }
     }
 
@@ -416,56 +428,34 @@ public class Menu extends Utilities{
     }
 
     public void managerMenu(){
-        int userInput;
         int identifier;
+        HashMap<Integer, String> managerMenuOptions = fillManagerOptions();
         System.out.println("Welcome ChocAn Manager!!! Please choose from the following options=D");
-        System.out.println("Create new membership                  (1)");
-        System.out.println("Edit existing membership               (2)");
-        System.out.println("Delete existing membership             (3)");
-        System.out.println("Create new provider                    (4)");
-        System.out.println("Edit provider information              (5)");
-        System.out.println("Delete provider                        (6)");
-        System.out.println("View summary of all reports            (7)");
-        System.out.println("View single member report              (8)");
-        System.out.println("View single provider report            (9)");
-        System.out.println("View all member reports                (10)");
-        System.out.println("View all provider reports              (11)");
-
-
-        userInput = input.nextInt();
-
-        if(userInput == 1)
-            createMember();
-        else if(userInput == 2)
-            editMember();
-        else if(userInput == 3)
-            deleteMember();
-        else if(userInput == 4)
-            createProvider();
-        else if(userInput == 5)
-            editProvider();
-        else if (userInput == 6)
-            deleteProvider();
-        else if (userInput == 7)
-            report.SummarizeReports(true);
-        else if (userInput == 8) {
-            System.out.println("Please enter the member ID:");
-            identifier = input.nextInt();
-            report.PrintMemberReport(identifier);
-        }
-        else if (userInput == 9) {
-            System.out.println("Please enter the provider ID:");
-            identifier = input.nextInt();
-            report.PrintProviderReport(identifier);
-        }
-        else if (userInput == 10)
-            report.MemberSummaryReports(true);
-        else if (userInput == 11)
-            report.ProviderSummaryReports(true);
-        else
-        {
-            System.out.println("Seriously choose a valid input");
-            operatorMenu();
+        switch (displayOptions(managerMenuOptions)) {
+            case 1: createMember(); break;
+            case 2: editMember(); break;
+            case 3: deleteMember(); break;
+            case 4: createProvider(); break;
+            case 5: editProvider(); break;
+            case 6: deleteProvider(); break;
+            case 7: report.SummarizeReports(true);
+            case 8:
+                System.out.println();
+                System.out.println("Please enter the member ID:");
+                identifier = input.nextInt();
+                report.PrintMemberReport(identifier);
+                break;
+            case 9:
+                System.out.println("Please enter the provider ID:");
+                identifier = input.nextInt();
+                report.PrintProviderReport(identifier);
+                break;
+            case 10: report.MemberSummaryReports(true); break;
+            case 11: report.ProviderSummaryReports(true); break;
+            default:
+                System.out.println("Seriously choose a valid input");
+                operatorMenu();
+                break;
         }
     }
 
