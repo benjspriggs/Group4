@@ -3,7 +3,7 @@ package sqldb.dbo;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * Created by bspriggs on 12/1/2016.
@@ -54,7 +54,16 @@ public class PerformedService extends DatabaseObject {
             case DELETE:
                 statement.setInt(1, service_id); break;
             case CREATE:
+                statement.setInt(1, service_id);
+                statement.setDate(2, date_service);
+                statement.setTimestamp(3, timestamp);
+                statement.setString(4, comments);
+                break;
             case UPDATE:
+                statement.setDate(1, date_service);
+                statement.setTimestamp(2, timestamp);
+                statement.setString(3, comments);
+                statement.setInt(4, service_id);
                 break;
         }
     }
