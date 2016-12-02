@@ -514,11 +514,20 @@ public class ChocanConnection {
     }
 
     //Create Provider
-    public int callCreateProvider(int providerID, boolean suspend, String name, String address, String city, String state, String zip){
-        PreparedStatement statement conn.prepareStatement("CALL create_provider(providerID, false, name, address, city, state, zip)");
-        statement.executeQuery();
+    public int callCreateProvider(int providerID, boolean suspend, String name, String address, String city, String state, String zip) {
+        try {
+            PreparedStatement statement =
+                    conn.prepareStatement("CALL create_provider" + "(" + providerID + "," + suspend+ "," + name + "," + address + "," + city + ","
+                            + state + "," + zip + ")");
+            statement.executeQuery();
+    }catch(SQLException e){
+        System.out.println("SQL problem");
+    }
         return 1;
     }
+
+
+
 
     //Edit Provider
     public int callEditProvider(int memberID, boolean suspend, String name, String address, String city, String state, String zip){
