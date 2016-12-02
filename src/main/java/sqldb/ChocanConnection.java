@@ -469,7 +469,7 @@ public class ChocanConnection {
         }
     }
 
-
+/*
     //Create Member
     public int callCreateMember(int memberID, boolean suspend, String name, String address, String city, String state, String zip){
         PreparedStatement statement conn.prepareStatement("CALL create_member(memberID, false, name, address, city, state, zip)");
@@ -511,6 +511,6 @@ public class ChocanConnection {
 }
 
 
-
+*/
 
 }

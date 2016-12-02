@@ -15,17 +15,18 @@ public class ReportsTest {
 
     @Before
     public void setUp() throws Exception {
+        conn = new ChocanConnection();
         reports = new Reports(conn);
     }
 
     @Test
     public void printMemberReport() throws Exception {
-        reports.PrintMemberReport(802774);
+        reports.PrintMemberReport(1015764);
     }
 
     @Test
     public void printProviderReport() throws Exception {
-
+        //r
     }
 
     @Test

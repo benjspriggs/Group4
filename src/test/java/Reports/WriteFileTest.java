@@ -12,7 +12,7 @@ public class WriteFileTest {
    private WriteFile writeFile;
     @Before
     public void setUp() throws Exception {
-    writeFile = new WriteFile("MemberReports\\Member"+
+    writeFile = new WriteFile("Member"+
             "Report_test" + ".txt");
     }
 

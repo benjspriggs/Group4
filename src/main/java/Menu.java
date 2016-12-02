@@ -303,7 +303,7 @@ public class Menu extends Utilities{
         memberID = ID;
         ++ID;
 
-        conn.callCreateMember(memberID, false, name, address, city, state, zip);
+        //conn.callCreateMember(memberID, false, name, address, city, state, zip);
     }
 
     public void editMember(){
@@ -332,8 +332,7 @@ public class Menu extends Utilities{
         System.out.println("Enter the zip code:");
         zip = input.next();
 
-        conn.callEditMember(memberID, false, name, address, city, state, zip);
-
+//
     }
 
     public void deleteMember(){
@@ -341,7 +340,7 @@ public class Menu extends Utilities{
         System.out.println("Please enter the member ID for the ChocAn member you would like to delete:");
         memberID = input.nextInt();
 
-        conn.callDeleteMember(memberID);
+        //conn.callDeleteMember(memberID);
     }
 
     public void createProvider(){
@@ -370,7 +369,7 @@ public class Menu extends Utilities{
         providerID = ID;
         ++ID;
 
-        conn.callCreateProvider(providerID, false, name, address, city, state, zip);
+        //conn.callCreateProvider(providerID, false, name, address, city, state, zip);
     }
 
     public void editProvider(){
@@ -399,7 +398,7 @@ public class Menu extends Utilities{
         System.out.println("Enter the zip code:");
         zip = input.next();
 
-        conn.callEditProvider(memberID, false, name, address, city, state, zip);
+        //conn.callEditProvider(memberID, false, name, address, city, state, zip);
     }
 
     public void deleteProvider(){
@@ -407,7 +406,7 @@ public class Menu extends Utilities{
         System.out.println("Please enter the provider ID for the ChocAn member you would like to delete:");
         providerID = input.nextInt();
 
-        conn.callDeleteProvider(providerID);
+        //conn.callDeleteProvider(providerID);
     }
 
     public void managerMenu(){
