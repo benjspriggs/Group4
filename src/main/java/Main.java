@@ -3,13 +3,26 @@ import sqldb.ChocanConnection;
 /**
  * Created by bspriggs on 11/10/2016.
  */
-public class Main {
+public class Main extends Utilities{
     public static void main(String[] args) throws Exception{
 
         ChocanConnection obj = new ChocanConnection();
         System.out.println("Hello world!");
         Menu menu = new Menu();
 
+
+        String userType;
+        System.out.print("Please enter if you are a provider, operator, manager: (enter 'quit' to exit)");
+        userType = input.next();
+
+        while(userType != "quit") {
+            if ( userType == "provider" )
+                menu.providerMenu();
+            else if ( userType == "operator" )
+                menu.operatorMenu();
+            else if ( userType == "manager" )
+                menu.managerMenu();
+        }
 
 
 
