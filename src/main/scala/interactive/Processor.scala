@@ -1,6 +1,6 @@
 package interactive
 
-import interactive.Term.{Obj, Request, SuperObj}
+import interactive.Term._
 import interactive.action._
 import interactive.parser.JsonParser.Js
 import sqldb.dbo.DatabaseObject.DatabaseAction
@@ -14,25 +14,21 @@ class Processor {
   // Process a sequence of statements to SQL or File Actions
   def process(statements: ArrayBuffer[_]) = Unit
 
+  // handle a discrete object request
   private def handleMonoRequest[R](request: Request, objs: Obj):
-    Option[ReturnableAction[R]] = request match {
-    case Request(s) => s match {
-      case "create" => None
-      case "show" => None
-      case "update" => None
-      case "destroy" => None
-      case "write" => None
-    }
+    Option[Action] = request match {
+    case r: Request => Some(Action)
     case _ => None
   }
 
+  // handle a superobject request
   private def handlePolyRequest[R](request: Request, superobj: SuperObj):
-    Option[ReturnableAction[R]] = request match {
+    Option[Action] = request match {
     case _ => None
   }
 
   // Process a  statements to a SQL or File Action
-  def process[R](statement: Statement): Option[ReturnableAction[R]] =
+  def process[R](statement: Statement): Option[Action] =
     statement match {
       case Stop => None
       case Help(string) => None // TODO: Add 'display help' action
@@ -70,5 +66,39 @@ class Processor {
       case "write" => Some(WriteFileAction)
       case _ => None
     }
+  }
+
+
+  def isValidDatabaseAction(request: Request, obj: Obj): Boolean = databaseActionMatch(request) match {
+    case Some(action)
+      if hasFields(listFor(action, Obj),
+        obj.value.asInstanceOf[ArrayBuffer[(String, Js.Val)]]) => true
+    case None => false
+  }
+
+  // TODO: implement
+  def isValidFileAction(request: Request, obj: Js.Val): Boolean = true
+
+  def listFor(s: String): Option[List[String]] = s match {
+    case "user" => Some(List("username"))
+    case "member" => Some(List("number"))
+    case "provider" => Some(List("number"))
+    case "service" => Some(List("service_code", "service_id")) // can contain either
+    case _ => None
+  }
+
+  def listFor(one: One): Option[List[String]] = one match {
+    case One(s) => listFor(s)
+    case _ => None
+  }
+
+  // give the list of fields needed for a particular plural type
+  def listFor(many: interactive.Term.Many): Option[List[String]] = many match {
+    case Many(s) => listFor(s)
+    case _ => None
+  }
+  // generate a list of required fields in a json object for a particular type
+  def listFor(action: DatabaseAction, obj: Obj): List[String] = action match {
+    case DatabaseAction.CREATE =>
   }
 }
