@@ -302,9 +302,8 @@ public class Menu extends Utilities{
 
         memberID = ID;
         ++ID;
-        PreparedStatement statement Conn.prepareStatement("CALL create_member(memberID, false, name, address, city, state, zip)");
-        statement.executeQuery();
 
+        conn.callCreateMember(memberID, false, name, address, city, state, zip);
     }
 
     public void editMember(){
@@ -333,6 +332,7 @@ public class Menu extends Utilities{
         System.out.println("Enter the zip code:");
         zip = input.next();
 
+        conn.callEditMember(memberID, false, name, address, city, state, zip);
 
     }
 
@@ -341,8 +341,7 @@ public class Menu extends Utilities{
         System.out.println("Please enter the member ID for the ChocAn member you would like to delete:");
         memberID = input.nextInt();
 
-        PreparedStatement statement Conn.prepareStatement("DELETE FROM members WHERE number = memberID");
-        statement.executeQuery();
+        conn.callDeleteMember(memberID);
     }
 
     public void createProvider(){
@@ -371,8 +370,7 @@ public class Menu extends Utilities{
         providerID = ID;
         ++ID;
 
-        PreparedStatement statement conn.prepareStatement("CALL create_provider(providerID, false, name, address, city, state, zip)");
-        statement.executeQuery();
+        conn.callCreateProvider(providerID, false, name, address, city, state, zip);
     }
 
     public void editProvider(){
@@ -401,6 +399,7 @@ public class Menu extends Utilities{
         System.out.println("Enter the zip code:");
         zip = input.next();
 
+        conn.callEditProvider(memberID, false, name, address, city, state, zip);
     }
 
     public void deleteProvider(){
@@ -408,8 +407,7 @@ public class Menu extends Utilities{
         System.out.println("Please enter the provider ID for the ChocAn member you would like to delete:");
         memberID = input.nextInt();
 
-        PreparedStatement statement conn.prepareStatement("DELETE FROM providers WHERE number = providerID");
-        statement.executeQuery();
+        conn.callDeleteProvider(providerID);
     }
 
     public void managerMenu(){
