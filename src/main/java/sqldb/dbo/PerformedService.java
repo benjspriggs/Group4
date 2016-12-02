@@ -30,7 +30,7 @@ public class PerformedService extends DatabaseObject {
     @Override
     public String show() {
         return "SELECT FROM performed_services (service_id, date_service, timestamp, comments)" +
-                "VALUES (?, ?, ?, ?);";
+                "WHERE service_id = ?;";
     }
 
     @Override
@@ -49,6 +49,13 @@ public class PerformedService extends DatabaseObject {
 
     @Override
     public void fillStatement(DatabaseAction action, PreparedStatement statement) throws SQLException {
-
+        switch (action) {
+            case SHOW:
+            case DELETE:
+                statement.setInt(1, service_id); break;
+            case CREATE:
+            case UPDATE:
+                break;
+        }
     }
 }
