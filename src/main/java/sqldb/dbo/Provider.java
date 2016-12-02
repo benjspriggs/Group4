@@ -24,7 +24,7 @@ public class Provider extends DatabaseObject {
 
     @Override
     public String show() {
-        return "SELECT * FROM provider_view WHERE number = ?";
+        return "SELECT * FROM provider_view WHERE number = ?;";
     }
 
     // TODO: Make a procedure that does this

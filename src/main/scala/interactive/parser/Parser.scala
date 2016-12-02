@@ -71,6 +71,8 @@ object Parser {
   lazy val non_terminating_statement =
     P( ( help | request_object | sql_literal ) ~ whitespace.? ~ delim.toString )
       .opaque("<non-terminating statement>")
-  lazy val statements = P( ( non_terminating_statement ~/ whitespace.?).rep(0) ~ stop ~/ finalDelim )
+  lazy val statements = P( ( non_terminating_statement ~/ whitespace.?).rep(0)
+    ~ stop.?
+    ~/ (finalDelim | End) )
     .map(_._1)
 }

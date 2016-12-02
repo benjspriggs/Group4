@@ -61,6 +61,7 @@ public class ChocanSchema implements SqlDatabaseSchema {
             "CREATE TABLE report_dates (" +
             "timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP);";
 
+
     private final String SQL = MEMBER_SQL + MEMBER_INFO_SQL
             + PROVIDER_SQL + PROVIDER_INFO_SQL
             + SERVICE_SQL + SERVICE_LOOKUP_SQL + PERFORMED_SERVICES_SQL

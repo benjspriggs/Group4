@@ -2,16 +2,14 @@
  * Created by root on 11/28/16.
  */
 
+import Reports.Reports;
 import Reports.ServiceInfo;
 import sqldb.ChocanConnection;
 
-import java.sql.Connection;
-import sun.util.resources.cldr.ar.CalendarData_ar_LB;
-import Reports.Reports;
 import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.HashMap;
 
 
 //Search 'Wrapper goes here'
@@ -49,6 +47,9 @@ public class Menu extends Utilities{
         System.out.println("Please enter your ProviderID:");
         userInput = input.nextInt();
         if (conn.checkProviderValid(userInput)){
+            System.out.println("Welcome Healthcare Provider!!! Please choose from the following options =)");
+            HashMap<Integer, String> providerMenuOptions = fillProviderOptions();
+            System.out.println("Option: ");
             while (cont ) {
                 System.out.println("Welcome Healthcare Provider!!! Please choose from the following options =)");
                 System.out.println("View Service Directory                     (1)");
@@ -77,11 +78,44 @@ public class Menu extends Utilities{
                     System.out.println("Seriously choose a valid input");
                 }
             }
-    }
+        }
 
     }
 
+    private HashMap<Integer,String> fillProviderOptions() {
+        HashMap<Integer, String> h = new HashMap<>();
+        h.put(1, "View Service Directory");
+        h.put(2, "Check if member id is valid");
+        h.put(3, "Create Billing Report for service provided");
+        return h;
+    }
 
+    private HashMap<Integer,String> fillOperatorOptions() {
+        HashMap<Integer, String> h = new HashMap<>();
+        h.put(1, "Create new membership");
+        h.put(2, "Edit existing membership");
+        h.put(3, "Delete existing membership");
+        h.put(4, "Create new provider");
+        h.put(5, "Edit provider information");
+        h.put(6, "Delete provider");
+        return h;
+    }
+
+    private HashMap<Integer,String> fillManagerOptions() {
+        HashMap<Integer, String> h = new HashMap<>();
+        h.put(1, "Create new membership");
+        h.put(2, "Edit existing membership");
+        h.put(3, "Delete existing membership");
+        h.put(4, "Create new provider");
+        h.put(5, "Edit provider information");
+        h.put(6, "Delete provider");
+        h.put(7, "View summary of all reports");
+        h.put(8, "View single member report");
+        h.put(9, "View single provider report");
+        h.put(10, "View all member reports");
+        h.put(11, "View all provider reports");
+        return h;
+    }
     private int verifyMember(){
         boolean valid;
         int id;
@@ -106,7 +140,7 @@ public class Menu extends Utilities{
             return 0;
         }
         else if(userStat == 1){
-         System.out.println("VALIDATED");
+            System.out.println("VALIDATED");
             return 1;
         }
         else
@@ -209,13 +243,13 @@ public class Menu extends Utilities{
 
 
 /****
-        PreparedStatement statement = conn.prepareStatement("CALL create_performed_service(id, " +
-                "providerId, serviceCode, comments, providedDate");
-        statement.executeQuery();
+ PreparedStatement statement = conn.prepareStatement("CALL create_performed_service(id, " +
+ "providerId, serviceCode, comments, providedDate");
+ statement.executeQuery();
 
-        statement conn.prepareStatement("")
-        CALL create_performed_service(id, providerId, serviceCode, comments, providedDate);
-********/
+ statement conn.prepareStatement("")
+ CALL create_performed_service(id, providerId, serviceCode, comments, providedDate);
+ ********/
         return 1;
     }
 
@@ -261,9 +295,23 @@ public class Menu extends Utilities{
         System.out.println("Edit provider information              (5)");
         System.out.println("Delete provider                        (6)");
         System.out.println("Quit                                   (7)");
+        HashMap<Integer, String> operatorMenuOptions = fillOperatorOptions();
+        displayOptions(operatorMenuOptions);
+
         userInput = input.nextInt();
         input.nextLine();
-
+/*
+        switch (displayOptions(operatorMenuOptions)) {
+            case 1: createMember(); break;
+            case 2: editMember(); break;
+            case 3: deleteMember(); break;
+            case 4: createProvider(); break;
+            case 5: editProvider(); break;
+            case 6: deleteProvider(); break;
+            default:
+                System.out.println("Seriously choose a valid input");
+                operatorMenu(); break;
+                */
         if(userInput == 1)
             createMember();
         else if(userInput == 2)
@@ -314,6 +362,7 @@ public class Menu extends Utilities{
         memberID = rand.nextInt(1000000000) + 100000000;
 
         conn.callCreateMember(memberID, 0, name, address, city, state, zip);
+        //conn.callCreateMember(memberID, false, name, address, city, state, zip);
     }
 
     public void editMember(){
@@ -345,6 +394,7 @@ public class Menu extends Utilities{
 
         conn.callEditMember(memberID, 0, name, address, city, state, zip);
 
+//
     }
 
     public void deleteMember(){
@@ -352,7 +402,7 @@ public class Menu extends Utilities{
         System.out.println("Please enter the member ID for the ChocAn member you would like to delete:");
         memberID = input.nextInt();
 
-        conn.callDeleteMember(memberID);
+        //conn.callDeleteMember(memberID);
     }
 
     public void createProvider(){
@@ -380,6 +430,10 @@ public class Menu extends Utilities{
         Random rand = new Random();
         providerID = rand.nextInt(1000000000) + 100000000;
 
+        providerID = ID;
+        ++ID;
+
+        //conn.callCreateProvider(providerID, false, name, address, city, state, zip);
         conn.callCreateProvider(providerID, name, address, city, state, zip);
     }
 
@@ -410,6 +464,7 @@ public class Menu extends Utilities{
         zip = input.nextLine();
 
         conn.callEditProvider(memberID, name, address, city, state, zip);
+        //conn.callEditProvider(memberID, false, name, address, city, state, zip);
     }
 
     public void deleteProvider(){
@@ -417,12 +472,12 @@ public class Menu extends Utilities{
         System.out.println("Please enter the provider ID for the health provider you would like to delete:");
         providerID = input.nextInt();
 
-        conn.callDeleteProvider(providerID);
+        //conn.callDeleteProvider(providerID);
     }
 
     public void managerMenu(){
-        int userInput;
         int identifier;
+        HashMap<Integer, String> managerMenuOptions = fillManagerOptions();
         System.out.println("Welcome ChocAn Manager!!! Please choose from the following options=D");
         System.out.println("Create new membership                  (1)");
         System.out.println("Edit existing membership               (2)");
@@ -474,6 +529,32 @@ public class Menu extends Utilities{
         {
             System.out.println("Seriously choose a valid input");
             operatorMenu();
+            /*
+        switch (displayOptions(managerMenuOptions)) {
+            case 1: createMember(); break;
+            case 2: editMember(); break;
+            case 3: deleteMember(); break;
+            case 4: createProvider(); break;
+            case 5: editProvider(); break;
+            case 6: deleteProvider(); break;
+            case 7: report.SummarizeReports(true);
+            case 8:
+                System.out.println();
+                System.out.println("Please enter the member ID:");
+                identifier = input.nextInt();
+                report.PrintMemberReport(identifier);
+                break;
+            case 9:
+                System.out.println("Please enter the provider ID:");
+                identifier = input.nextInt();
+                report.PrintProviderReport(identifier);
+                break;
+            case 10: report.MemberSummaryReports(true); break;
+            case 11: report.ProviderSummaryReports(true); break;
+            default:
+                System.out.println("Seriously choose a valid input");
+                operatorMenu();
+                break;*/
         }
     }
 

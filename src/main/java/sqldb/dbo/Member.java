@@ -28,13 +28,13 @@ public class Member extends DatabaseObject {
 
     @Override
     public String create() {
-        return "CALL create_member(?, ?, ?, ?, ?, ?, ?)";
+        return "CALL create_member(?, ?, ?, ?, ?, ?, ?);";
     }
 
     @Override
     public String show() {
         return "SELECT FROM member_view (number, is_suspended, name, city, state, street_address, zipcode)" +
-                "WHERE number = ?";
+                "WHERE number = ?;";
     }
 
     @Override

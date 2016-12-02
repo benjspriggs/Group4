@@ -45,8 +45,8 @@ public class TimedServices {
         Calendar timeOfDayCal = Calendar.getInstance();
 
         timeOfDayCal.add(Calendar.DAY_OF_MONTH, 0);
-        timeOfDayCal.set(Calendar.HOUR_OF_DAY, 23);
-        timeOfDayCal.set(Calendar.MINUTE, 59);
+        timeOfDayCal.set(Calendar.HOUR_OF_DAY, 0);// 23);
+        timeOfDayCal.set(Calendar.MINUTE, 0);//59);
         timeOfDayCal.set(Calendar.SECOND, 0);
         timeOfDayCal.set(Calendar.MILLISECOND, 0);
 
@@ -83,7 +83,7 @@ public class TimedServices {
             dayOfWeekOffset.put(Calendar.MONDAY, 4);
             dayOfWeekOffset.put(Calendar.TUESDAY, 3);
             dayOfWeekOffset.put(Calendar.WEDNESDAY, 2);
-            dayOfWeekOffset.put(Calendar.THURSDAY, 1);
+            dayOfWeekOffset.put(Calendar.THURSDAY, 0);//1);
             dayOfWeek = with.get(DAY_OF_WEEK);
             delayInDays = dayOfWeekOffset.get(dayOfWeek);
         //}
