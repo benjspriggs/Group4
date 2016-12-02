@@ -6,7 +6,7 @@
 import Reports.ServiceInfo;
 import sqldb.ChocanConnection;
 import sun.util.resources.cldr.ar.CalendarData_ar_LB;
-
+import Reports.Reports;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -15,11 +15,13 @@ import java.util.ArrayList;
 
 public class Menu extends Utilities{
 
+    int ID = 100000000;
     private ChocanConnection conn;
-
+    private Reports report;
     //Empty Constructor
     public Menu(){
         conn = new ChocanConnection();
+        report = new Reports(conn);
     }
 
 
@@ -212,21 +214,24 @@ public class Menu extends Utilities{
         System.out.println("Create new membership                  (1)");
         System.out.println("Edit existing membership               (2)");
         System.out.println("Delete existing membership             (3)");
-        System.out.println("View appointments for the week         (4)");
-        System.out.println("View summary off all provider reports  (5)");
+        System.out.println("Create new provider                    (4)");
+        System.out.println("Edit provider information              (5)");
+        System.out.println("Delete provider                        (6)");
 
         userInput = input.nextInt();
 
         if(userInput == 1)
-            ; //Wrapper goes here
+            createMember();
         else if(userInput == 2)
-            ; //Wrapper goes here
+            editMember();
         else if(userInput == 3)
-            ; //Wrapper goes here
+            deleteMember();
         else if(userInput == 4)
-            ; //Wrapper goes here
+            createProvider();
         else if(userInput == 5)
-            ; //Wrapper goes here
+            editProvider();
+        else if (userInput == 6)
+            deleteProvider();
         else
         {
             System.out.println("Seriously choose a valid input");
@@ -234,28 +239,195 @@ public class Menu extends Utilities{
         }
     }
 
+    public void createMember(){
+        String name;
+        String address;
+        String city;
+        String state;
+        String zip;
+        int memberID;
+
+        System.out.println("Please enter the member's first and last name:");
+        name = input.next();
+
+        System.out.println("Enter the member address:");
+        address = input.next();
+
+        System.out.println("Enter the city:");
+        city = input.next();
+
+        System.out.println("Enter the state abbreviation (for example Oregon is OR):");
+        state = input.next();
+
+        System.out.println("Enter the zip code:");
+        zip = input.next();
+
+        memberID = ID;
+        ++ID;
+        PreparedStatement statement Conn.prepareStatement("CALL create_member(memberID, false, name, address, city, state, zip)");
+        statement.executeQuery();
+
+    }
+
+    public void editMember(){
+        int memberID;
+        String name;
+        String address;
+        String city;
+        String state;
+        String zip;
+
+        System.out.println("Please enter the member ID of the member you'd like to update:");
+        memberID = input.nextInt();
+
+        System.out.println("Please enter the member's first and last name:");
+        name = input.next();
+
+        System.out.println("Enter the member address:");
+        address = input.next();
+
+        System.out.println("Enter the city:");
+        city = input.next();
+
+        System.out.println("Enter the state abbreviation (for example Oregon is OR):");
+        state = input.next();
+
+        System.out.println("Enter the zip code:");
+        zip = input.next();
+
+
+    }
+
+    public void deleteMember(){
+        int memberID;
+        System.out.println("Please enter the member ID for the ChocAn member you would like to delete:");
+        memberID = input.nextInt();
+
+        PreparedStatement statement Conn.prepareStatement("DELETE FROM members WHERE number = memberID");
+        statement.executeQuery();
+    }
+
+    public void createProvider(){
+        String name;
+        String address;
+        String city;
+        String state;
+        String zip;
+        int providerID;
+
+        System.out.println("Please enter the provider's first and last name:");
+        name = input.next();
+
+        System.out.println("Enter the provider address:");
+        address = input.next();
+
+        System.out.println("Enter the city:");
+        city = input.next();
+
+        System.out.println("Enter the state abbreviation (for example Oregon is OR):");
+        state = input.next();
+
+        System.out.println("Enter the zip code:");
+        zip = input.next();
+
+        providerID = ID;
+        ++ID;
+
+        PreparedStatement statement conn.prepareStatement("CALL create_provider(providerID, false, name, address, city, state, zip)");
+        statement.executeQuery();
+    }
+
+    public void editProvider(){
+        String name;
+        String address;
+        String city;
+        String state;
+        String zip;
+        int memberID;
+
+        System.out.println("Please enter the provider ID for the provider you would like to update:");
+        memberID = input.nextInt();
+
+        System.out.println("Please enter the provider's first and last name:");
+        name = input.next();
+
+        System.out.println("Enter the member address:");
+        address = input.next();
+
+        System.out.println("Enter the city:");
+        city = input.next();
+
+        System.out.println("Enter the state abbreviation (for example Oregon is OR):");
+        state = input.next();
+
+        System.out.println("Enter the zip code:");
+        zip = input.next();
+
+    }
+
+    public void deleteProvider(){
+        int providerID;
+        System.out.println("Please enter the provider ID for the ChocAn member you would like to delete:");
+        memberID = input.nextInt();
+
+        PreparedStatement statement conn.prepareStatement("DELETE FROM providers WHERE number = providerID");
+        statement.executeQuery();
+    }
 
     public void managerMenu(){
         int userInput;
-
-        System.out.println("Welcome Accounting Personell!!! Please choose from the following options =)");
-        System.out.println("Suspend current member          (1)");
-        System.out.println("Record fees for current member  (2)");
-        System.out.println("View member summery reports      (3)");
-        System.out.println("View appointment summery reports ()");
+        int identifier;
+        System.out.println("Welcome ChocAn Manager!!! Please choose from the following options=D");
+        System.out.println("Create new membership                  (1)");
+        System.out.println("Edit existing membership               (2)");
+        System.out.println("Delete existing membership             (3)");
+        System.out.println("Create new provider                    (4)");
+        System.out.println("Edit provider information              (5)");
+        System.out.println("Delete provider                        (6)");
+        System.out.println("View summary of all reports            (7)");
+        System.out.println("View single member report              (8)");
+        System.out.println("View single provider report            (9)");
+        System.out.println("View all member reports                (10)");
+        System.out.println("View all provider reports              (11)");
 
 
         userInput = input.nextInt();
 
         if(userInput == 1)
-            ; //Wrapper goes here
+            createMember();
         else if(userInput == 2)
-            ; //Wrapper goes here
+            editMember();
+        else if(userInput == 3)
+            deleteMember();
+        else if(userInput == 4)
+            createProvider();
+        else if(userInput == 5)
+            editProvider();
+        else if (userInput == 6)
+            deleteProvider();
+        else if (userInput == 7)
+            report.SummarizeReports(true);
+        else if (userInput == 8) {
+            System.out.println("Please enter the member ID:");
+            identifier = input.nextInt();
+            report.PrintMemberReport(identifier);
+        }
+        else if (userInput == 9) {
+            System.out.println("Please enter the provider ID:");
+            identifier = input.nextInt();
+            report.PrintProviderReport(identifier);
+        }
+        else if (userInput == 10)
+            report.MemberSummaryReports(true);
+        else if (userInput == 11)
+            report.ProviderSummaryReports(true);
         else
         {
             System.out.println("Seriously choose a valid input");
-            managerMenu();
+            operatorMenu();
         }
+    }
+
 
     }
 
