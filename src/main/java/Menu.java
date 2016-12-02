@@ -158,7 +158,7 @@ public class Menu extends Utilities{
         {
             System.out.println("That is not a valid provider number.");
             System.out.print("Try again or quit? (yes/quit) ");
-            quit = input.next();
+            quit = input.nextLine();
             if(quit == "quit")
                 return 0;
             System.out.print("Please input provider number: ");
@@ -183,7 +183,7 @@ public class Menu extends Utilities{
         {
             System.out.println("That is not a valid service code.");
             System.out.print("Try again or quit? (yes/quit) ");
-            quit = input.next();
+            quit = input.nextLine();
             if(quit == "quit")
                 return 0;
             System.out.print("Please input the service code: ");
@@ -194,7 +194,7 @@ public class Menu extends Utilities{
 
         //Get the comments from them
         System.out.println("Comments: ");
-        comments = input.next();
+        comments = input.nextLine();
 
 
         //SEND TO CREATE NEW BILLING!!!
@@ -286,19 +286,19 @@ public class Menu extends Utilities{
         int memberID;
 
         System.out.println("Please enter the member's first and last name:");
-        name = input.next();
+        name = input.nextLine();
 
         System.out.println("Enter the member address:");
-        address = input.next();
+        address = input.nextLine();
 
         System.out.println("Enter the city:");
-        city = input.next();
+        city = input.nextLine();
 
         System.out.println("Enter the state abbreviation (for example Oregon is OR):");
-        state = input.next();
+        state = input.nextLine();
 
         System.out.println("Enter the zip code:");
-        zip = input.next();
+        zip = input.nextLine();
 
         memberID = ID;
         ++ID;
@@ -318,19 +318,19 @@ public class Menu extends Utilities{
         memberID = input.nextInt();
 
         System.out.println("Please enter the member's first and last name:");
-        name = input.next();
+        name = input.nextLine();
 
         System.out.println("Enter the member address:");
-        address = input.next();
+        address = input.nextLine();
 
         System.out.println("Enter the city:");
-        city = input.next();
+        city = input.nextLine();
 
         System.out.println("Enter the state abbreviation (for example Oregon is OR):");
-        state = input.next();
+        state = input.nextLine();
 
         System.out.println("Enter the zip code:");
-        zip = input.next();
+        zip = input.nextLine();
 
         conn.callEditMember(memberID, false, name, address, city, state, zip);
 
@@ -353,19 +353,19 @@ public class Menu extends Utilities{
         int providerID;
 
         System.out.println("Please enter the provider's first and last name:");
-        name = input.next();
+        name = input.nextLine();
 
         System.out.println("Enter the provider address:");
-        address = input.next();
+        address = input.nextLine();
 
         System.out.println("Enter the city:");
-        city = input.next();
+        city = input.nextLine();
 
         System.out.println("Enter the state abbreviation (for example Oregon is OR):");
-        state = input.next();
+        state = input.nextLine();
 
         System.out.println("Enter the zip code:");
-        zip = input.next();
+        zip = input.nextLine();
 
         providerID = ID;
         ++ID;
@@ -385,26 +385,26 @@ public class Menu extends Utilities{
         memberID = input.nextInt();
 
         System.out.println("Please enter the provider's first and last name:");
-        name = input.next();
+        name = input.nextLine();
 
         System.out.println("Enter the member address:");
-        address = input.next();
+        address = input.nextLine();
 
         System.out.println("Enter the city:");
-        city = input.next();
+        city = input.nextLine();
 
         System.out.println("Enter the state abbreviation (for example Oregon is OR):");
-        state = input.next();
+        state = input.nextLine();
 
         System.out.println("Enter the zip code:");
-        zip = input.next();
+        zip = input.nextLine();
 
         conn.callEditProvider(memberID, false, name, address, city, state, zip);
     }
 
     public void deleteProvider(){
         int providerID;
-        System.out.println("Please enter the provider ID for the ChocAn member you would like to delete:");
+        System.out.println("Please enter the provider ID for the health provider you would like to delete:");
         providerID = input.nextInt();
 
         conn.callDeleteProvider(providerID);
