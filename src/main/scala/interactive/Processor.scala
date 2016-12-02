@@ -1,7 +1,7 @@
 package interactive
 
 import interactive.Term._
-import interactive.action._
+import interactive.action.{SqlAction, _}
 import interactive.parser.JsonParser.Js
 import sqldb.dbo.DatabaseObject.DatabaseAction
 
@@ -15,9 +15,10 @@ class Processor {
   def process(statements: ArrayBuffer[_]) = Unit
 
   // handle a discrete object request
+  // don't worry about object types
   private def handleMonoRequest[R](request: Request, objs: Obj):
     Option[Action] = request match {
-    case r: Request => Some(Action)
+    case r: Request => Some(SqlAction[R])
     case _ => None
   }
 
@@ -36,6 +37,22 @@ class Processor {
       case Mono((request, objs)) => handleMonoRequest[R](request, objs)
       case Poly((request, superobj)) => handlePolyRequest[R](request, superobj)
     }
+
+  // this is a rather big assumption
+  def actionEither(request: Request): Either[DatabaseAction, WriteFileAction] = databaseActionMatch(request) match {
+    case Some(v) => Left(v)
+    case None => fileActionMatch(request) match {
+      case Some(v) => Right(v)
+    }
+  }
+
+  def isValidAction(request: Request): Boolean = databaseActionMatch(request) match {
+    case Some(v) => true
+    case None => fileActionMatch(request) match {
+      case Some(_) => true
+    }
+    case _ => false
+  }
 
   def loadClass(classname: String): Class[_] = {
     Class.forName("sqldb.dbo." + classname)
