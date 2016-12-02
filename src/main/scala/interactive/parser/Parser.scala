@@ -5,8 +5,7 @@ package interactive.parser
   * Created by bspriggs on 11/12/2016.
   */
 import fastparse.all._
-import interactive.{Statements, Term}
-import interactive.Statements._
+import interactive._
 import interactive.Term._
 
 object Parser {
@@ -18,7 +17,7 @@ object Parser {
   lazy val stop: P[Stop.type] = P(  "quit" | "bye" | "exit" )
     .map(_ => Stop).opaque("expected token <stop>")
   lazy val help: P[Help] = P( ("help" | "?") ~/ (whitespace ~ CharsWhile(_ != delim).!).? )
-    .map(Statements.Help).opaque("expected token <help>")
+    .map(Help).opaque("expected token <help>")
   lazy val request: P[Request] = P( ("create" | "show" | "update" | "delete" | "write").! )
     .map(Request).opaque("expected token <request>")
 
@@ -46,7 +45,7 @@ object Parser {
   lazy val request_object: P[Any] = P( request ~/ whitespace ~/ ( superobject | `object` ))
     .map(statementsMap).opaque("<request> with <object> or <objects>")
 
-  def statementsMap(parsed_tuple: (Request, Equals)): Statements =
+  def statementsMap(parsed_tuple: (Request, Equals)): Statement =
   {
     parsed_tuple._2 match {
       case t: Equals => t match {
