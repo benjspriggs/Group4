@@ -11,7 +11,13 @@ public class Main {
         System.out.println("Hello world!");
         Menu menu = new Menu();
 
-        menu.displayMenu();
+        Menu.UserType t = Menu.UserType.Provider;
+        switch (args[0]){ // first argument is menu type
+            case "manager": t = Menu.UserType.Manager; break;
+            case "operator": t = Menu.UserType.Operator; break;
+            default: break;
+        }
+        menu.displayMenu(t);
     }
 
 
