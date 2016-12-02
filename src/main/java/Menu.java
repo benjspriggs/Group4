@@ -405,7 +405,7 @@ public class Menu extends Utilities{
     public void deleteProvider(){
         int providerID;
         System.out.println("Please enter the provider ID for the ChocAn member you would like to delete:");
-        memberID = input.nextInt();
+        providerID = input.nextInt();
 
         conn.callDeleteProvider(providerID);
     }
