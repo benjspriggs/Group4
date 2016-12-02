@@ -20,6 +20,11 @@ public class WriteFileAction implements Action {
         this.path = path;
     }
 
+    @Override
+    public boolean isReady() {
+        return true;
+    }
+
     public void writeLineToFile(String textLine) throws IOException {
         FileWriter write = new FileWriter(path, false);
         PrintWriter print_line = new PrintWriter(write);
