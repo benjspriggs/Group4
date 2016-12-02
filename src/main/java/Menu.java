@@ -23,7 +23,7 @@ public class Menu extends Utilities{
     int ID = 100000000;
     private ChocanConnection conn;
     private Reports report;
-    //Empty Constructor
+
     public Menu(){
         conn = new ChocanConnection();
         report = new Reports(conn);
