@@ -43,8 +43,8 @@ class Processor {
     case _ => false
   }
 
-  def hasFields(fields: String, array: ArrayBuffer[(String, Js.Val)]): Boolean = {
-    false
+  def hasFields(fields: List[String], array: ArrayBuffer[(String, Js.Val)]): Boolean = {
+    fields.forall(s => array.exists(_ => s == _._1))
   }
 
 }
