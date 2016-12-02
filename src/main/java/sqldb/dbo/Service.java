@@ -48,6 +48,19 @@ public class Service extends DatabaseObject {
 
     @Override
     public void fillStatement(DatabaseAction action, PreparedStatement statement) throws SQLException {
-
+        switch (action) {
+            case SHOW:
+            case DELETE: statement.setInt(1, service_code); break;
+            case CREATE:
+                statement.setInt(1, service_code);
+                statement.setString(2, name);
+                statement.setBigDecimal(3, fee);
+                statement.setString(4, description); break;
+            case UPDATE:
+                statement.setString(1, name);
+                statement.setBigDecimal(2, fee);
+                statement.setString(3, description);
+                statement.setInt(4, service_code); break;
+        }
     }
 }
