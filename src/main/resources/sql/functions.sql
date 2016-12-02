@@ -1,5 +1,6 @@
 -- BEGIN CREATE SECTION
 DELIMITER $$
+DROP PROCEDURE IF EXISTS `create_member`;
 CREATE PROCEDURE `create_member` (
   IN number INT(11),
   IN is_suspended TINYINT(1),
@@ -19,6 +20,7 @@ CREATE PROCEDURE `create_member` (
   END$$
 
 DELIMITER $$
+DROP PROCEDURE IF EXISTS `create_provider`;
 CREATE PROCEDURE `create_provider` (
   IN number INT(11),
   IN `name` VARCHAR(140),
@@ -52,6 +54,7 @@ CREATE PROCEDURE `create_performed_service` (
 
 -- BEGIN UPDATE SECTION
 DELIMITER $$
+DROP PROCEDURE IF EXISTS `update_member`;
 CREATE PROCEDURE `update_member` (
   IN number INT(11),
   IN is_suspended TINYINT(1),
@@ -82,6 +85,7 @@ CREATE PROCEDURE `update_member` (
 
 
 DELIMITER $$
+DROP PROCEDURE IF EXISTS `update_provider`;
 CREATE PROCEDURE `update_provider` (
   IN number INT(11),
   IN `name` VARCHAR(140),
