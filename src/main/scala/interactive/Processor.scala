@@ -61,8 +61,14 @@ class Processor {
       case "show" => Some(DatabaseAction.SHOW)
       case "update" => Some(DatabaseAction.SHOW)
       case "destroy" => Some(DatabaseAction.DELETE)
-      case "write" => None
+      case _ => None
     }
   }
 
+  def fileActionMatch(request: Request): Option[WriteFileAction] = request match {
+    case Request(s) => s match {
+      case "write" => Some(WriteFileAction)
+      case _ => None
+    }
+  }
 }

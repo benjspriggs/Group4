@@ -13,10 +13,18 @@ import java.nio.charset.Charset;
  */
 public class WriteFileAction implements Action {
     final private String body;
-    final private String path;
+    private String path;
+
+    public WriteFileAction(String body) {
+        this.body = body;
+    }
 
     public WriteFileAction(String body, String path) {
         this.body = body;
+        this.path = path;
+    }
+
+    public void setPath(String path) {
         this.path = path;
     }
 
