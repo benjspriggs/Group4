@@ -42,7 +42,7 @@ object Parser {
       ~/ (whitespace ~ _payload ).?
       | _manyType ~/ whitespace ~ _payload.? ).map(SuperObj)
 
-  lazy val request_object: P[Any] = P( request ~/ whitespace ~/ ( superobject | `object` ))
+  lazy val request_object: P[Statement] = P( request ~/ whitespace ~/ ( superobject | `object` ))
     .map(statementsMap).opaque("<request> with <object> or <objects>")
 
   def statementsMap(parsed_tuple: (Request, Equals)): Statement =
@@ -55,7 +55,7 @@ object Parser {
     }
   }
 
-  lazy val sql_literal =
+  lazy val sql_literal: P[SQL] =
     P( "SQL"
       ~/ whitespace
       ~/ AnyChar.rep(1).! )
@@ -67,10 +67,11 @@ object Parser {
     | request_object
     | sql_literal )
 
-  lazy val non_terminating_statement =
+  lazy val non_terminating_statement: P[Statement] =
     P( ( help | request_object | sql_literal ) ~ whitespace.? ~ delim.toString )
       .opaque("<non-terminating statement>")
-  lazy val statements = P( ( non_terminating_statement ~/ whitespace.?).rep(0)
+  lazy val statements: P[Seq[Statement]] =
+    P( ( non_terminating_statement ~/ whitespace.?).rep(0)
     ~ stop.?
     ~/ (finalDelim | End) )
     .map(_._1)
