@@ -3,6 +3,7 @@ package interactive
 import interactive.Term.{Obj, Request, SuperObj}
 import interactive.action._
 import interactive.parser.JsonParser.Js
+import sqldb.dbo.DatabaseObject.DatabaseAction
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -14,13 +15,20 @@ class Processor {
   def process(statements: ArrayBuffer[_]) = Unit
 
   private def handleMonoRequest[R](request: Request, objs: Obj):
-    Option[ReturnableAction[R]] = {
-    None
+    Option[ReturnableAction[R]] = request match {
+    case Request(s) => s match {
+      case "create" => None
+      case "show" => None
+      case "update" => None
+      case "destroy" => None
+      case "write" => None
+    }
+    case _ => None
   }
 
   private def handlePolyRequest[R](request: Request, superobj: SuperObj):
-    Option[ReturnableAction[R]] = {
-    None
+    Option[ReturnableAction[R]] = request match {
+    case _ => None
   }
 
   // Process a  statements to a SQL or File Action
@@ -45,6 +53,16 @@ class Processor {
 
   def hasFields(fields: List[String], array: ArrayBuffer[(String, Js.Val)]): Boolean = {
     fields.forall(s => array.exists(t => s == t._1))
+  }
+
+  def databaseActionMatch(request: Request): Option[DatabaseAction] = request match {
+    case Request(s) => s match {
+      case "create" => Some(DatabaseAction.CREATE)
+      case "show" => Some(DatabaseAction.SHOW)
+      case "update" => Some(DatabaseAction.SHOW)
+      case "destroy" => Some(DatabaseAction.DELETE)
+      case "write" => None
+    }
   }
 
 }
