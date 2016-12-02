@@ -13,14 +13,14 @@ object Term {
     * e.g. user { "name": "Barack Obama" }
     * @param value A list of type and Payload tuple pairs
     */
-  case class Obj(value: (Type.One, Seq[Payload])) extends AnyVal
+  case class Obj(value: (One, Seq[Payload])) extends AnyVal
 
   /**
     * A JSON object with a pluralizing type.
     * e.g. users { "status": "valid" }
     * @param value A plural type and Payload pair
     */
-  case class SuperObj(value: (Type.Many, Option[Payload])) extends AnyVal
+  case class SuperObj(value: (Many, Option[Payload])) extends AnyVal
 
   /**
     * CRUD operations, and write-to-disk operations.
@@ -30,18 +30,20 @@ object Term {
 
   type Payload = JsonParser.Js.Val
 
-  object Type {
-    /**
-      * A single user, member, etc.
-      * @param value Object type
-      */
-    case class One(value: java.lang.String) extends AnyVal
-
-    /**
-      * A plural user, member, etc.
-      * @param value Object type
-      */
-    case class Many(value: java.lang.String) extends AnyVal
+  abstract class Type {
+    def value: String
   }
+  /**
+    * A single user, member, etc.
+    * @param value Object type
+    */
+  case class One(value: java.lang.String) extends Type
+
+  /**
+    * A plural user, member, etc.
+    * @param value Object type
+    */
+  case class Many(value: java.lang.String) extends Type
+
 
 }

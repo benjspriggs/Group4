@@ -24,13 +24,13 @@ object Parser {
 
   lazy val `type`: P[String]      = P( ("user" | "member" | "provider" | "service" ).! )
     .opaque("expected token <type>")
-  lazy val _singleType: P[Type.One] = P( `type` ~/ !"s" ~ (whitespace ~ "report".!).? ).map({
-    case (t, Some(r)) => Type.One(s"$t $r")
-    case (t, None) => Type.One(t)})
+  lazy val _singleType: P[One] = P( `type` ~/ !"s" ~ (whitespace ~ "report".!).? ).map({
+    case (t, Some(r)) => One(s"$t $r")
+    case (t, None) => One(t)})
 
-  lazy val _manyType: P[Type.Many]   = P( `type` ~ "s" ~ (whitespace ~ "reports".!).? ).map({
-    case (t, Some(r)) => Type.Many(s"$t $r")
-    case (t, None) => Type.Many(t)})
+  lazy val _manyType: P[Many]   = P( `type` ~ "s" ~ (whitespace ~ "reports".!).? ).map({
+    case (t, Some(r)) => Many(s"$t $r")
+    case (t, None) => Many(t)})
 
   lazy val _payload: P[Payload] = JsonParser.jsonExpr // courtesy of Li Haoyi
 
@@ -46,7 +46,7 @@ object Parser {
   lazy val request_object: P[Any] = P( request ~/ whitespace ~/ ( superobject | `object` ))
     .map(statementsMap).opaque("<request> with <object> or <objects>")
 
-  def statementsMap(parsed_tuple: (Request, Equals)): Unit =
+  def statementsMap(parsed_tuple: (Request, Equals)): Statements =
   {
     parsed_tuple._2 match {
       case t: Equals => t match {
