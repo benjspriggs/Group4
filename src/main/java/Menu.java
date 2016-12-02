@@ -14,6 +14,11 @@ import java.util.HashMap;
 //Search 'Wrapper goes here'
 
 public class Menu extends Utilities{
+    enum UserType {
+        Manager,
+        Provider,
+        Operator
+    }
 
     int ID = 100000000;
     private ChocanConnection conn;
@@ -30,13 +35,12 @@ public class Menu extends Utilities{
     //        1 == provider
     //        2 == operator
     //        3 == ChacAn account
-    public void displayMenu(int userType){
-        if(userType == 1)
-            providerMenu();
-        else if(userType == 2)
-            operatorMenu();
-        else if(userType == 3)
-            managerMenu();
+    public void displayMenu(UserType userType){
+        switch (userType) {
+            case Manager: managerMenu(); break;
+            case Provider: providerMenu(); break;
+            case Operator: operatorMenu(); break;
+        }
     }
 
     public void providerMenu()
