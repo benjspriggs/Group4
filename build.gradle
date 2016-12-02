@@ -3,6 +3,7 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'scala'
+apply plugin: 'idea'
 
 repositories {
     mavenCentral()
@@ -10,6 +11,10 @@ repositories {
 
 compileScala {
     options.compilerArgs << "-feature"
+}
+
+idea {
+    targetVersion = "2016.3"
 }
 
 dependencies {
@@ -20,6 +25,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testCompile group: 'org.easymock', name: 'easymock', version: '3.4'
     testCompile 'org.scalatest:scalatest_2.12:3.0.0'
+    testCompile group: 'org.scalacheck', name: 'scalacheck_2.12', version: '1.12.6'
 }
 
 task scalaTest(dependsOn: ['testClasses'], type: JavaExec){
@@ -29,3 +35,12 @@ task scalaTest(dependsOn: ['testClasses'], type: JavaExec){
 }
 
 test.dependsOn scalaTest
+
+jar {
+    manifest {
+        attributes(
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': 'Main'
+        )
+    }
+}

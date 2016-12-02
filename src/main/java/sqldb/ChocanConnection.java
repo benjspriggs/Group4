@@ -17,14 +17,14 @@ public class ChocanConnection {
         try {
             // get a connection to database
 
-           conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/chocan_server", "test", "password");
-           Statement myStmt = conn.createStatement();
+            conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/chocan_server", "test", "password");
+            Statement myStmt = conn.createStatement();
 
-           ResultSet myRs = myStmt.executeQuery("SELECT * from member_info");
+            ResultSet myRs = myStmt.executeQuery("SELECT * from member_info");
 
-           while (myRs.next()){
-              System.out.println(myRs.getString("last"));
-           }
+            while (myRs.next()){
+                System.out.println(myRs.getString("last"));
+            }
 
 
             // create statement
@@ -348,5 +348,111 @@ public class ChocanConnection {
             System.out.println("SQL problem in addFileWriteDate");
         }
 
+    }
+
+    public int checkMemberValid(int memberID)
+    {
+        try {
+            if (conn == null){
+                System.out.println("Connection has not been properly established");
+                return -1;
+            }
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM members " +
+                    "where NUMBER =" + memberID);
+            ResultSet result = statement.executeQuery();
+
+            if(result == null)
+            {
+                return -1;
+            }
+
+            if(result.getInt("service_id") == 1){
+                return 0;
+            }
+
+            return 1;
+
+        } catch (SQLException e) {
+            System.out.println("SQL problem in memberID");
+            return -1;
+        }
+    }
+
+    public ArrayList<ServiceInfo> obtainAllServices(){
+        try {
+            if (conn == null){
+                System.out.println("Connection has not been properly established");
+                return null;
+            }
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM " +
+                    "service_info");
+
+            ResultSet result = statement.executeQuery();
+            ArrayList<ServiceInfo> array = new ArrayList<>();
+
+            while(result.next()) {
+
+                String name = result.getString("NAME");
+                int code = result.getInt("SERVICE_CODE");
+
+
+                ServiceInfo info = new ServiceInfo("", "", "", name, "",
+                        code, 0, 0.0);
+
+                array.add(info);
+            }
+            return array;
+
+        } catch (SQLException e) {
+            System.out.println("SQL problem in obtainProviderInfo");
+        }
+        return null;
+    }
+
+    public boolean checkServiceValid(int id)
+    {
+        try {
+            if (conn == null){
+                System.out.println("Connection has not been properly established");
+                return false;
+            }
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM service_info " +
+                    "where SERVICE_CODE =" + id);
+            ResultSet result = statement.executeQuery();
+
+            if(result == null)
+            {
+                return false;
+            }
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("SQL problem in checkProviderValid");
+            return false;
+        }
+    }
+    public boolean checkProviderValid(int id)
+    {
+        try {
+            if (conn == null){
+                System.out.println("Connection has not been properly established");
+                return false;
+            }
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM providers " +
+                    "where NUMBER =" + id);
+            ResultSet result = statement.executeQuery();
+
+            if(result == null)
+            {
+                return false;
+            }
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("SQL problem in checkProviderValid");
+            return false;
+        }
     }
 }
