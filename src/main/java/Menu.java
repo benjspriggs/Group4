@@ -5,6 +5,7 @@
 
 import Reports.ServiceInfo;
 import sqldb.ChocanConnection;
+import sun.util.resources.cldr.ar.CalendarData_ar_LB;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -108,8 +109,8 @@ public class Menu extends Utilities{
     {
         int id = 0;
         boolean valid = false;
-        int todaysDate;
-        int serviceIdInput;
+        //int todaysDate;
+        //int serviceIdInput;
         int year;
         int month;
         int day;
@@ -125,7 +126,7 @@ public class Menu extends Utilities{
         //Gather the info yo!!!
 
         //Get the current time stamp in a sql timestamp
-        java.sql.Timestamp current = new java.sql.Timestamp(System.currentTimeMillis());
+        //java.sql.Timestamp current = new java.sql.Timestamp(System.currentTimeMillis());
         //Date service was provided
         System.out.print("Year: ");
         year = input.nextInt();
@@ -144,14 +145,23 @@ public class Menu extends Utilities{
         providerId = input.nextInt();
         System.out.println();
 
-        //Already have the member ID
+        //Verify the Provider num
+
 
         //Prompt for service code list
+        String yes;
+        System.out.print("Do you need to see the list of service codes? (yes/no) ");
+        yes = input.next();
+        if(yes == "yes")
+            printAllServices();
 
         //Gets the service code
         System.out.print("Please input the service code: ");
         serviceCode = input.nextInt();
         System.out.println();
+
+        //Verify code is valid
+
 
         //Get the comments from them
         System.out.println("Comments: ");
@@ -159,6 +169,7 @@ public class Menu extends Utilities{
 
 
         //SEND TO CREATE NEW BILLING!!!
+        CALL create_performed_service(id, providerId, serviceCode, comments, providedDate);
 
         return 1;
     }
