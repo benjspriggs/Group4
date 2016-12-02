@@ -1,6 +1,8 @@
 package Reports;
 
 
+import interactive.action.WriteFileAction;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,15 +30,9 @@ public class WriteToDisk {
 
         //write report to file
         LocalDate today = LocalDate.now( ZoneId.of("America/Los_Angeles"));
-        WriteFile data = new WriteFile("MemberReports\\Member"+ Integer.toString(id) +
-                "Report" + today.toString() + ".txt");
-         try {
-        data.writeToFile(to_write);
-
-         }
-         catch (IOException e){
-             System.out.println("IOException caught");
-         }
+        WriteFileAction data = new WriteFileAction("MemberReports\\Member"+ Integer.toString(id) +
+                "Report" + today.toString() + ".txt", to_write);
+        data.execute();
     }
 
     public void WriteOutProviders(String to_write, int id)
@@ -56,15 +52,9 @@ public class WriteToDisk {
 
         //write report to file
         LocalDate today = LocalDate.now( ZoneId.of("America/Los_Angeles"));
-        WriteFile data = new WriteFile("ProviderReports\\Provider"+ Integer.toString(id) +
-                "Report" + today.toString() + ".txt");
-
-        try {
-            data.writeToFile(to_write);
-        }
-        catch (IOException e){
-            System.out.println("IOException caught");
-        }
+        WriteFileAction data = new WriteFileAction("ProviderReports\\Provider"+ Integer.toString(id) +
+                "Report" + today.toString() + ".txt", to_write);
+        data.execute();
     }
 
     public void WriteOutSummary(String to_write)
@@ -83,12 +73,7 @@ public class WriteToDisk {
 
         //write report to file
         LocalDate today = LocalDate.now( ZoneId.of("America/Los_Angeles"));
-        WriteFile data = new WriteFile("SummaryReports\\Accounts Payable" + today.toString() + ".txt");
-        try {
-            data.writeToFile(to_write);
-        }
-        catch (IOException e){
-            System.out.println("IOException caught");
-        }
+        WriteFileAction data = new WriteFileAction("SummaryReports\\Accounts Payable" + today.toString() + ".txt", to_write);
+        data.execute();
     }
 }

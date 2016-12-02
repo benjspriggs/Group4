@@ -4,10 +4,8 @@ import java.io._
 
 import fastparse.core.Parsed
 import fastparse.core.Parsed.{Failure, Success}
-import interactive.Statements.Stop
+import interactive.Statements._
 import interactive.parser.Parser
-
-import scala.Serializable
 
 /**
   * Created by bspriggs on 11/15/2016.
